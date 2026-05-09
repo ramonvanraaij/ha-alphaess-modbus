@@ -172,6 +172,10 @@ views:
               - type: section
               - entity: sensor.alphaess_active_power_pv_meter
                 name: Active Power PV (Meter)
+              - entity: sensor.alphaess_pv_connect_state
+                name: PV Connect State
+              - entity: sensor.alphaess_bus_voltage
+                name: Bus Voltage
               - type: section
               - entity: input_boolean.alphaess_helper_clipping
                 name: Clipping
@@ -289,6 +293,10 @@ views:
                 name: Battery Remaining Time
               - entity: sensor.alphaess_battery_type
                 name: Battery Type
+              - entity: sensor.alphaess_battery_relay_status
+                name: Battery Relay Status
+              - entity: sensor.alphaess_battery_module_number
+                name: Battery Module Number
             title: Battery
           - type: entities
             entities:
@@ -359,6 +367,12 @@ views:
               - type: section
               - entity: sensor.alphaess_inverter_work_mode
                 name: Inverter Work Mode
+              - entity: sensor.alphaess_inverter_battery_voltage
+                name: Inverter Battery Voltage
+              - entity: sensor.alphaess_inverter_battery_current
+                name: Inverter Battery Current
+              - entity: sensor.alphaess_inverter_battery_power
+                name: Inverter Battery Power
               - entity: sensor.alphaess_system_date
                 name: System Date
               - entity: sensor.alphaess_system_time
@@ -375,6 +389,10 @@ views:
                 name: Gateway
               - entity: sensor.alphaess_modbus_baud_rate
                 name: Modbus Baud Rate
+              - entity: sensor.alphaess_inverter_frequency
+                name: Inverter Frequency
+              - entity: sensor.alphaess_inverter_power_factor
+                name: Inverter Power Factor
               - entity: sensor.alphaess_bms_version_normalised
                 name: BMS Version
               - entity: sensor.alphaess_ems_version_normalised

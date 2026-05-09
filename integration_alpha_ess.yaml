@@ -214,6 +214,81 @@ modbus:
         data_type: uint16
         state_class: measurement
         scan_interval: 5
+
+      - name: AlphaESS Inverter Battery Voltage
+        unique_id: AlphaESS_Inverter_Battery_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0441
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 60
+        scale: 1
+
+      - name: AlphaESS Inverter Battery Current
+        unique_id: AlphaESS_Inverter_Battery_Current
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0442
+        data_type: uint16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Inverter Battery Power
+        unique_id: AlphaESS_Inverter_Battery_Power
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0443
+        data_type: int16
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 1
+
+      - name: AlphaESS Inverter Frequency
+        unique_id: AlphaESS_Inverter_Frequency
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0448
+        data_type: uint16
+        unit_of_measurement: Hz
+        device_class: frequency
+        state_class: measurement
+        scan_interval: 30
+        scale: 0.01
+        precision: 2
+
+      - name: AlphaESS Inverter Power Factor
+        unique_id: AlphaESS_Inverter_Power_Factor
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x044A
+        data_type: int16
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.01
+        precision: 2
+
+      - name: AlphaESS Bus Voltage
+        unique_id: AlphaESS_Bus_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0520
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS PV Connect State
+        unique_id: AlphaESS_PV_Connect_State
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0523
+        data_type: uint16
+        state_class: measurement
+        scan_interval: 60
         
       - name: AlphaESS Inverter SN
         unique_id: AlphaESS_Inverter_SN
