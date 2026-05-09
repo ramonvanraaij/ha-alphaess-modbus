@@ -831,6 +831,22 @@ modbus:
         state_class: measurement
         scan_interval: 5
 
+      - name: AlphaESS Inverter Fault Extended 1
+        unique_id: AlphaESS_Inverter_Fault_Extended_1
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x044B
+        data_type: uint32
+        state_class: measurement
+        scan_interval: 5
+
+      - name: AlphaESS Inverter Fault Extended 2
+        unique_id: AlphaESS_Inverter_Fault_Extended_2
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x044D
+        data_type: uint32
+        state_class: measurement
+        scan_interval: 5
+
       # Battery Warnings
       - name: AlphaESS Battery Warning
         unique_id: AlphaESS_Battery_Warning
@@ -1238,6 +1254,14 @@ modbus:
         state_class: measurement
         scan_interval: 10
         scale: 0.1
+
+      - name: AlphaESS Battery Type
+        unique_id: AlphaESS_Battery_Type
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x011A
+        data_type: uint16
+        state_class: measurement
+        scan_interval: 60
 
       - name: AlphaESS Battery Status
         unique_id: AlphaESS_Battery_Status

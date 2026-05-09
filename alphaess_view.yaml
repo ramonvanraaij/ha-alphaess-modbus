@@ -287,6 +287,8 @@ views:
                 name: Battery Max Discharge Current
               - entity: sensor.alphaess_battery_remaining_time
                 name: Battery Remaining Time
+              - entity: sensor.alphaess_battery_type
+                name: Battery Type
             title: Battery
           - type: entities
             entities:
@@ -462,6 +464,10 @@ views:
                 name: Inverter Fault 1
               - entity: sensor.alphaess_inverter_fault_2
                 name: Inverter Fault 2
+              - entity: sensor.alphaess_inverter_fault_extended_1
+                name: Inverter Fault Extended 1
+              - entity: sensor.alphaess_inverter_fault_extended_2
+                name: Inverter Fault Extended 2
               - type: section
               - entity: sensor.alphaess_battery_warning
                 name: Battery Warning
