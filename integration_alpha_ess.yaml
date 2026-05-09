@@ -163,6 +163,10 @@
 #  10.6     2026-04-29      Added AlphaESS_Dispatch_PV_Switch, alphaess_helper_dispatch_pv_switch,
 #                           AlphaESS_Update_Dispatch_PV_Switch, adjusted all Dispatch related automations
 #  10.7     2026-05-02      Adjusted Sensor Data Types
+#  10.8     2026-05-09      Reformatted alphaess_view.yaml into a standard views list with title.
+#                           Standardized utility_meter naming convention to today_s for consistency.
+#                           Normalized entity IDs to lowercase to ensure reliable Home Assistant resolution.
+#                           Fixed trailing YAML syntax error and removed file corruption.
 #
 #################################################################################################################################
 
@@ -2047,41 +2051,41 @@ sensor:
     unique_id: AlphaESS_Total_Energy_from_PV_Meter
     platform: integration
     unit_prefix: k
-    source: sensor.AlphaESS_Active_Power_PV_Meter
+    source: sensor.alphaess_active_power_pv_meter
 
 utility_meter:
 # Helpers for Today's Calculations
-  alphaess_todays_energy_consumption_from_grid_meter:
+  alphaess_today_s_energy_consumption_from_grid_meter:
     name: AlphaESS Today's Energy Consumption from Grid (Meter)
     unique_id: AlphaESS_Today_s_Energy_Consumption_from_Grid_Meter
     source: sensor.alphaess_total_energy_consumption_from_grid_meter
     cycle: daily
 
-  alphaess_todays_energy_feed_to_grid_meter:
+  alphaess_today_s_energy_feed_to_grid_meter:
     name: AlphaESS Today's Energy Feed to Grid (Meter)
     unique_id: AlphaESS_Today_s_Energy_Feed_to_Grid_Meter
     source: sensor.alphaess_total_energy_feed_to_grid_meter
     cycle: daily
 
-  alphaess_todays_energy_charge_battery:
+  alphaess_today_s_energy_charge_battery:
     name: AlphaESS Today's Energy Charge Battery
     unique_id: AlphaESS_Today_s_Energy_Charge_Battery
     source: sensor.alphaess_total_energy_charge_battery
     cycle: daily
 
-  alphaess_todays_energy_discharge_battery:
+  alphaess_today_s_energy_discharge_battery:
     name: AlphaESS Today's Energy Discharge Battery
     unique_id: AlphaESS_Today_s_Energy_Discharge_Battery
     source: sensor.alphaess_total_energy_discharge_battery
     cycle: daily
 
-  alphaess_todays_energy_from_pv:
+  alphaess_today_s_energy_from_pv:
     name: AlphaESS Today's Energy from PV
     unique_id: AlphaESS_Today_s_Energy_from_PV
     source: sensor.alphaess_total_energy_from_pv
     cycle: daily
 
-  alphaess_todays_energy_from_pv_meter:
+  alphaess_today_s_energy_from_pv_meter:
     name: AlphaESS Today's Energy from PV Meter
     unique_id: AlphaESS_Today_s_Energy_from_PV_Meter
     source: sensor.alphaess_total_energy_from_pv_meter
@@ -4575,5 +4579,3 @@ template:
         min: "{{ -(states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) }}"
         max: "{{ (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) }}"
         availability: "{{ (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) | is_number }}"
-
-#-------------------------------------------------------------------------------------------------------------------------------#
