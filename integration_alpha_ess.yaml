@@ -1,172 +1,12 @@
 #################################################################################################################################
 #
-#   Author:                 Axel Koegler (projects@hillviewlodge.ie)
-#   Documentation:          https://projects.hillviewlodge.ie/alphaess/
+#   Developed and maintained by Rámon van Raaij (2026).
+#   
+#   This project is an extensive refactor and specialization based on the 
+#   original work by Axel Koegler (2023-2026).
 #
-#   Change History:
-#
-#   0.1     2023-12-05      Took initial copy from https://github.com/snitzelweck92/homeassistant_alphaess_modbus_tcp
-#   0.2     2023-12-08      Updated with parts from https://github.com/umrath/homeassistant_alphaess_modbus_tcp/tree/target_soc
-#   0.3     2023-12-08      Reviewed https://github.com/umrath/homeassistant_alphaess_modbus_tcp/tree/dispatch
-#                           but the "Dispatch" implementation was incomplete
-#   0.4     2023-12-11      Fixed AlphaESS_Total_House_Load and AlphaESS_Current_House_Load calculations
-#   0.5     2023-12-14      Found "Dispatch" sequence details here:
-#                           https://www.storion4you.de/thread/831-modbus-befehl-senden-speicherladung-über-netz-aktivieren/
-#   0.6     2023-12-29      Tidied up several senor names and precision values
-#   0.7     2023-12-29      Found additional "Dispatch" details here: https://forums.whirlpool.net.au/thread/9xv6wzmm
-#   0.8     2024-01-02      Added first "Dispatch" automations and started testing
-#   0.9     2024-01-04      Modified "Dispatch" automations and ran first successful "Dispatch" sequence
-#   1.0     2024-01-05      Replaced hexadecimal values in "Dispatch" automations with their decimal values
-#   1.1     2024-01-07      Added grid power and voltage for 3 phases
-#   1.2     2024-01-17      Adjusted "Dispatch" values
-#   1.3     2024-01-21      Added "Charging" sensors and "Charging" automation
-#   1.4     2024-01-25      Added "Charging Now" automation and cleaned up helpers/automations names
-#   1.5     2024-01-26      Added day rollover logic to "Charging Now" automation
-#   1.6     2024-02-03      Renamed AlphaESS_Time_Period_Control to AlphaESS_Charging_Time_Period_Control
-#   1.7     2024-02-21      Renamed AlphaESS_Total_Energy_Feed_to_Grid (added _Meter),
-#                           AlphaESS_Total_Energy_Consumption_from_Grid (added _Meter), added
-#                           AlphaESS_Total_Energy_Feed_to_Grid_PV and adjusted AlphaESS_Total_House_Load
-#   1.8     2024-02-23      Added AlphaESS_Total_Energy_Feed_to_Grid_Meter_with_Heartbeat to fix Derivative integration
-#   1.9     2024-02-23      Added "AlphaESS Energy Feed to Grid (Meter) (Derivative)" for Power Diagram support
-#   2.0     2024-02-27      Added 6 Utility Meters for Today's Calculations, renamed some _Current and some _Total entities
-#                           and fixed calculations based on these
-#   2.1     2024-03-01      Changed Dispatch SoC to 20%
-#   2.2     2024-03-05      Changed "Charging Default" to charge from 2:00-6:00 and extended "Dispatch" to 2.5h
-#   2.3     2024-03-07      Fixed "Charging Now" delay
-#   2.4     2024-05-13      Added additional header information
-#   2.5     2024-05-24      Replaced "Alpha ESS*" and "Alpha_ESS*" with "AlphaESS*", changed
-#                           "Total Energy Charge Battery from Grid" to "AlphaESS Total Energy Charge Battery from Grid"
-#   2.6     2024-08-12      Added AlphaESS_Inverter_Work_Mode (Details see Note 5 in AlphaESS-ModbusRegisterParameterList.pdf)
-#   2.7     2024-08-13      Updated author information and documentation link
-#   2.8     2024-08-28      Added AlphaESS_BMU_Version, AlphaESS_LMU_Version, AlphaESS_ISO_Version, AlphaESS_Inverter_Version
-#                           AlphaESS_Inverter_ARM_Version, AlphaESS_EMS_Version and tidied up some sensor measurement units
-#   2.9     2024-08-31      Added AlphaESS_Excess_Export automation, AlphaESS_Helper_Excess_Export helper switch,
-#                           AlphaESS_Excess_Power and changed AlphaESS_Dispatch_Reset to react on AlphaESS_Helper_Excess_Export
-#   3.0     2024-08-31      Renamed AlphaESS_Dispatch_Initiate to AlphaESS_Force_Discharge and
-#                           alphaess_helper_dispatch_initiate to alphaess_helper_force_discharge
-#   3.1     2024-09-01      Changed AlphaESS_Excess_Power to suppress negative values, added AlphaESS_Excess_Export_Pause and
-#                           AlphaESS_Excess_Export_Resume and logic to pause/resume the export to serve house loads
-#   3.2     2024-09-03      Changed AlphaESS_Excess_Power, introducing a dead man's switch by reducing Dispatch Time from 10h
-#                           to 5min and changed AlphaESS_Dispatch_Reset to trigger at startup and connection loss
-#   3.3     2024-09-09      Changed AlphaESS_Excess_Export_Pause threshold from "above: 0" to "above: 50",
-#                           changed AlphaESS_Excess_Export_Resume trigger from
-#                           AlphaESS_Power_Grid to AlphaESS_Excess_Power and changed from "below: 0" to "above: 50",
-#                           both to reduce sensitivity
-#   3.4     2024-09-09      Changed AlphaESS_Excess_Export calculation for two different scenarios, PV Output > House Load and 
-#                           PV Output > Inverter Limit
-#   3.5     2024-09-22      Tweaked AlphaESS_Excess_Export_Pause and AlphaESS_Excess_Export_Resume sensitivity
-#   3.6     2024-09-23      Added AlphaESS_Update_Discharging_Cutoff_SoC_Slider and AlphaESS_Update_Max_Feed_To_Grid_Slider
-#                           automation
-#   3.7     2024-10-03      Adjusted syntax for automations following HA 2024.10 update
-#   3.8     2024-10-07      Added alternative AlphaESS_Current_House_Load calculation to replicate the "Real-time Power Graph"
-#                           of App/WebUI, added alternative AlphaESS_Total_House_Load calculation
-#   3.9     2024-10-08      Changed AlphaESS_Charging_Now to use Dispatch registers instead of Time Period Control registers to
-#                           reduce unnecessary flash memory writes
-#   4.0     2024-10-09      Fixed AlphaESS_Total_Energy_Feed_to_Grid_Meter_with_Heartbeat to eliminate template error in
-#                           home-assistant.log during start-up
-#   4.1     2024-10-12      Added normalised templates AlphaESS_Charging_Period_1 and AlphaESS_Charging_Period_2
-#   4.2     2024-10-17      Added AlphaESS_Charging_Periods and AlphaESS_Update_Charging_Periods, added AlphaESS_Charging_Now
-#                           Timer, deleted AlphaESS_Charging_Default, limited alphaess_helper_discharging_cutoff_soc to 4%-100%,
-#                           replaced AlphaESS_Today_s_House_Load
-#   4.3     2024-10-19      Changed the modbus.write_register syntax to support Modbus RTU > TCP converters
-#   4.4     2024-10-20      Added AlphaESS_Discharging_Periods and all dependencies, updated complementing alphaess_view.yaml
-#   4.5     2024-10-21      Added AlphaESS_Charging_Cutoff_SoC and AlphaESS_Update_Charging_Cutoff_SoC_Slider automation
-#   4.6     2024-10-22      Added AlphaESS_PV_Capacity_Storage, AlphaESS_PV_Capacity_of_Grid_Inverter and
-#                           AlphaESS_Backup_Power_Inverter, renamed AlphaESS_BMU_Version to AlphaESS_BMS_Version
-#   4.7     2024-10-24      Added AlphaESS_SoH_Battery
-#   4.8     2024-10-25      Added AlphaESS_BMS_Version_Normalised and AlphaESS_EMS_Version_Normalised
-#   4.9     2024-11-02      Added AlphaESS_System_Time_YYMM, AlphaESS_System_Time_DDHH, AlphaESS_System_Time_MMSS sensors and 
-#                           AlphaESS_System_Date, AlphaESS_System_Time templates, changed some templates to suppress errors in
-#                           home-assistant.log during shutdown
-#   5.0     2024-11-09      Added AlphaESS_Throttle_Charge, alphaess_helper_throttle_charge, AlphaESS_Load_Following,
-#                           alphaess_helper_load_following and AlphaESS_Active_Power_PV_Meter
-#   5.1     2024-11-10      Added total and today sensor/utility meter for AlphaESS_Active_Power_PV_Meter
-#   5.2     2024-11-11      Removed obsolete "AlphaESS" prefixes
-#   5.3     2024-11-12      Fixed AlphaESS_Total_House_Load to avoid spikes during start-up, adjusted syntax for automations
-#   5.4     2024-11-14      Fixed broken entities by re-adding "AlphaESS" prefixes, removed "AlphaESS" prefixes in
-#                           alphaess_view.yaml instead
-#   5.5     2024-11-18      Fixed broken utility meters
-#   5.6     2024-11-28      Added AlphaESS_Modbus_Baud_Rate, moved from Dec addresses to Hex, removed holding, precision and
-#                           scale when default
-#   5.7     2025-02-20      Added AlphaESS_PV3_Voltage, AlphaESS_PV3_Current, AlphaESS_PV4_Voltage, AlphaESS_PV4_Current
-#   5.8     2025-02-27      Added AlphaESS_Update_Charging_Discharging_Control
-#   5.9     2025-02-28      Changed trigger for AlphaESS_Excess_Export_Pause and AlphaESS_Excess_Export_Resume
-#   6.0     2025-03-05      Added AlphaESS_Clipping, reworked AlphaESS_Excess_Export
-#   6.1     2025-03-08      Reduced scan_interval for AlphaESS_PV1_Power, AlphaESS_PV2_Power, AlphaESS_PV3_Power,
-#                           AlphaESS_PV3_Power (5s to 1s) and AlphaESS_Voltage_Phase_A_Grid, AlphaESS_Voltage_Phase_B_Grid,
-#                           AlphaESS_Voltage_Phase_C_Grid (60s to 5s)
-#   6.2     2025-03-24      Added Inverter Work Mode handling to both AlphaESS_Excess_Export_Pause and
-#                           AlphaESS_Excess_Export_Resume
-#   6.3     2025-03-28      Changed AlphaESS_Excess_Export_Resume trigger from "state" to "time_pattern", improved
-#                           overall AlphaESS_Excess_Export_Pause/AlphaESS_Excess_Export_Resume logic
-#   6.4     2025-04-03      Increased AlphaESS_Excess_Export_Resume wait time after fault to 10 minutes
-#   6.5     2025-04-04      Adjusted AlphaESS_Excess_Export_Pause sensibility, added AlphaESS_Excess_Export_Resume condition
-#   6.6     2025-04-14      Added Grid Safety registers: AlphaESS_Grid_Regulation (Details see Note 8 in
-#                           AlphaESS-ModbusRegisterParameterList.pdf), AlphaESS_OvP_L1, AlphaESS_OvP_L1_Time, AlphaESS_OvP_L2,
-#                           AlphaESS_OvP_L2_Time, AlphaESS_UvP_L1, AlphaESS_UvP_L1_Time, AlphaESS_UvP_L1, AlphaESS_UvP_L2_Time
-#   6.7     2025-04-15      Added AlphaESS_OfP_L1, AlphaESS_OfP_L1_Time, AlphaESS_OfP_L2, AlphaESS_OfP_L2_Time, AlphaESS_UfP_L1,
-#                           AlphaESS_UfP_L1_Time, AlphaESS_UfP_L2, AlphaESS_UfP_L2_Time
-#   6.8     2025-05-05      Adjusted AlphaESS_Excess_Export sensitivity
-#   6.9     2025-05-07      Rounded AlphaESS_Total_House_Load down to two decimal points
-#   7.0     2025-05-17      Added alphaess_helper_inverter_ac_limit and adjusted AlphaESS_Excess_Export accordingly
-#   7.1     2025-06-10      Adjusted AlphaESS_OvP_L2 and AlphaESS_OvP_L2_Time, added AlphaESS_OvP_L3, AlphaESS_OvP_L3_Time,
-#                           AlphaESS_UvP_L3, AlphaESS_UvP_L3_Time, AlphaESS_OfP_L3, AlphaESS_OfP_L3_Time, AlphaESS_UfP_L3,
-#                           AlphaESS_UfP_L3_Time
-#   7.2     2025-06-12      Adjusted alphaess_helper_inverter_ac_limit
-#   7.3     2025-07-05      Added AlphaESS_Battery_Status, AlphaESS_Battery_Current
-#   7.4     2025-07-16      Added AlphaESS_Force_Discharging and related helpers, renamed AlphaESS_Charging_Now to
-#                           AlphaESS_Force_Charging, renamed related helpers, added AlphaESS_Force_Charging_Power,
-#                           AlphaESS_Force_Charging_Duration, modified AlphaESS_Dispatch_Reset accordingly
-#   7.5     2025-07-18      Added AlphaESS_Battery_Full
-#   7.6     2025-07-24      Added AlphaESS_OvP10, AlphaESS_OvP10_Time
-#   7.7     2025-08-04      Added AlphaESS_Template_Force_Charging_Power, AlphaESS_Template_Force_Disharging_Power to enable
-#                           dynamic range adjustment for AlphaESS_Force_Charging_Power and AlphaESS_Force_Discharging_Power
-#   7.8     2025-08-10      Modified AlphaESS_Current_House_Load to filter out negative values
-#   7.9     2025-08-11      Added AlphaESS_No_Battery_Charge and related helper, modified AlphaESS_Dispatch_Reset accordingly,
-#                           modified AlphaESS_Current_House_Load to avoid double figures when in UPS Mode
-#   8.0     2025-08-14      Reworked all Dispatch Mode related automations and helpers
-#   8.1     2025-08-21      Replaced all Dispatch Mode related automations and helpers with one AlphaESS_Dispatch automation
-#   8.2     2025-08-25      Added AlphaESS_Power_Inverter_L1/L2/L3, AlphaESS_Backup_Power_Inverter_L1/L2/L3
-#   8.3     2025-09-04      Fixed bug in AlphaESS_Excess_Export_Pause
-#   8.4     2025-09-09      Adjusted alphaess_helper_inverter_ac_limit
-#   8.5     2025-09-15      Fixed bug in AlphaESS_Excess_Export_Pause and AlphaESS_Excess_Export_Resume that prevented proper
-#                           operation on new installations
-#   8.6     2025-09-21      Adjusted AlphaESS_Dispatch_SoC scale from 0.4 to 0.392 to compensate for stopping before reaching
-#                           100%, changed related automations accordingly
-#   8.7     2025-09-27      Modified Power Diagram, making "AlphaESS Energy Feed to Grid (Meter) (Derivative)" and
-#                           AlphaESS_Total_Energy_Feed_to_Grid_Meter_with_Heartbeat obsolete
-#   8.8     2025-10-14      Simplified writing the Dispatch registers, improving performance and readability
-#   8.9     2025-10-28      Modified AlphaESS_Current_House_Load to include inverter's power consumption, commented out initial
-#                           values
-#   9.0     2025-11-07      Adjusted AlphaESS_Excess_Export calculation to support hybrid setups, reduced scan_interval for
-#                           AlphaESS_Active_Power_PV_Meter (5s to 1s)
-#   9.1     2025-12-07      Added AlphaESS_Synchronise_Date_Time and related helper
-#   9.2     2025-12-15      Added sensors to improve Power Diagram performance
-#   9.3     2025-12-25      Fixed bug in AlphaESS_Update_Force_Discharging_Power
-#   9.4     2026-01-01      Added warnings & faults sensors
-#   9.5     2026-01-05      Reduced scan_interval for AlphaESS_Power_Grid, AlphaESS_Power_Battery (5s to 1s)
-#   9.6     2026-01-05      Added AlphaESS_IP_Method, AlphaESS_Local_IP, AlphaESS_Subnet_Mask, AlphaESS_Gateway and their
-#                           corresponding normalised templates
-#   9.7     2026-01-24      Added AlphaESS_Force_Export and related helpers, added AlphaESS_Update_Force_Export_Cutoff_SoC,
-#                           AlphaESS_Update_Force_Export_Duration, AlphaESS_Update_Force_Export_Power, modified affected
-#                           automations accordingly
-#   9.8     2026-02-12      Adjusted template sensors, adding device_class and state_class
-#   9.9     2026-02-14      Added AlphaESS_System_Fault
-#  10.0     2026-03-10      Added AlphaESS_Filter_Clipping and alphaess_helper_clipping
-#  10.1     2026-03-13      Fixed AlphaESS_Current_House_Load (again) to avoid double figures when in UPS Mode
-#  10.2     2026-03-27      Fixed AlphaESS_Today_s_House_Load, AlphaESS_Total_Energy_from_PV_Meter
-#  10.3     2026-03-28      Added AlphaESS_EMS_Version_Low_Suffix, adjusted AlphaESS_EMS_Version_Normalised accordingly
-#  10.4     2026-04-05      Updated input_boolean.turn_off, timer.start, timer.cancel syntax
-#  10.5     2026-04-13      Added AlphaESS_Force_Import, AlphaESS_Force_Import_Pause, AlphaESS_Force_Import_Resume,
-#                           AlphaESS_Update_Force_Import_Cutoff_SoC, AlphaESS_Update_Force_Import_Duration,
-#                           AlphaESS_Update_Force_Import_Power and related helpers, modified affected automations accordingly
-#  10.6     2026-04-29      Added AlphaESS_Dispatch_PV_Switch, alphaess_helper_dispatch_pv_switch,
-#                           AlphaESS_Update_Dispatch_PV_Switch, adjusted all Dispatch related automations
-#  10.7     2026-05-02      Adjusted Sensor Data Types
-#  10.8     2026-05-09      Reformatted alphaess_view.yaml into a standard views list with title.
-#                           Standardized utility_meter naming convention to today_s for consistency.
-#                           Normalized entity IDs to lowercase to ensure reliable Home Assistant resolution.
-#                           Fixed trailing YAML syntax error and removed file corruption.
+#   Original Documentation: https://projects.hillviewlodge.ie/alphaess/
+#   Change History:         See CHANGELOG.md
 #
 #################################################################################################################################
 
@@ -269,6 +109,171 @@ modbus:
         scan_interval: 60
         scale: 0.01
         precision: 2
+
+      - name: AlphaESS PV Total Power
+        unique_id: AlphaESS_PV_Total_Power
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0453
+        data_type: uint32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 1
+
+      - name: AlphaESS Battery Implementation Charge SOC
+        unique_id: AlphaESS_Battery_Implementation_Charge_SOC
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0128
+        data_type: uint16
+        unit_of_measurement: "%"
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Battery Implementation Discharge SOC
+        unique_id: AlphaESS_Battery_Implementation_Discharge_SOC
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0129
+        data_type: uint16
+        unit_of_measurement: "%"
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Battery Remaining Charge SOC
+        unique_id: AlphaESS_Battery_Remaining_Charge_SOC
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x012A
+        data_type: uint16
+        unit_of_measurement: "%"
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Battery Remaining Discharge SOC
+        unique_id: AlphaESS_Battery_Remaining_Discharge_SOC
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x012B
+        data_type: uint16
+        unit_of_measurement: "%"
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Battery Max Charge Power
+        unique_id: AlphaESS_Battery_Max_Charge_Power
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x012C
+        data_type: uint16
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 60
+
+      - name: AlphaESS Battery Max Discharge Power
+        unique_id: AlphaESS_Battery_Max_Discharge_Power
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x012D
+        data_type: uint16
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 60
+
+      # PV Charger (PVChanger) Data
+      - name: AlphaESS PV Charger Battery SOC
+        unique_id: AlphaESS_PV_Charger_Battery_SOC
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x2341
+        data_type: uint16
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        scan_interval: 30
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS PV Charger Battery Voltage
+        unique_id: AlphaESS_PV_Charger_Battery_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x2342
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS PV Charger Battery Current
+        unique_id: AlphaESS_PV_Charger_Battery_Current
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x2343
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS PV Charger Battery Power
+        unique_id: AlphaESS_PV_Charger_Battery_Power
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x2344
+        data_type: int32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 1
+
+      - name: AlphaESS PV Charger Battery Max Charge Power
+        unique_id: AlphaESS_PV_Charger_Battery_Max_Charge_Power
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x2346
+        data_type: int32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 60
+
+      - name: AlphaESS PV Charger Battery Max Discharge Power
+        unique_id: AlphaESS_PV_Charger_Battery_Max_Discharge_Power
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x2348
+        data_type: int32
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 60
+
+      - name: AlphaESS PV Charger Battery Charge Cutoff Voltage
+        unique_id: AlphaESS_PV_Charger_Battery_Charge_Cutoff_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x234A
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS PV Charger Battery Max Charge Current
+        unique_id: AlphaESS_PV_Charger_Battery_Max_Charge_Current
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x234B
+        data_type: uint16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
 
       - name: AlphaESS Bus Voltage
         unique_id: AlphaESS_Bus_Voltage
@@ -516,6 +521,43 @@ modbus:
         scan_interval: 5
         scale: 1 # 0.1 for SMILE-B3/SMILE-B3-PLUS
 
+      # Current per phase (Grid)
+      - name: AlphaESS Current Phase A Grid
+        unique_id: AlphaESS_Current_Phase_A_Grid
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0017
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Current Phase B Grid
+        unique_id: AlphaESS_Current_Phase_B_Grid
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0018
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Current Phase C Grid
+        unique_id: AlphaESS_Current_Phase_C_Grid
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0019
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
       # Power to/from Battery
       - name: AlphaESS Power Battery
         unique_id: AlphaESS_Power_Battery
@@ -526,6 +568,79 @@ modbus:
         device_class: power
         state_class: measurement
         scan_interval: 1
+
+      # Voltage and current per phase (Inverter AC output)
+      - name: AlphaESS Voltage Inverter L1
+        unique_id: AlphaESS_Voltage_Inverter_L1
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0400
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Voltage Inverter L2
+        unique_id: AlphaESS_Voltage_Inverter_L2
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0401
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Voltage Inverter L3
+        unique_id: AlphaESS_Voltage_Inverter_L3
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0402
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Current Inverter L1
+        unique_id: AlphaESS_Current_Inverter_L1
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0403
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Current Inverter L2
+        unique_id: AlphaESS_Current_Inverter_L2
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0404
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Current Inverter L3
+        unique_id: AlphaESS_Current_Inverter_L3
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0405
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 5
+        scale: 0.1
+        precision: 1
 
       # Power Inverter L1
       - name: AlphaESS Power Inverter L1
@@ -633,6 +748,43 @@ modbus:
         device_class: power
         state_class: measurement
         scan_interval: 1
+
+      # Current per phase (PV Meter)
+      - name: AlphaESS Current Phase A PV Meter
+        unique_id: AlphaESS_Current_Phase_A_PV_Meter
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0097
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 10
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Current Phase B PV Meter
+        unique_id: AlphaESS_Current_Phase_B_PV_Meter
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0098
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 10
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Current Phase C PV Meter
+        unique_id: AlphaESS_Current_Phase_C_PV_Meter
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0099
+        data_type: int16
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scan_interval: 10
+        scale: 0.1
+        precision: 1
 
       # Power of String 1
       - name: AlphaESS PV1 Power
@@ -1346,6 +1498,22 @@ modbus:
         state_class: measurement
         scan_interval: 60
 
+      - name: AlphaESS Battery Relay Status
+        unique_id: AlphaESS_Battery_Relay_Status
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0104
+        data_type: uint16
+        state_class: measurement
+        scan_interval: 60
+
+      - name: AlphaESS Battery Module Number
+        unique_id: AlphaESS_Battery_Module_Number
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0118
+        data_type: uint16
+        state_class: measurement
+        scan_interval: 60
+
       - name: AlphaESS Battery Voltage 
         unique_id: AlphaESS_Battery_Voltage
         slave: !secret alphaess_modbus_slaveId
@@ -1417,7 +1585,31 @@ modbus:
         scan_interval: 10
         scale: 0.1
         precision: 1
-        
+
+      - name: AlphaESS Battery Charge Cutoff Voltage
+        unique_id: AlphaESS_Battery_Charge_Cutoff_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0113
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Battery Discharge Cutoff Voltage
+        unique_id: AlphaESS_Battery_Discharge_Cutoff_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0114
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
       - name: AlphaESS Battery Remaining Time
         unique_id: AlphaESS_Battery_Remaining_Time
         slave: !secret alphaess_modbus_slaveId
@@ -1689,14 +1881,14 @@ modbus:
         state_class: measurement
         scan_interval: 5
 
-      # Dispatch Reactive Power (32000 Offset, < 32000 charge, > 32000 discharge)
+      # Dispatch Reactive Power (10000 Offset, < 10000 charge, > 10000 discharge)
       - name: AlphaESS Dispatch Reactive Power
         unique_id: AlphaESS_Dispatch_Reactive_Power
         slave: !secret alphaess_modbus_slaveId
         address: 0x0883
         data_type: int32
         unit_of_measurement: W
-        offset: -32000
+        offset: -10000
         state_class: measurement
         scan_interval: 5
 
@@ -1747,6 +1939,85 @@ modbus:
         data_type: uint16
         state_class: measurement
         scan_interval: 5
+
+# HHE MEC only - registers 0x072C-0x072F are not available on G3-T10 and similar models.
+# These sensors will show "unavailable" on non-HHE inverters. Uncomment if your inverter supports them.
+#      - name: AlphaESS User Mode Sensor
+#        unique_id: AlphaESS_User_Mode_Sensor
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x072C
+#        data_type: uint16
+#        scan_interval: 60
+#
+#      - name: AlphaESS Battery Mode Sensor
+#        unique_id: AlphaESS_Battery_Mode_Sensor
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x072D
+#        data_type: uint16
+#        scan_interval: 60
+#
+#      - name: AlphaESS Set Battery Power Sensor
+#        unique_id: AlphaESS_Set_Battery_Power_Sensor
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x072E
+#        data_type: int16
+#        scan_interval: 60
+#
+#      - name: AlphaESS Set Inverter Output Power Percent Sensor
+#        unique_id: AlphaESS_Set_Inverter_Output_Power_Percent_Sensor
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x072F
+#        data_type: uint16
+#        scan_interval: 60
+#
+# Optional AUX (Dry Contact) and Generator Controls
+# These registers are generally only used if you have external physical appliances
+# wired to the inverter's AUX relays, or an auto-start backup generator.
+# Uncomment if needed for your setup.
+#
+#      - name: AlphaESS AUX Channel 1 Enable
+#        unique_id: alphaess_aux_channel_1_enable
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x2200
+#        data_type: uint16
+#
+#      - name: AlphaESS AUX Channel 1 Control Mode
+#        unique_id: alphaess_aux_channel_1_control_mode
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x2201
+#        data_type: uint16
+#
+#      - name: AlphaESS AUX Channel 2 Enable
+#        unique_id: alphaess_aux_channel_2_enable
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x2211
+#        data_type: uint16
+#
+#      - name: AlphaESS Generator Enable
+#        unique_id: alphaess_generator_enable
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x2250
+#        data_type: uint16
+#
+#      - name: AlphaESS Generator Mode
+#        unique_id: alphaess_generator_mode
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x2251
+#        data_type: uint16
+#
+#      - name: AlphaESS Generator SOC Start
+#        unique_id: alphaess_generator_soc_start
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x2252
+#        data_type: uint16
+#        unit_of_measurement: "%"
+#
+#      - name: AlphaESS Generator SOC End
+#        unique_id: alphaess_generator_soc_end
+#        slave: !secret alphaess_modbus_slaveId
+#        address: 0x2253
+#        data_type: uint16
+#        unit_of_measurement: "%"
 
 #-------------------------------------------------------------------------------------------------------------------------------#
 
@@ -2864,8 +3135,8 @@ automation:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - "{{ 32000 - ((states('input_number.alphaess_helper_force_charging_power')|float * 1000)|int) }}"
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
             - "{{ (states('input_number.alphaess_helper_force_charging_cutoff_soc')|int / 0.392) |int }}"
             - 0   # Dispatch Time (2 bytes/registers)
@@ -3049,8 +3320,8 @@ automation:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - "{{ 32000 + ((states('input_number.alphaess_helper_force_discharging_power')|float * 1000)|int) }}"
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
             - "{{ (states('input_number.alphaess_helper_force_discharging_cutoff_soc')|int / 0.392) |int }}"
             - 0   # Dispatch Time (2 bytes/registers)
@@ -3240,8 +3511,8 @@ automation:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - "{{ 32000 + (states('sensor.alphaess_current_house_load')|int + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production')|int }}"
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
             - >
               {% if (states('sensor.alphaess_current_house_load')|int + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production')|int > 0 %}
@@ -3446,8 +3717,8 @@ automation:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - "{{ 32000 - ((states('input_number.alphaess_helper_force_import_power')|float * 1000)|int - states('sensor.alphaess_current_house_load')|int) - states('sensor.alphaess_current_pv_production')|int }}"
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
             - "{{ (states('input_number.alphaess_helper_force_import_cutoff_soc')|int / 0.392) |int }}"
             - 0   # Dispatch Time (2 bytes/registers)
@@ -3523,8 +3794,8 @@ automation:
             - 0   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - 32000
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
             - 0   # Dispatch SOC  (0.392%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
@@ -3745,8 +4016,8 @@ automation:
               {% else %}
                 32000
               {% endif %}
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - "{{ states('input_select.alphaess_helper_dispatch_mode').split('(')[1].split(')')[0] }}"
             - >
               {% set dispatch_mode = states('input_select.alphaess_helper_dispatch_mode').split('(')[1].split(')')[0] %}
@@ -3792,8 +4063,8 @@ automation:
             - 0   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - 32000
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
             - 0   # Dispatch SOC  (0.392%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
@@ -3820,8 +4091,8 @@ automation:
               {% else %}
                 32000
               {% endif %}
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - "{{ states('input_select.alphaess_helper_dispatch_mode').split('(')[1].split(')')[0] }}"
             - >
               {% set dispatch_mode = states('input_select.alphaess_helper_dispatch_mode').split('(')[1].split(')')[0] %}
@@ -4081,8 +4352,8 @@ automation:
               {% else %}
                 32000
               {% endif %}
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
             - 255 # Dispatch SOC  (0.392%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
@@ -4137,8 +4408,8 @@ automation:
             - 0   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - 32000
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
             - 0   # Dispatch SOC  (0.392%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
@@ -4255,8 +4526,8 @@ automation:
             - 0   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - 32000
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
             - 0   # Dispatch SOC  (0.392%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
@@ -4341,8 +4612,8 @@ automation:
             - 0   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - 32000
-            - 0   # Dispatch Reactive Power, 32000 Offset (2 bytes/registers)
-            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
             - 0   # Dispatch SOC  (0.392%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
@@ -4597,6 +4868,70 @@ template:
       state_class: measurement
       state: "{{ states('sensor.alphaess_excess_power') | float(0) / 1000 }}"
 
+# HHE MEC only - template select/number entities for registers 0x072C-0x072F.
+# Not available on G3-T10 and similar models. Uncomment if your inverter supports them.
+#  - select:
+#      - name: "AlphaESS User Mode"
+#        unique_id: AlphaESS_User_Mode
+#        state: "{{ {'0': 'Green mode', '1': 'Economic mode', '2': 'Secure mode'}.get(states('sensor.alphaess_user_mode_sensor'), 'unknown') }}"
+#        options:
+#          - "Green mode"
+#          - "Economic mode"
+#          - "Secure mode"
+#        select_option:
+#          - action: modbus.write_register
+#            data:
+#              hub: modbuspvsystem
+#              address: 0x072C
+#              slave: !secret alphaess_modbus_slaveId
+#              value: "{{ {'Green mode': 0, 'Economic mode': 1, 'Secure mode': 2}.get(option) }}"
+#
+#      - name: "AlphaESS Battery Mode"
+#        unique_id: AlphaESS_Battery_Mode
+#        state: "{{ {'0': 'Auto mode', '1': 'Charge mode', '2': 'Discharge mode', '3': 'Standby mode'}.get(states('sensor.alphaess_battery_mode_sensor'), 'unknown') }}"
+#        options:
+#          - "Auto mode"
+#          - "Charge mode"
+#          - "Discharge mode"
+#          - "Standby mode"
+#        select_option:
+#          - action: modbus.write_register
+#            data:
+#              hub: modbuspvsystem
+#              address: 0x072D
+#              slave: !secret alphaess_modbus_slaveId
+#              value: "{{ {'Auto mode': 0, 'Charge mode': 1, 'Discharge mode': 2, 'Standby mode': 3}.get(option) }}"
+#
+#  - number:
+#      - name: "AlphaESS Set Battery Power"
+#        unique_id: AlphaESS_Set_Battery_Power
+#        state: "{{ states('sensor.alphaess_set_battery_power_sensor') | float(0) }}"
+#        min: -10000
+#        max: 10000
+#        step: 1
+#        unit_of_measurement: "W"
+#        set_value:
+#          - action: modbus.write_register
+#            data:
+#              hub: modbuspvsystem
+#              address: 0x072E
+#              slave: !secret alphaess_modbus_slaveId
+#              value: "{{ (value | int(0) + 65536) % 65536 }}"
+#
+#      - name: "AlphaESS Set Inverter Output Power Percent"
+#        unique_id: AlphaESS_Set_Inverter_Output_Power_Percent
+#        state: "{{ states('sensor.alphaess_set_inverter_output_power_percent_sensor') | float(0) }}"
+#        min: 0
+#        max: 100
+#        step: 1
+#        unit_of_measurement: "%"
+#        set_value:
+#          - action: modbus.write_register
+#            data:
+#              hub: modbuspvsystem
+#              address: 0x072F
+#              slave: !secret alphaess_modbus_slaveId
+#              value: "{{ value | int }}"
 # Force Charging Power
   - number:
       - name: AlphaESS Template Force Charging Power

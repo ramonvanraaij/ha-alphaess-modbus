@@ -1,3 +1,15 @@
+#################################################################################################################################
+#
+#   Developed and maintained by Rámon van Raaij (2026).
+#   
+#   This project is an extensive refactor and specialization based on the 
+#   original work by Axel Koegler (2023-2026).
+#
+#   Original Documentation: https://projects.hillviewlodge.ie/alphaess/
+#   Change History:         See CHANGELOG.md
+#
+#################################################################################################################################
+
 title: AlphaESS
 views:
   - theme: Backend-selected
