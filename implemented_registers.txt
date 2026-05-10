@@ -1,0 +1,190 @@
+# Implemented Modbus registers in integration_alpha_ess.yaml
+# Format: address  sensor name
+# Auto-generated - do not edit manually
+
+0x0001  AlphaESS CT Rate Grid Meter
+0x0010  AlphaESS Total Energy Feed to Grid (Meter)
+0x0012  AlphaESS Total Energy Consumption from Grid (Meter)
+0x0014  AlphaESS Voltage Phase A Grid
+0x0015  AlphaESS Voltage Phase B Grid
+0x0016  AlphaESS Voltage Phase C Grid
+0x0017  AlphaESS Current Phase A Grid
+0x0018  AlphaESS Current Phase B Grid
+0x0019  AlphaESS Current Phase C Grid
+0x001B  AlphaESS Power Phase A Grid
+0x001D  AlphaESS Power Phase B Grid
+0x001F  AlphaESS Power Phase C Grid
+0x0021  AlphaESS Power Grid
+0x0081  AlphaESS CT Rate PV Meter
+0x0090  AlphaESS Total Energy Feed to Grid (PV)
+0x0097  AlphaESS Current Phase A PV Meter
+0x0098  AlphaESS Current Phase B PV Meter
+0x0099  AlphaESS Current Phase C PV Meter
+0x00A1  AlphaESS Active Power PV Meter
+0x0100  AlphaESS Battery Voltage
+0x0101  AlphaESS Battery Current
+0x0102  AlphaESS SoC Battery
+0x0103  AlphaESS Battery Status
+0x0104  AlphaESS Battery Relay Status
+0x010D  AlphaESS Battery Min Cell Temp
+0x0110  AlphaESS Battery Max Cell Temp
+0x0111  AlphaESS Battery Max Charge Current
+0x0112  AlphaESS Battery Max Discharge Current
+0x0113  AlphaESS Battery Charge Cutoff Voltage
+0x0114  AlphaESS Battery Discharge Cutoff Voltage
+0x0115  AlphaESS BMS Version
+0x0116  AlphaESS LMU Version
+0x0117  AlphaESS ISO Version
+0x0118  AlphaESS Battery Module Number
+0x011A  AlphaESS Battery Type
+0x011B  AlphaESS SoH Battery
+0x011C  AlphaESS Battery Warning
+0x011E  AlphaESS Battery Fault
+0x0120  AlphaESS Total Energy Charge Battery
+0x0122  AlphaESS Total Energy Discharge Battery
+0x0124  AlphaESS Total Energy Charge Battery from Grid
+0x0126  AlphaESS Power Battery
+0x0127  AlphaESS Battery Remaining Time
+0x0128  AlphaESS Battery Implementation Charge SOC
+0x0129  AlphaESS Battery Implementation Discharge SOC
+0x012A  AlphaESS Battery Remaining Charge SOC
+0x012B  AlphaESS Battery Remaining Discharge SOC
+0x012C  AlphaESS Battery Max Charge Power
+0x012D  AlphaESS Battery Max Discharge Power
+0x0131  AlphaESS Battery 1 Fault
+0x0133  AlphaESS Battery 2 Fault
+0x0135  AlphaESS Battery 3 Fault
+0x0137  AlphaESS Battery 4 Fault
+0x0139  AlphaESS Battery 5 Fault
+0x013B  AlphaESS Battery 6 Fault
+0x013D  AlphaESS Battery 1 Warning
+0x013F  AlphaESS Battery 2 Warning
+0x0141  AlphaESS Battery 3 Warning
+0x0143  AlphaESS Battery 4 Warning
+0x0145  AlphaESS Battery 5 Warning
+0x0147  AlphaESS Battery 6 Warning
+0x0400  AlphaESS Voltage Inverter L1
+0x0401  AlphaESS Voltage Inverter L2
+0x0402  AlphaESS Voltage Inverter L3
+0x0403  AlphaESS Current Inverter L1
+0x0404  AlphaESS Current Inverter L2
+0x0405  AlphaESS Current Inverter L3
+0x0406  AlphaESS Power Inverter L1
+0x0408  AlphaESS Power Inverter L2
+0x040A  AlphaESS Power Inverter L3
+0x040C  AlphaESS Power Inverter
+0x0414  AlphaESS Backup Power Inverter L1
+0x0416  AlphaESS Backup Power Inverter L2
+0x0418  AlphaESS Backup Power Inverter L3
+0x041A  AlphaESS Backup Power Inverter
+0x041C  AlphaESS Inverter Grid Frequency
+0x041D  AlphaESS PV1 Voltage
+0x041E  AlphaESS PV1 Current
+0x041F  AlphaESS PV1 Power
+0x0421  AlphaESS PV2 Voltage
+0x0422  AlphaESS PV2 Current
+0x0423  AlphaESS PV2 Power
+0x0425  AlphaESS PV3 Voltage
+0x0426  AlphaESS PV3 Current
+0x0427  AlphaESS PV3 Power
+0x0429  AlphaESS PV4 Voltage
+0x042A  AlphaESS PV4 Current
+0x042B  AlphaESS PV4 Power
+0x0435  AlphaESS Inverter Temperature
+0x0436  AlphaESS Inverter Warning 1
+0x0438  AlphaESS Inverter Warning 2
+0x043A  AlphaESS Inverter Fault 1
+0x043C  AlphaESS Inverter Fault 2
+0x043E  AlphaESS Total Energy from PV
+0x0440  AlphaESS Inverter Work Mode
+0x0441  AlphaESS Inverter Battery Voltage
+0x0442  AlphaESS Inverter Battery Current
+0x0443  AlphaESS Inverter Battery Power
+0x0448  AlphaESS Inverter Frequency
+0x044A  AlphaESS Inverter Power Factor
+0x044B  AlphaESS Inverter Fault Extended 1
+0x044D  AlphaESS Inverter Fault Extended 2
+0x0453  AlphaESS PV Total Power
+0x0520  AlphaESS Bus Voltage
+0x0523  AlphaESS PV Connect State
+0x0640  AlphaESS Inverter Version
+0x0645  AlphaESS Inverter ARM Version
+0x064A  AlphaESS Inverter SN
+0x0740  AlphaESS System Time YYMM
+0x0741  AlphaESS System Time DDHH
+0x0742  AlphaESS System Time MMSS
+0x074B  AlphaESS EMS Version High
+0x074C  AlphaESS EMS Version Middle
+0x074D  AlphaESS EMS Version Low
+0x074F  AlphaESS EMS Version Low Suffix
+0x0800  AlphaESS Max Feed to Grid
+0x0801  AlphaESS PV Capacity Storage
+0x0803  AlphaESS PV Capacity of Grid Inverter
+0x0808  AlphaESS IP Method
+0x0809  AlphaESS Local IP
+0x080B  AlphaESS Subnet Mask
+0x080D  AlphaESS Gateway
+0x0810  AlphaESS Modbus Baud Rate
+0x084F  AlphaESS Charging Time Period Control
+0x0850  AlphaESS Discharging Cutoff SoC
+0x0851  AlphaESS Discharging Period 1 Start Hour
+0x0852  AlphaESS Discharging Period 1 Stop Hour
+0x0853  AlphaESS Discharging Period 2 Start Hour
+0x0854  AlphaESS Discharging Period 2 Stop Hour
+0x0855  AlphaESS Charging Cutoff SoC
+0x0856  AlphaESS Charging Period 1 Start Hour
+0x0857  AlphaESS Charging Period 1 Stop Hour
+0x0858  AlphaESS Charging Period 2 Start Hour
+0x0859  AlphaESS Charging Period 2 Stop Hour
+0x085A  AlphaESS Discharging Period 1 Start Minute
+0x085B  AlphaESS Discharging Period 1 Stop Minute
+0x085C  AlphaESS Discharging Period 2 Start Minute
+0x085D  AlphaESS Discharging Period 2 Stop Minute
+0x085E  AlphaESS Charging Period 1 Start Minute
+0x085F  AlphaESS Charging Period 1 Stop Minute
+0x0860  AlphaESS Charging Period 2 Start Minute
+0x0861  AlphaESS Charging Period 2 Stop Minute
+0x0880  AlphaESS Dispatch Start
+0x0881  AlphaESS Dispatch Active Power
+0x0883  AlphaESS Dispatch Reactive Power
+0x0885  AlphaESS Dispatch Mode
+0x0886  AlphaESS Dispatch SoC
+0x0887  AlphaESS Dispatch Time
+0x0889  AlphaESS Dispatch Flow Direction
+0x088A  AlphaESS Dispatch PV Switch
+0x08D4  AlphaESS System Fault
+0x1000  AlphaESS Grid Regulation
+0x100B  AlphaESS OvP L1
+0x100C  AlphaESS OvP L1 Time
+0x100D  AlphaESS OvP10
+0x100E  AlphaESS OvP10 Time
+0x100F  AlphaESS UvP L1
+0x1010  AlphaESS UvP L1 Time
+0x1011  AlphaESS UvP L2
+0x1012  AlphaESS UvP L2 Time
+0x1013  AlphaESS OfP L1
+0x1014  AlphaESS OfP L1 Time
+0x1015  AlphaESS OfP L2
+0x1016  AlphaESS OfP L2 Time
+0x1017  AlphaESS UfP L1
+0x1018  AlphaESS UfP L1 Time
+0x1019  AlphaESS UfP L2
+0x101A  AlphaESS UfP L2 Time
+0x101B  AlphaESS OvP L2
+0x101C  AlphaESS OvP L2 Time
+0x101D  AlphaESS OvP L3
+0x101E  AlphaESS OvP L3 Time
+0x101F  AlphaESS UvP L3
+0x1020  AlphaESS UvP L3 Time
+0x1021  AlphaESS OfP L3
+0x1022  AlphaESS OfP L3 Time
+0x1023  AlphaESS UfP L3
+0x1024  AlphaESS UfP L3 Time
+0x2341  AlphaESS PV Charger Battery SOC
+0x2342  AlphaESS PV Charger Battery Voltage
+0x2343  AlphaESS PV Charger Battery Current
+0x2344  AlphaESS PV Charger Battery Power
+0x2346  AlphaESS PV Charger Battery Max Charge Power
+0x2348  AlphaESS PV Charger Battery Max Discharge Power
+0x234A  AlphaESS PV Charger Battery Charge Cutoff Voltage
+0x234B  AlphaESS PV Charger Battery Max Charge Current

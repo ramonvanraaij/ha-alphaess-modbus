@@ -1,3 +1,15 @@
+#################################################################################################################################
+#
+#   Developed and maintained by Rámon van Raaij (2026).
+#   
+#   This project is an extensive refactor and specialization based on the 
+#   original work by Axel Koegler (2023-2026).
+#
+#   Original Documentation: https://projects.hillviewlodge.ie/alphaess/
+#   Change History:         See CHANGELOG.md
+#
+#################################################################################################################################
+
 views:
   - title: AlphaESS
     type: sections
@@ -109,7 +121,9 @@ views:
                     state: Enable Grid Charging Battery
                   - condition: state
                     entity: input_select.alphaess_helper_charging_discharging_settings
-                    state: Enable Grid Charging Battery & Battery Discharge Time Control
+                    state: >-
+                      Enable Grid Charging Battery & Battery Discharge Time
+                      Control
           - title: Discharging Settings
             type: entities
             entities:
@@ -133,7 +147,9 @@ views:
                     state: Enable Battery Discharge Time Control
                   - condition: state
                     entity: input_select.alphaess_helper_charging_discharging_settings
-                    state: Enable Grid Charging Battery & Battery Discharge Time Control
+                    state: >-
+                      Enable Grid Charging Battery & Battery Discharge Time
+                      Control
         column_span: 1
       - type: grid
         cards:
@@ -172,10 +188,18 @@ views:
               - type: section
               - entity: sensor.alphaess_active_power_pv_meter
                 name: Active Power PV (Meter)
+              - entity: sensor.alphaess_current_phase_a_pv_meter
+                name: Current Phase A PV (Meter)
+              - entity: sensor.alphaess_current_phase_b_pv_meter
+                name: Current Phase B PV (Meter)
+              - entity: sensor.alphaess_current_phase_c_pv_meter
+                name: Current Phase C PV (Meter)
               - entity: sensor.alphaess_pv_connect_state
                 name: PV Connect State
               - entity: sensor.alphaess_bus_voltage
                 name: Bus Voltage
+              - entity: sensor.alphaess_pv_total_power
+                name: PV Total Power
               - type: section
               - entity: input_boolean.alphaess_helper_clipping
                 name: Clipping
@@ -260,6 +284,12 @@ views:
                 name: Voltage Phase B Grid
               - entity: sensor.alphaess_voltage_phase_c_grid
                 name: Voltage Phase C Grid
+              - entity: sensor.alphaess_current_phase_a_grid
+                name: Current Phase A Grid
+              - entity: sensor.alphaess_current_phase_b_grid
+                name: Current Phase B Grid
+              - entity: sensor.alphaess_current_phase_c_grid
+                name: Current Phase C Grid
             title: Grid
       - type: grid
         cards:
@@ -289,6 +319,10 @@ views:
                 name: Battery Max Charge Current
               - entity: sensor.alphaess_battery_max_discharge_current
                 name: Battery Max Discharge Current
+              - entity: sensor.alphaess_battery_charge_cutoff_voltage
+                name: Battery Charge Cutoff Voltage
+              - entity: sensor.alphaess_battery_discharge_cutoff_voltage
+                name: Battery Discharge Cutoff Voltage
               - entity: sensor.alphaess_battery_remaining_time
                 name: Battery Remaining Time
               - entity: sensor.alphaess_battery_type
@@ -297,6 +331,20 @@ views:
                 name: Battery Relay Status
               - entity: sensor.alphaess_battery_module_number
                 name: Battery Module Number
+              - type: section
+                label: Advanced Battery Diagnostics
+              - entity: sensor.alphaess_battery_implementation_charge_soc
+                name: Implementation Charge SOC
+              - entity: sensor.alphaess_battery_implementation_discharge_soc
+                name: Implementation Discharge SOC
+              - entity: sensor.alphaess_battery_remaining_charge_soc
+                name: Remaining Charge SOC
+              - entity: sensor.alphaess_battery_remaining_discharge_soc
+                name: Remaining Discharge SOC
+              - entity: sensor.alphaess_battery_max_charge_power
+                name: Max Charge Power
+              - entity: sensor.alphaess_battery_max_discharge_power
+                name: Max Discharge Power
             title: Battery
           - type: entities
             entities:
@@ -354,6 +402,18 @@ views:
                 name: Power Inverter L2
               - entity: sensor.alphaess_power_inverter_l3
                 name: Power Inverter L3
+              - entity: sensor.alphaess_voltage_inverter_l1
+                name: Voltage Inverter L1
+              - entity: sensor.alphaess_voltage_inverter_l2
+                name: Voltage Inverter L2
+              - entity: sensor.alphaess_voltage_inverter_l3
+                name: Voltage Inverter L3
+              - entity: sensor.alphaess_current_inverter_l1
+                name: Current Inverter L1
+              - entity: sensor.alphaess_current_inverter_l2
+                name: Current Inverter L2
+              - entity: sensor.alphaess_current_inverter_l3
+                name: Current Inverter L3
               - entity: sensor.alphaess_backup_power_inverter
                 name: Backup Power Inverter
               - entity: sensor.alphaess_backup_power_inverter_l1
@@ -516,3 +576,43 @@ views:
               - entity: sensor.alphaess_battery_6_fault
                 name: Battery Fault 6
             title: Warnings & Faults
+          - type: entities
+            entities:
+              - entity: sensor.alphaess_pv_charger_battery_soc
+                name: PV Charger SOC
+              - entity: sensor.alphaess_pv_charger_battery_power
+                name: PV Charger Power
+              - entity: sensor.alphaess_pv_charger_battery_voltage
+                name: PV Charger Voltage
+              - entity: sensor.alphaess_pv_charger_battery_current
+                name: PV Charger Current
+              - type: section
+              - entity: sensor.alphaess_pv_charger_battery_max_charge_power
+                name: Max Charge Power
+              - entity: sensor.alphaess_pv_charger_battery_max_discharge_power
+                name: Max Discharge Power
+              - entity: sensor.alphaess_pv_charger_battery_max_charge_current
+                name: Max Charge Current
+              - entity: sensor.alphaess_pv_charger_battery_charge_cutoff_voltage
+                name: Charge Cutoff Voltage
+            title: PV Charger
+#          - type: entities
+#            entities:
+#              - entity: sensor.alphaess_aux_channel_1_enable
+#                name: AUX 1 Enable
+#              - entity: sensor.alphaess_aux_channel_1_control_mode
+#                name: AUX 1 Control Mode
+#              - entity: sensor.alphaess_aux_channel_2_enable
+#                name: AUX 2 Enable
+#            title: AUX Controls (Optional)
+#          - type: entities
+#            entities:
+#              - entity: sensor.alphaess_generator_enable
+#                name: Generator Enable
+#              - entity: sensor.alphaess_generator_mode
+#                name: Generator Mode
+#              - entity: sensor.alphaess_generator_soc_start
+#                name: Gen SOC Start
+#              - entity: sensor.alphaess_generator_soc_end
+#                name: Gen SOC End
+#            title: Generator Controls (Optional)

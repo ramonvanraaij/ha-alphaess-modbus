@@ -1,0 +1,12753 @@
+Smarten Your Energy
+
+Parameter address table
+Household Parameter
+Household Meter
+Grid Meter
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Grid Meter Config
+0000H
+0001H
+
+Grid Meter CT Enable
+
+R/W
+
+Grid Meter CT Rate
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+1/bit
+1/bit
+
+Grid Meter Running Data
+0010H
+
+Total energy feed to grid(Grid)
+
+RO
+
+0011H
+0012H
+
+Total
+
+0013H
+
+grid(Grid)
+
+0014H
+
+Voltage of A phase(Grid)
+
+0015H
+0016H
+0017H
+
+energy
+
+consume
+
+from
+
+RO
+RO
+
+Voltage of B phase(Grid)
+
+RO
+
+Voltage of C phase(Grid)
+
+RO
+
+Current of A phase(Grid)
+
+RO
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+0018H
+
+Current of B phase(Grid)
+
+RO
+
+Occupy
+
+short
+
+2byte
+0019H
+
+Current of C phase(Grid)
+
+RO
+
+Occupy
+
+short
+
+2byte
+001AH
+001BH
+
+Frequent(Grid)
+
+RO
+
+Active power of A phase(Grid)
+
+RO
+
+001CH
+001DH
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+int
+
+4 byte
+Active power of B phase(Grid)
+
+RO
+
+001EH
+
+Occupy
+4 byte
+
+1
+
+int
+
+0.01kWh/bit
+0.01kWh/bit
+1V
+1V
+1V
+0.1A
+0.1A
+0.1A
+0.01Hz
+1W/bit
+1W/bit
+
+Smarten Your Energy
+001FH
+
+Active power of C phase(Grid)
+
+RO
+
+0020H
+0021H
+
+Total Active power(Grid Meter)
+
+RO
+
+Reactive power of A phase(Grid)
+
+RO
+
+Reactive power of B phase(Grid)
+
+RO
+
+Reactive power of C phase(Grid)
+
+RO
+
+Total reactive power(Grid)
+
+RO
+
+Apparent power of A phase(Grid)
+
+RO
+
+Apparent power of B phase(Grid)
+
+RO
+
+Apparent power of C phase(Grid)
+
+RO
+
+int
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+4 byte
+Total apparent power(Grid)
+
+RO
+
+0032H
+0033H
+
+Occupy
+
+4 byte
+
+0030H
+0031H
+
+int
+
+4 byte
+
+002EH
+002FH
+
+Occupy
+
+4 byte
+
+002CH
+002DH
+
+int
+
+4 byte
+
+002AH
+002BH
+
+Occupy
+
+4 byte
+
+0028H
+0029H
+
+int
+
+4 byte
+
+0026H
+0027H
+
+Occupy
+4byte
+
+0024H
+0025H
+
+int
+
+4 byte
+
+0022H
+0023H
+
+Occupy
+
+Occupy
+
+int
+
+4 byte
+Power factor of A phase(Grid)
+
+RO
+
+Occupy
+
+short
+
+2byte
+0034H
+
+Power factor of B phase(Grid)
+
+RO
+
+Occupy
+
+short
+
+2byte
+0035H
+
+Power factor of C phase(Grid)
+
+RO
+
+Occupy
+
+short
+
+2byte
+0036H
+
+Total Power factor(Grid)
+
+RO
+
+Occupy
+
+short
+
+2byte
+0037H
+
+A phase energy consume from Grid
+
+RO
+
+0038H
+0039H
+
+A phase energy feed to Grid
+
+RO
+
+B phase energy consume from Grid
+
+RO
+
+B phase energy feed to Grid
+
+RO
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+4 byte
+C phase energy consume from Grid
+
+RO
+
+0040H
+0041H
+
+int
+
+4 byte
+
+003EH
+003FH
+
+Occupy
+4 byte
+
+003CH
+003DH
+
+int
+
+4 byte
+
+003AH
+003BH
+
+Occupy
+
+Occupy
+
+int
+
+4 byte
+C phase energy feed to Grid
+
+RO
+
+0042H
+
+Occupy
+4 byte
+
+2
+
+int
+
+1W/bit
+1W/bit
+1var
+1var
+1var
+1var
+1VA
+1VA
+1VA
+1VA
+0.01 kWh
+0.01 kWh
+0.01 kWh
+0.01 kWh
+0.01 kWh
+0.01 kWh
+0.01 kWh
+0.01 kWh
+0.01 kWh
+0.01 kWh
+
+Smarten Your Energy
+PV Meter
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+PV Meter config
+0080H
+0081H
+
+PV Meter CT Enable
+
+R/W
+
+PV Meter CT Rate
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+1/bit
+1/bit
+
+PV Meter Running Data
+0090H
+
+Total energy feed to Grid(PV)
+
+RO
+
+0091H
+0092H
+
+Total
+
+0093H
+
+Grid(PV)
+
+0094H
+
+Voltage of A phase(PV)
+
+0095H
+0096H
+0097H
+
+energy
+
+consume
+
+from
+
+RO
+RO
+
+Voltage of B phase(PV)
+
+RO
+
+Voltage of C phase(PV)
+
+RO
+
+Current of A phase(PV)
+
+RO
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+0098H
+
+Current of B phase(PV)
+
+RO
+
+Occupy
+
+short
+
+2byte
+0099H
+
+Current of C phase(PV)
+
+RO
+
+Occupy
+
+short
+
+2byte
+009AH
+009BH
+
+Frequent(PV)
+
+RO
+
+Active power of A phase(PV)
+
+RO
+
+009CH
+009DH
+
+Active power of B phase(PV)
+
+RO
+
+Active power of C phase(PV)
+
+RO
+
+Total Active power(PV Meter)
+
+RO
+
+Reactive power of A phase(PV)
+
+RO
+
+int
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+4 byte
+Reactive power of B phase(PV)
+
+RO
+
+00A6H
+00A7H
+
+Occupy
+
+4byte
+
+00A4H
+00A5H
+
+short
+
+4 byte
+
+00A2H
+00A3H
+
+2byte
+
+4 byte
+
+00A0H
+00A1H
+
+unsigned
+
+4 byte
+
+009EH
+009FH
+
+Occupy
+
+Occupy
+
+int
+
+4 byte
+Reactive power of C phase(PV)
+
+RO
+
+00A8H
+
+Occupy
+4 byte
+
+3
+
+int
+
+0.01kWh/bit
+0.01kWh/bit
+1V
+1V
+1V
+0.1A
+0.1A
+0.1A
+0.01HZ
+1W/bit
+1W/bit
+1W/bit
+1W/bit
+1var
+1var
+1var
+
+Smarten Your Energy
+00A9H
+
+Total reactive power(PV)
+
+RO
+
+00AAH
+00ABH
+
+Apparent power of A phase(PV)
+
+RO
+
+Apparent power of B phase(PV)
+
+RO
+
+Apparent power of C phase(PV)
+
+RO
+
+Occupy
+
+int
+
+Occupy
+
+int
+
+4 byte
+Total apparent power(PV)
+
+RO
+
+00B2H
+00B3H
+
+int
+
+4 byte
+
+00B0H
+00B1H
+
+Occupy
+4 byte
+
+00AEH
+00AFH
+
+int
+
+4 byte
+
+00ACH
+00ADH
+
+Occupy
+
+Occupy
+
+int
+
+4 byte
+Power factor of A phase(PV)
+
+RO
+
+Occupy
+
+short
+
+2byte
+00B4H
+
+Power factor of B phase(PV)
+
+RO
+
+Occupy
+
+short
+
+2byte
+00B5H
+
+Power factor of C phase(PV)
+
+RO
+
+Occupy
+
+short
+
+2byte
+00B6H
+
+Total Power factor(PV)
+
+RO
+
+Occupy
+2byte
+
+4
+
+short
+
+1var
+1VA
+1VA
+1VA
+1VA
+0.01
+0.01
+0.01
+0.01
+
+Smarten Your Energy
+Household Battery
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Battery Running Data
+0100H
+0101H
+
+Battery voltage
+
+RO
+
+Battery current
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+0102H
+0103H
+0104H
+0105H
+0106H
+0107H
+0108H
+0109H
+010AH
+010BH
+010CH
+010DH
+
+Battery SOC
+
+RO
+
+Battery status
+
+RO
+
+Battery relay status
+
+RO
+
+Pack ID of min cell voltage
+
+RO
+
+Cell ID of min cell voltage
+
+RO
+
+Min cell voltage
+
+RO
+
+Pack ID of max cell voltage
+
+RO
+
+Cell ID of max cell voltage
+
+RO
+
+Max cell voltage
+
+RO
+
+Pack ID of min cell temperature
+
+RO
+
+Cell ID of min cell temperature
+
+RO
+
+Min cell temperature
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+010EH
+010FH
+
+0110H
+
+Pack ID of max cell temperature
+
+RO
+
+Cell ID of max cell temperature
+
+RO
+
+Max cell temperature
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+0111H
+0112H
+
+Battery max charge current
+
+RO
+
+Battery max discharge current
+
+RO
+5
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+0.1V/bit
+0.1A/bit
+0.1/bit
+Note1
+Note2
+0.001V/bit
+0.001V/bit
+0.001V/bit
+0.001V/bit
+0.001V/bit
+0.001V/bit
+0.1℃/bit
+0.1℃/bit
+0.1℃/bit
+0.1℃/bit
+0.1℃/bit
+0.1℃/bit
+0.1A/bit
+0.1A/bit
+
+Smarten Your Energy
+0113H
+
+0114H
+0115H
+0116H
+0117H
+0118H
+0119H
+011AH
+011BH
+011CH
+
+Battery charge cut-off voltage
+
+RO
+
+Battery discharge cut-off voltage
+
+RO
+
+BMU software version
+
+RO
+
+LMU software version
+
+RO
+
+ISO software version
+
+RO
+
+Battery num
+
+RO
+
+Battery capacity
+
+RO
+
+Battery type
+
+RO
+
+Battery SOH
+
+RO
+
+Battery warning
+
+RO
+
+011DH
+011EH
+
+Battery fault
+
+RO
+
+011FH
+0120H
+
+Battery charge energy
+
+RO
+
+0121H
+0122H
+
+Battery discharge energy
+
+RO
+
+0123H
+0124H
+
+Battery energy charge from grid
+
+RO
+
+0125H
+0126H
+
+Battery Power
+
+RO
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+short
+
+2 byte
+
+0.1V/bit
+0.1V/bit
+
+Battery module
+number
+0.1kWh/bit
+Note3
+0.1/bit
+Note28
+Note4
+0.1kWh/bit
+0.1kWh/bit
+0.1kWh/bit
+1W/bit（
+-：Charge、
++：Discharge）
+
+0127H
+0128H
+
+Battery remaining time
+
+RO
+
+Battery Implementation Charge
+
+RO
+
+SOC
+0129H
+
+Battery Implementation Discharge
+
+RO
+
+SOC
+012AH
+012BH
+012CH
+
+Battery Remaining Charge SOC
+
+RO
+
+Battery Remaining Discharge SOC
+
+RO
+
+Battery Max charge power
+
+RO
+6
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+1min/bit
+0.1/bit(Rate_SOCUPS_SOC)
+0.1/bit(Rate_SOCUPS_SOC)
+0.1/bit(Rate_SOCRemain_SOC)
+0.1/bit(Remain_SOC
+- UPS_SOC)
+1W/bit
+
+Smarten Your Energy
+012DH
+012EH
+012FH
+0130H
+0131H
+
+Battery Max Discharge power
+
+RO
+
+Battery MOS Control
+
+R/W
+
+Battery SOC Calibration
+
+RO
+
+Battery Single cut error code
+
+RO
+
+Battery fault1
+
+RO
+
+0132H
+0133H
+
+Battery fault2
+
+RO
+
+0134H
+0135H
+
+Battery fault3
+
+RO
+
+0136H
+0137H
+
+Battery fault4
+
+RO
+
+0138H
+0139H
+
+Battery fault5
+
+RO
+
+013AH
+013BH
+
+Battery fault6
+
+RO
+
+013CH
+013DH
+
+Battery warning1
+
+RO
+
+013EH
+013FH
+
+Battery warning2
+
+RO
+
+0140H
+0141H
+
+Battery warning3
+
+RO
+
+0142H
+0143H
+
+Battery warning4
+
+RO
+
+0144H
+0145H
+
+Battery warning5
+
+RO
+
+0146H
+0147H
+
+Battery warning6
+
+RO
+
+0148H
+0150H~
+
+Battery SN1
+
+RO
+
+0154H
+0155H~
+
+Battery SN2
+
+RO
+
+0159H
+015AH~
+
+Battery SN3
+
+RO
+
+015EH
+015FH~
+
+Battery SN4
+
+RO
+
+0163H
+0164H~
+
+Battery SN5
+
+RO
+
+0168H
+7
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+10 byte
+
+int
+
+Occupy
+
+unsigned
+
+10 byte
+
+int
+
+Occupy
+
+unsigned
+
+10 byte
+
+int
+
+Occupy
+
+unsigned
+
+10 byte
+
+int
+
+Occupy
+
+unsigned
+
+10 byte
+
+int
+
+1W/bit
+0:Open, 1:Close
+0:Disable, 1: Enable
+
+Smarten Your Energy
+0169H~
+
+Battery SN6
+
+RO
+
+016DH
+
+Occupy
+
+unsigned
+
+10 byte
+
+int
+
+Household Inverter
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Inverter Running Data
+0400H
+0401H
+0402H
+0403H
+
+Inverter_Voltage_L1
+
+RO
+
+Inverter _Voltage_L2
+
+RO
+
+Inverter_Voltage_L3
+
+RO
+
+Inverter_Current_L1
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+0404H
+
+Inverter_Current_L2
+
+RO
+
+Occupy
+
+short
+
+2 byte
+0405H
+
+Inverter_Current_L3
+
+RO
+
+Occupy
+
+short
+
+2 byte
+0406H
+
+Inverter_Power_L1
+
+RO
+
+0407H
+0408H
+
+Inverter_Power_L2
+
+RO
+
+Inverter_Power_L3
+
+RO
+
+040FH
+0410H
+0411H
+0412H
+0413H
+
+int
+
+Occupy
+
+Inverter_Power_Total
+
+RO
+
+Occupy
+
+RO
+
+Inverter_Backup_Voltage_L2
+
+RO
+
+Inverter_Backup_Voltage_L3
+
+RO
+
+Inverter_Backup_Current_L 1
+
+RO
+
+Inverter_Backup_Current_L2
+
+RO
+
+Inverter_Backup_Current_L3
+
+RO
+
+8
+
+0.1V/bit
+0.1A/bit
+0.1A/bit
+0.1A/bit
+1W/bit
+1W/bit
+
+1W/bit
+int
+
+4 byte
+Inverter_Backup_Voltage_L1
+
+0.1V/bit
+
+int
+
+4 byte
+
+040DH
+040EH
+
+Occupy
+4 byte
+
+040BH
+040CH
+
+int
+
+4 byte
+
+0409H
+040AH
+
+Occupy
+
+0.1V/bit
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1W/bit
+0.1V/bit
+0.1V/bit
+0.1V/bit
+
+0.1A/bit
+0.1A/bit
+0.1A/bit
+
+Smarten Your Energy
+0414H
+
+Inverter_Backup_Power_L1
+
+RO
+
+0415H
+0416H
+
+Inverter_Backup_Power_L2
+
+RO
+
+0417H
+0418H
+
+Inverter_Backup_Power_L3
+
+RO
+
+0419H
+041AH
+
+Inverter_Backup_Power_Total
+
+RO
+
+041BH
+041CH
+041DH
+041EH
+041FH
+
+Inverter Grid Frequency
+
+RO
+
+PV1 Voltage
+
+RO
+
+PV1 Current
+
+RO
+
+PV1 power
+
+RO
+
+0420H
+0421H
+0422H
+0423H
+
+PV2 Voltage
+
+RO
+
+PV2 Current
+
+RO
+
+PV2 power
+
+RO
+
+0424H
+0425H
+0426H
+0427H
+
+PV3 Voltage
+
+RO
+
+PV3 Current
+
+RO
+
+PV3 power
+
+RO
+
+0428H
+0429H
+042AH
+042BH
+
+PV4 Voltage
+
+RO
+
+PV4 Current
+
+RO
+
+PV4 power
+
+RO
+
+042CH
+042DH
+042EH
+042FH
+
+PV5 Voltage
+
+RO
+
+PV5 Current
+
+RO
+
+PV5 power
+
+RO
+
+0430H
+0431H
+
+PV6 Voltage
+
+RO
+
+9
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1W/bit
+1W/bit
+1W/bit
+
+1W/bit
+0.01Hz/bit
+0.1V/bit
+0.1A/bit
+1w/bit
+0.1V/bit
+
+0.1A/bit
+1w/bit
+
+0.1V/bit
+0.1A/bit
+
+1w/bit
+
+0.1V/bit
+0.1A/bit
+1w/bit
+
+0.1V/bit
+0.1A/bit
+1w/bit
+
+0.1V/bit
+
+Smarten Your Energy
+0432H
+0433H
+
+PV6 Current
+
+RO
+
+PV6 power
+
+RO
+
+0434H
+0435H
+0436H
+
+INV Temperature
+
+RO
+
+Inverter warning1
+
+RO
+
+0437H
+0438H
+
+Inverter warning2
+
+RO
+
+0439H
+043AH
+
+Inverter fault1
+
+RO
+
+043BH
+043CH
+
+Inverter fault2
+
+RO
+
+043DH
+043EH
+
+Inverter Totol PV Energy
+
+RO
+
+043FH
+0440H
+0441H
+0442H
+0443H
+
+Inverter work mode
+
+RO
+
+Inverter Bat voltage
+
+RO
+
+Inverter Bat Current
+
+RO
+
+Inverter Bat Power
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+int
+
+2 byte
+0444H
+
+Inverter Total React power
+
+RO
+
+0445H
+0446H
+
+0449H
+044AH
+
+int
+
+4 byte
+Inverter Total Apparent power
+
+RO
+
+0447H
+0448H
+
+Occupy
+Occupy
+
+int
+
+4 byte
+Inverter Frequency
+
+RO
+
+Inverter Backup Frequency
+
+RO
+
+Inverter Power factor
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+044BH
+
+Inverter fault extend1
+
+RO
+
+044CH
+044DH
+
+Inverter fault extend2
+
+RO
+
+044EH
+044FH
+
+Inverter fault extend3
+
+RO
+
+0450H
+0451H
+
+Inverter fault extend4
+
+RO
+
+0452H
+0453H
+
+Pv total power
+
+RO
+
+0454H
+10
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+0.1A/bit
+1w/bit
+
+0.1℃/bit
+
+Note32
+
+Note26
+
+0.1kWh/bit
+
+Note5
+1V/bit
+0.1A/bit
+1W/bit
+1W/bit
+1W/bit
+0.01Hz/bit
+0.01Hz/bit
+0.01/bit
+
+Note27
+
+Reserve
+Reserve
+1w/bit
+
+Smarten Your Energy
+
+11
+
+Smarten Your Energy
+Household Inverter (Only for Byte Watt)
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Inverter (Only for Byte Watt)
+0500H
+0501H
+0502H
+0503H
+0504H
+0505H
+0506H
+0507H
+0508H
+0509H
+050AH
+050BH
+050CH
+050DH
+050EH
+050FH
+0510H
+0511H
+0512H
+
+0513H
+
+0514H
+0515H
+0516H
+0517H
+
+RO
+
+Grid rated voltage
+
+RO
+
+Grid rated frequency
+
+RO
+
+Total energy INV output
+
+RO
+
+Total energy INV input
+
+RO
+
+Total energy battery output
+
+RO
+
+Total energy battery input
+
+RO
+
+Total PV energy
+
+RO
+
+Total run time
+
+RO
+
+Work mode
+
+RO
+
+Check count down
+
+RO
+
+INV module temperature
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+4byte
+
+int
+
+Occupy
+
+unsigned
+
+4byte
+
+int
+
+Occupy
+
+unsigned
+
+4byte
+
+int
+
+Occupy
+
+unsigned
+
+4byte
+
+int
+
+Occupy
+
+unsigned
+
+4byte
+
+int
+
+Occupy
+
+unsigned
+
+4byte
+
+int
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+RO
+
+PV Boost temperature
+
+Occupy
+
+short
+
+2byte
+RO
+
+Bat Buck Boost temperature
+
+Occupy
+
+short
+
+2byte
+RO
+
+Power board temperature
+
+Occupy
+
+short
+
+2byte
+RO
+
+Control board temperature
+
+Occupy
+
+short
+
+2byte
+RO
+
+Grid relay temperature
+
+Occupy
+
+short
+
+2byte
+RO
+
+Pass relay temperature
+
+Occupy
+
+short
+
+2byte
+RO
+
+Backup relay temperature
+
+Occupy
+2byte
+
+12
+
+short
+
+0.1V/Bit
+0.01Hz/Bit
+0.1kWh/Bit
+0.1kWh/Bit
+0.1kWh/Bit
+0.1kWh/Bit
+0.1kWh/Bit
+0.1h/Bit
+Note5
+1S/Bit
+0.1℃/Bit
+0.1℃/Bit
+0.1℃/Bit
+
+0.1℃/Bit
+
+0.1℃/Bit
+0.1℃/Bit
+0.1℃/Bit
+0.1℃/Bit
+
+Smarten Your Energy
+0518H
+~
+
+RO
+Reverse temperature
+
+Occupy
+
+short
+
+16byte
+
+0.1℃/Bit
+
+051FH
+0520H
+0521H
+0522H
+0523H
+0524H
+0525H
+0526H
+0527H
+0528H
+0529H
+052AH
+052BH
+052CH
+052DH
+052EH
+052FH
+
+0530H
+0531H
+0532H
+0533H
+
+RO
+
+Bus voltage
+
+RO
+
+PBus voltage
+
+RO
+
+NBus voltage
+
+RO
+
+PV connect state
+
+RO
+
+PV1 voltage
+
+RO
+
+PV2 voltage
+
+RO
+
+PV3 voltage
+
+RO
+
+PV1 current
+
+RO
+
+PV2 current
+
+RO
+
+PV3 current
+
+RO
+
+PV1 power
+
+RO
+
+PV2 power
+
+RO
+
+PV3 power
+
+RO
+
+Total PV power
+
+RO
+
+String1 current
+
+RO
+
+String2 current
+
+RO
+
+String3 current
+
+RO
+
+String4 current
+
+RO
+
+String5 current
+
+RO
+
+String6 current
+13
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+0-Single
+
+2byte
+
+short
+
+1-Double
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+0.1V/Bit
+0.1V/Bit
+0.1V/Bit
+
+0.1V/Bit
+0.1V/Bit
+0.1V/Bit
+0.01A/Bit
+0.01A/Bit
+0.01A/Bit
+1W/Bit
+1W/Bit
+1W/Bit
+1W/Bit
+0.1A/Bit
+0.1A/Bit
+
+0.1A/Bit
+0.1A/Bit
+0.1A/Bit
+0.1A/Bit
+
+Smarten Your Energy
+0534H
+0535H
+0536H
+0537H
+0538H
+0539H
+053AH
+053BH
+053CH
+053DH
+053EH
+053FH
+0540H
+0541H
+0542H
+0543H
+0544H
+0545H
+0546H
+0547H
+0548H
+0549H
+054AH
+054BH
+
+RO
+
+Battery front voltage
+
+Occupy
+
+short
+
+2byte
+RO
+
+Battery back voltage
+
+Occupy
+
+short
+
+2byte
+RO
+
+BuckBoost1 current
+
+Occupy
+
+short
+
+2byte
+RO
+
+BuckBoost2 current
+
+Occupy
+
+short
+
+2byte
+RO
+
+Total bat current
+
+Occupy
+
+short
+
+2byte
+RO
+
+BuckBoost1 power
+
+Occupy
+
+short
+
+2byte
+RO
+
+BuckBoost2 power
+
+Occupy
+
+short
+
+2byte
+RO
+
+Total bat power
+
+Occupy
+
+short
+
+2byte
+RO
+
+INV Voltage R
+
+RO
+
+INV Current R
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+RO
+
+INV Voltage S
+
+RO
+
+INV Current S
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+RO
+
+INV Voltage T
+
+RO
+
+INV Current T
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+RO
+
+INV frequency
+
+RO
+
+INV apparent power
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+int
+
+4 byte
+RO
+
+INV active power
+
+Occupy
+
+int
+
+4 byte
+RO
+
+INV reactive power
+
+Occupy
+
+int
+
+4 byte
+RO
+
+INV power factor
+
+Occupy
+
+short
+
+2 byte
+RO
+
+Grid voltage R
+
+RO
+
+Grid voltage S
+
+14
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0.1V/Bit
+0.1V/Bit
+0.01A/Bit
+0.01A/Bit
+0.01A/Bit
+1W/Bit
+1W/Bit
+1W/Bit
+0.1V/Bit
+0.01A/Bit
+0.1V/Bit
+0.01A/Bit
+0.1V/Bit
+0.01A/Bit
+0.01Hz/Bit
+1VA/Bit
+
+1W/Bit
+1VA/Bit
+0.01/Bit
+0.1V/Bit
+0.1V/Bit
+
+Smarten Your Energy
+054CH
+054DH
+054EH
+054FH
+0550H
+0551H
+0552H
+
+RO
+
+Grid voltage T
+
+RO
+
+Grid voltage RS
+
+RO
+
+Grid voltage RT
+
+RO
+
+Grid voltage ST
+Grid frequency
+
+RO
+
+Backup voltage R
+
+RO
+
+Backup current R
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+0553H
+0554H
+
+Backup voltage S
+
+RO
+
+Backup current S
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+0555H
+0556H
+
+Backup voltage T
+
+RO
+
+Backup current T
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+0557H
+0558H
+0559H
+055AH
+055BH
+
+Backup voltage RS
+
+RO
+
+Backup current RT
+
+RO
+
+Backup voltage ST
+
+RO
+
+Backup frequency
+
+RO
+
+Backup power
+
+RO
+
+055CH
+055DH
+055EH
+
+Power limit state
+
+RO
+
+Inverter warning 1
+
+RO
+
+Inverter warning 2
+
+RO
+
+0561H
+0562H
+
+Inverter fault 1
+
+RO
+
+0563H
+0564H
+
+Inverter fault 2
+
+RO
+
+0565H
+0566H
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+int
+
+4 byte
+
+055FH
+0560H
+
+Occupy
+
+Inverter fault 3
+
+RO
+
+0567H
+15
+
+0.1V/Bit
+0.1V/Bit
+0.1V/Bit
+0.1V/Bit
+0.01Hz/Bit
+0.1V/Bit
+0.01A/Bit
+0.1V/Bit
+0.01A/Bit
+0.1V/Bit
+0.01A/Bit
+0.1V/Bit
+0.1V/Bit
+0.1V/Bit
+0.01Hz/Bit
+1W/Bit
+
+Occupy
+
+unsigned
+
+0-Disable
+
+2 byte
+
+short
+
+1-Enable
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Smarten Your Energy
+0568H
+
+Inverter fault 4
+
+RO
+
+0569H
+056AH
+
+Set inv power
+
+RO
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+short
+
+2 byte
+056BH
+
+Set bat charge limit power
+
+RO
+
+Occupy
+
+short
+
+2 byte
+056CH
+
+Set bat discharge limit power
+
+RO
+
+Occupy
+
+short
+
+2 byte
+056DH
+056EH
+056FH
+0570H
+0571H
+0572H
+0573H
+0574H
+0575H
+0576H
+0577H
+0578H
+
+Bat max charge power
+
+RO
+
+Bat max discharge power
+
+RO
+
+Inv rate ac charge power
+
+RO
+
+Inv rate ac discharge power
+
+RO
+
+Inv rate dc charge power
+
+RO
+
+Inv rate dc discharge power
+
+RO
+
+Set bat force charge en
+
+RO
+
+Three unbalance en
+
+RO
+
+Set inv power L1
+
+RO
+
+Set inv power L2
+
+RO
+
+Set inv power L3
+
+RO
+
+Inverter warning 3
+
+RO
+
+0579H
+057AH
+
+Inverter warning 4
+
+RO
+
+057BH
+
+16
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Note33
+
+Smarten Your Energy
+Household Inverter info
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Household Inverter info
+0640H~
+
+Inverter master software version
+
+RO
+
+0644H
+0645H~
+
+Inverter slave software version
+
+RO
+
+Occupy
+
+String(10)
+
+10byte
+Inverter SN
+
+RO
+
+0653H
+0654H~
+
+String(10)
+
+10byte
+
+0649H
+064AH~
+
+Occupy
+
+Occupy
+
+String(20)
+
+20byte
+Inverter arm software version
+
+RO
+
+0658H
+
+Occupy
+10byte
+
+17
+
+String(10)
+
+Remarks
+
+Smarten Your Energy
+Household System(Only applicable to HHE MEC)
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household System(Only applicable to HHE MEC)
+06FAH
+06FBH
+
+Restart Mode
+
+WO
+
+Battery capacity HHE
+
+RO
+
+06FCH
+06FDH
+06FEH
+06FFH
+
+BAT SOC Display Minimum
+
+R/W
+
+BAT SOC Display Maximum
+
+R/W
+
+BAT MOS Control
+
+R/W
+
+Occupy
+
+unsigned
+
+1：EMS
+
+2 byte
+
+short
+
+2：BMS
+
+Occupy
+
+unsigned
+
+4 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+Unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+Bit0-7:open
+
+2 byte
+
+short
+
+flag(0/1),
+
+0.001kWh/bit
+0.4%
+0.4%
+
+Bit8-15:close
+flag(0/1)
+0700H
+0701H
+
+Feed into grid percent
+
+R/W
+
+System fault
+
+RO
+
+0702H
+0703H
+
+System_time : (year)-(month)
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1%/bit
+Note6
+Data format hex；
+0xYYMM，
+example：Send
+0x1109;
+year:0x11(2017)
+month:0x09(09);
+
+0704H
+
+System_time : (day)-(hour)
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Data format hex；
+0xDDHH，
+example：Send
+0x1109;
+day:0x11(The 17
+day)
+hour:0x09(09);
+
+0705H
+
+System_time : (minute)-(second)
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Data format hex；
+0xmmss，
+example：Send
+0x1109;
+min:0x11(17)
+second:0x09(09);
+
+0706H~
+
+EMS SN
+
+RO
+
+070DH
+
+Occupy
+16 byte
+
+18
+
+String(16)
+
+Smarten Your Energy
+070EH
+070FH
+0710H
+0711H
+0712H
+0713H
+0714H
+0715H
+0716H
+0717H
+0718H
+0719H
+071AH
+071BH
+071CH
+071DH
+071EH
+
+EMS DO0
+
+WO
+
+EMS DO1
+
+WO
+
+EMS DI0
+
+RO
+
+EMS DI1
+
+RO
+
+UPS Reserve Soc
+
+R/W
+
+Time discharge start time1
+
+R/W
+
+Time discharge stop time1
+
+R/W
+
+Time discharge start time2
+
+R/W
+
+Time discharge stop time2
+
+R/W
+
+Charge Cut Soc
+
+R/W
+
+Time charge start time1
+
+R/W
+
+Time charge stop time1
+
+R/W
+
+Time charge start time2
+
+R/W
+
+Time charge stop time2
+
+R/W
+
+System mode
+
+R/W
+
+System laguage
+
+R/W
+
+PV Capacity of pv inverter
+
+R/W
+
+071FH
+0720H
+
+PV Inverter Totol PV Energy
+
+R/W
+
+0721H
+0722H
+0723H
+
+Dispatch Start
+
+R/W
+
+Dispatch Active power
+
+R/W
+
+0724H
+
+0725H
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+int
+
+1W/bit
+Offset:32000
+charge:<32000
+discharge:>32000
+
+int
+
+1var/bit
+
+4 byte
+
+Dispatch Reactive power
+
+R/W
+
+0726H
+
+Occupy
+4 byte
+
+19
+
+Bypass Control
+function
+System fault
+output.
+EPO，Battery MOS
+cut off.
+Reserved
+0.1%/bit
+1h/bit
+1h/bit
+1h/bit
+1h/bit
+0.1%/bit
+1h/bit
+1h/bit
+1h/bit
+1h/bit
+1/bit
+1/bit
+1W/bit
+0.1kWh/bit
+1:start；0：stop
+
+Offset:32000
+
+Smarten Your Energy
+charge:<32000
+discharge:>32000
+0727H
+0728H
+
+Dispatch Mode
+
+R/W
+
+Dispatch SOC
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Note7
+0.4%/bit
+example：Send
+SOC=95,correspon
+ding to the SOC of
+38%.
+
+0729H
+072AH
+072BH
+
+EMS Version High
+
+RO
+
+EMS Version Middle
+
+RO
+
+EMS Version Low
+
+RO
+
+20
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Smarten Your Energy
+Household Echonet Config（Japan）
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Echonet Config（Japan）
+072CH
+
+User Mode
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0：Green mode
+1：Economic model
+2：Secure mode
+
+072DH
+
+Battery Mode
+
+R/W
+
+Occupy
+
+unsigned
+
+0：Auto mode
+
+2 byte
+
+short
+
+1：Charge mode
+2：Discharge mode
+3：Standby mode
+
+072EH
+
+Set Battery Power
+
+R/W
+
+Occupy
+
+short
+
+2 byte
+
+1W/bit
+Charge mode or
+Dis charge mode
+Set Battery Power
+
+072FH
+
+Set Inverter Output Power Percent
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1%/bit
+Set Photovoltaic
+(pv) power percent
+
+0730H
+0731H
+0732H
+0733H
+
+Echonet Enable
+
+R/W
+
+Set Fallback Power Limit Percent
+
+R/W
+
+Inverter Nominal Output Power
+
+R
+
+Echonet Comm Loss Time
+
+R
+
+21
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0:Disable 1:Enable
+1%/bit
+1W/bit
+1s/bit
+
+Smarten Your Energy
+Household System Info
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household System Info
+0740H
+
+System_time : (year)-(month)
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Data format hex；
+0xYYMM，
+example：Send
+0x1109;
+year:0x11(2017)
+month:0x09(09);
+
+0741H
+
+System_time : (day)-(hour)
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Data format hex；
+0xDDHH，
+example：Send
+0x1109;
+day:0x11(The 17
+day)
+hour:0x09(09);
+
+0742H
+
+System_time : (minute)-(second)
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Data format hex；
+0xmmss，
+example：Send
+0x1109;
+min:0x11(17)
+second:0x09(09);
+
+0743H~
+
+EMS SN
+
+RO
+
+074AH
+074BH
+074CH
+074DH
+074EH
+074FH~
+
+String(16)
+
+16 byte
+EMS Version High
+
+R
+
+EMS Version Middle
+
+R
+
+EMS Version Low
+
+R
+
+Protocol Version
+
+RO
+
+EMS Version Low Suffix
+
+RO
+
+0752H
+0753H~
+
+Occupy
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+String(8)
+
+8 byte
+WIFI SN
+
+RO
+
+0758H
+
+Occupy
+12 byte
+
+22
+
+HEX->ASCII
+
+Smarten Your Energy
+Household Additional agreements Config
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Additional agreements Config
+07F0H
+
+Sunspec Modbus
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+high byte:
+0:Disable Sunspec
+Modbus
+1: Enable Sunspec
+Modbus
+low byte;
+Device address
+(1~255)
+
+23
+
+Smarten Your Energy
+Household System Config
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household System Config
+0800H
+0801H
+
+MAX Feed into grid percent
+
+R/W
+
+PV Capacity Storage
+
+R/W
+
+0802H
+0803H
+
+PV Capacity of Grid Inverter
+
+R/W
+
+0804H
+0805H
+
+System mode
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+1：AC Mode
+
+2 byte
+
+short
+
+2：DC Mode
+
+1%/bit
+1W/bit
+1W/bit
+
+3：Hybird Mode
+0806H
+
+Meter CT Select
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+电表安装选项：
+0:Grid&PV use CT；
+1:Grid use CT、PV
+use Meter；
+2:Grid use Meter、
+PV use CT；
+3: Grid&PV use
+Meter；
+
+0807H
+0808H
+0809H
+
+Battery Ready
+
+R/W
+
+IP Method
+
+R/W
+
+Local IP
+
+R/W
+
+080AH
+
+Occupy
+
+unsigned
+
+0：OFF
+
+2 byte
+
+short
+
+1：ON
+
+Occupy
+
+unsigned
+
+0：DHCP
+
+2 byte
+
+short
+
+1：STATIC
+
+Occupy
+
+unsigned
+
+0xC0，0xA8，
+
+4 byte
+
+short
+
+0x01，0x01
+192.168.1.1
+
+080BH
+
+Subnet Mask
+
+R/W
+
+080CH
+
+Occupy
+
+unsigned
+
+0xFF，0xFF，
+
+4 byte
+
+short
+
+0xFF，0x01
+255.255.255.1
+
+080DH
+
+Gateway
+
+R/W
+
+080EH
+
+Occupy
+
+unsigned
+
+0xC0，0xA8，
+
+4 byte
+
+short
+
+0x01，0x01
+192.168.1.1
+
+080FH
+
+Modbus Address
+
+R/W
+
+24
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+default 0x55
+
+Smarten Your Energy
+0810H
+
+Modbus Baud rate
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0：9600
+1：115200（only
+for household）
+2：256000（only
+for household）
+3：19200(only for
+industry)
+
+0811H
+
+Three phase unbalance mode
+
+R/W
+
+enable
+
+25
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Smarten Your Energy
+Household Time period control
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Time period control
+084FH
+
+Time period control flag
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0 ：Disable Time
+period control
+1：Enable Charge
+Time period control
+2：Enable
+discharge Time
+period control
+3：Enable Time
+period control
+
+0850H
+0851H
+0852H
+0853H
+0854H
+0855H
+0856H
+0857H
+0858H
+0859H
+085AH
+085BH
+085CH
+085DH
+
+UPS Reserve Soc
+
+R/W
+
+Time discharge start time1 hours
+
+R/W
+
+Time discharge stop time1 hours
+
+R/W
+
+Time discharge start time2 hours
+
+R/W
+
+Time discharge stop time2 hours
+
+R/W
+
+Charge Cut Soc
+
+R/W
+
+Time charge start time1 hours
+
+R/W
+
+Time charge stop time1 hours
+
+R/W
+
+Time charge start time2 hours
+
+R/W
+
+Time charge stop time2 hours
+
+R/W
+
+Time discharge start time1 minutes
+Time discharge stop time1 minutes
+Time discharge start time2 minutes
+Time discharge stop time2 minutes
+
+26
+
+R/W
+R/W
+R/W
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0.1%/bit
+1h/bit [0-23]
+1h/bit [0-23]
+1h/bit [0-23]
+1h/bit [0-23]
+0.1%/bit
+1h/bit [0-23]
+1h/bit [0-23]
+1h/bit [0-23]
+1h/bit [0-23]
+1min/bit [0-59]
+1min/bit [0-59]
+1min/bit [0-59]
+1min/bit [0-59]
+
+Smarten Your Energy
+085EH
+085FH
+0860H
+0861H
+
+Time charge start time1 minutes
+
+R/W
+
+Time charge stop time1 minutes
+
+R/W
+
+Time charge start time2 minutes
+
+R/W
+
+Time charge stop time2 minutes
+
+R/W
+
+27
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1min/bit [0-59]
+1min/bit [0-59]
+1min/bit [0-59]
+1min/bit [0-59]
+
+Smarten Your Energy
+Household Power Dispatch
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Power Dispatch
+0880H
+0881H
+
+Power Dispatch Para1
+
+R/W
+
+Power Dispatch Para2
+
+R/W
+
+0882H
+0883H
+
+0886H
+0887H
+
+Power Dispatch Para3
+
+R/W
+
+088AH
+
+2 byte
+
+short
+
+Occupy
+
+Int
+
+Occupy
+
+Int
+
+4byte
+Power Dispatch Para4
+
+R/W
+
+Power Dispatch Para5
+
+R/W
+
+Power Dispatch Para6
+
+R/W
+
+0888H
+0889H
+
+unsigned
+
+4byte
+
+0884H
+0885H
+
+Occupy
+
+Power Dispatch Para7
+
+R/W
+
+Power Dispatch Para8
+
+R/W
+
+28
+
+Note29：Power
+Dispatch Tab1
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+Note29：Power
+
+2 byte
+
+short
+
+Dispatch Tab2
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Smarten Your Energy
+Household Freq Dispatch
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Freq Dispatch
+088FH
+0890H
+
+Freq Dispatch Flag
+
+RO
+
+Freq Dispatch Power
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+0891H
+0892H
+
+Freq Dispatch Frequency
+
+RO
+
+Freq Dispatch Para1
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+0：Normal
+1：Freq Dispatch
+1W/bit
+0.01Hz/bit
+
+2 byte
+0893H
+
+Freq Dispatch Para2
+
+R/W
+
+0894H
+0895H
+
+Freq Dispatch Para3
+
+R/W
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+short
+
+2 byte
+0896H
+
+Freq Dispatch Para4
+
+R/W
+
+Occupy
+
+short
+
+2 byte
+0897H
+
+Freq Dispatch Para5
+
+R/W
+
+Occupy
+
+short
+
+2 byte
+0898H
+
+Freq Dispatch Para6
+
+R/W
+
+Occupy
+
+Note30：Freq
+Dispatch
+
+short
+
+2 byte
+0899H
+
+Freq Dispatch Para7
+
+R/W
+
+Occupy
+
+short
+
+2 byte
+089AH
+
+Freq Dispatch Para8
+
+R/W
+
+Occupy
+
+short
+
+2 byte
+089BH
+
+Freq Dispatch Para9
+
+R/W
+
+Occupy
+
+short
+
+2 byte
+08A0H
+08A1H
+08A2H
+08A3H
+08A4H
+08A5H
+08A6H
+
+Sa dispatch dercontrol
+
+R/W
+
+Sa dispatch opmodenergize
+
+R/W
+
+Sa dispatch opmodexplimw
+
+R/W
+
+Sa dispatch opmodgenlimw
+
+R/W
+
+Sa dispatch setgradw
+
+R/W
+
+Sa dispatch default opmudexplimw
+Sa dispatch default setgradw
+
+R/W
+R/W
+
+29
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0:Disable 1:Enable
+0:Disable 1:Enable
+W
+W
+0.01%/s
+W
+0.01%/s
+
+Smarten Your Energy
+
+30
+
+Smarten Your Energy
+Household AUX
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+Remarks
+
+to R/W
+
+format
+
+Model
+
+Occupy
+
+unsigned
+
+Bypass Control
+
+2 byte
+
+short
+
+function(only for
+
+Household AUX
+08B0H
+
+EMS DO0
+
+WO
+
+household)
+08B1H
+
+EMS DO1
+
+WO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+System fault
+output. (only for
+household)
+
+08B2H
+08B3H
+
+EMS DO2
+
+WO
+
+EMS DO3
+
+WO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+YK_pcs_epo(only
+for industry)
+YK_switch_brake_op
+en(only for
+industry)
+
+08B4H
+
+EMS DO4
+
+WO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+YK_switch_brake_cl
+ose(only for
+industry)
+
+08B5H
+08B6H
+
+EMS DO5
+
+WO
+
+EMS DO6
+
+WO
+
+Occupy
+
+unsigned
+
+YK_dg_on_off_contr
+
+2 byte
+
+short
+
+ol(only for industry)
+
+Occupy
+
+unsigned
+
+YK_bms_fault_feedb
+
+2 byte
+
+short
+
+ack(only for
+industry)
+
+08B7H
+08B8H
+08B9H
+08BAH
+08BBH
+08BCH
+08BDH
+08BEH
+08BFH
+
+EMS DO7
+
+WO
+
+EMS DO8
+
+WO
+
+EMS DO9
+
+WO
+
+EMS DO10
+
+WO
+
+EMS DO11
+
+WO
+
+EMS DO12
+
+WO
+
+EMS DO13
+
+WO
+
+EMS DO14
+
+WO
+
+EMS DO15
+
+WO
+
+31
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+DO-8(only for
+industry)
+
+Smarten Your Energy
+08C0H
+
+EMS DI0
+
+RO
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+EPO，Battery MOS
+cut off. (only for
+household)
+
+08C1H
+08C2H
+08C3H
+08C4H
+08C5H
+08C6H
+08C7H
+08C8H
+08C9H
+08CAH
+
+EMS DI1
+
+RO
+
+EMS DI2
+
+RO
+
+EMS DI3
+
+RO
+
+EMS DI4
+
+RO
+
+EMS DI5
+
+RO
+
+EMS DI6
+
+RO
+
+EMS DI7
+
+RO
+
+EMS DI8
+
+RO
+
+EMS DI9
+
+RO
+
+EMS DI10
+
+RO
+
+Occupy
+
+unsigned
+
+Reserved(only for
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+YX_fire_systerm_fau
+
+2 byte
+
+short
+
+lt(only for industry)
+
+Occupy
+
+unsigned
+
+YX_pcs_epo(only
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+household)
+
+YX_fire_fault(only
+for industry)
+YX_gas_blow_out(o
+nly for industry)
+
+for industry)
+YX_spd_signal(only
+for industry)
+YX_water_signal(onl
+y for industry)
+YX_door_signal(onl
+y for industry)
+YX_shunt_trip_feed
+back(only for
+industry)
+
+08CBH
+08CCH
+08CDH
+08CEH
+08CFH
+
+EMS DI11
+
+RO
+
+EMS DI12
+
+RO
+
+EMS DI13
+
+RO
+
+EMS DI14
+
+RO
+
+EMS DI15
+
+RO
+
+32
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+YX_systerm_epo(onl
+y for industry)
+
+Smarten Your Energy
+Household System Running Data
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household System Running Data
+08D0H
+
+PV Inverter Energy
+
+RO
+
+08D1H
+08D2H
+
+The system total PV energy
+
+RO
+
+08D3H
+08D4H
+
+System fault
+
+RO
+
+08D5H
+
+33
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+0.1kWh/bit
+0.1kWh/bit
+Note6
+
+Smarten Your Energy
+Household Safety TEST
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household Safety TEST
+0FF0H
+1000H
+1001H
+
+Ems version safiy
+
+RO
+
+Grid_Regulation
+
+R/W
+
+Safety Test Enable
+
+R/W
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Note8
+Safety Test Enable
+0 ：Disable
+1 ：Enable
+
+1002H
+
+R/W
+
+Safety Mode Enable
+
+1003H
+1004H
+1005H
+1006H
+
+R/W
+
+Starting_slope_en
+
+R/W
+
+Phase state
+
+R/W
+
+PF Value
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+1007H
+1008H
+1009H
+
+R/W
+
+Volt-WATT Starting
+
+R/W
+
+Volt-WATT Stop
+Set Battery Power
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+100AH
+
+Set Inverter power
+
+R/W
+
+Note9
+
+1:Disable 2:Enable
+0：advance 1：
+phase lag
+0.01
+0.1V
+0.1V
+1W/bit
+Set Battery Power
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1W/bit
+Set the inverter
+output power
+
+100BH
+100CH
+100DH
+100EH
+100FH
+1010H
+1011H
+
+R/W
+
+Ovp
+
+R/W
+
+OvpT
+
+R/W
+
+Ovp10
+
+R/W
+
+Ovp10T
+
+R/W
+
+Uvp
+
+R/W
+
+UvpT
+
+R/W
+
+Uvp2
+34
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0.1V
+1ms
+0.1V
+1s
+
+0.1V
+1ms
+
+0.1V
+
+Smarten Your Energy
+1012H
+1013H
+1014H
+1015H
+1016H
+1017H
+1018H
+1019H
+101AH
+101BH
+101CH
+101DH
+101EH
+101FH
+1020H
+1021H
+1022H
+1023H
+1024H
+1025H
+1026H
+
+R/W
+
+Uvp2T
+
+R/W
+
+Ofp
+
+R/W
+
+OfpT
+
+R/W
+
+Ofp2
+
+R/W
+
+Ofp2T
+
+R/W
+
+Ufp
+
+R/W
+
+UfpT
+
+R/W
+
+Ufp2
+
+R/W
+
+Ufp2T
+
+R/W
+
+Ovp2
+
+R/W
+
+Ovp2T
+
+R/W
+
+Ovp3
+
+R/W
+
+Ovp3T
+
+R/W
+
+Uvp3
+
+R/W
+
+Uvp3T
+
+R/W
+
+Ofp3
+
+R/W
+
+Ofp3T
+
+R/W
+
+Upf3
+
+R/W
+
+Upf3T
+
+R/W
+
+Ov restore
+
+R/W
+
+Uv restore
+
+35
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1ms
+
+0.01Hz
+1ms
+
+0.01Hz
+1ms
+
+0.01Hz
+1ms
+
+0.01Hz
+1ms
+1ms
+1ms
+1ms
+1ms
+1ms
+1ms
+1ms
+1ms
+1ms
+1ms
+0.1V
+0.1V
+
+Smarten Your Energy
+1027H
+1028H
+1029H
+102AH
+102BH
+102CH
+102DH
+102EH
+102FH
+1030H
+1031H
+1032H
+1033H
+1034H
+1035H
+1036H
+1037H
+1038H
+1039H
+103AH
+103BH
+103CH
+
+R/W
+
+Of restore
+
+R/W
+
+Uf restore
+
+R/W
+
+Reactive percentage
+
+R/W
+
+Rev machine rate
+
+R/W
+
+Regulation Rate
+
+R/W
+
+Grid waiting
+
+R/W
+
+P V mode V1
+
+R/W
+
+P V mode P1
+
+R/W
+
+P V mode V2
+
+R/W
+
+P V mode P2
+
+R/W
+
+P V mode V3
+
+R/W
+
+P V mode P3
+
+R/W
+
+P V mode vin
+
+R/W
+
+P V mode down load flag
+
+R/W
+
+P V mode response time
+
+R/W
+
+Q V mode V1
+
+R/W
+
+Q V mode Q1
+
+R/W
+
+Q V mode V2
+
+R/W
+
+Q V mode Q2
+
+R/W
+
+Q V mode V3
+
+R/W
+
+Q V mode Q3
+
+R/W
+
+Q V mode V4
+36
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0.1HZ
+0.1V
+1%
+0.1%pn/Min
+0.1%pn/Min
+1S
+0.1%Un
+0.1%Pn
+0.1%Un
+0.1%Pn
+0.1%Un
+0.1%Pn
+V
+
+0.1S
+0.1%Un
+0.1%Qn
+0.1%Un
+0.1%Qn
+0.1%Un
+0.1%Qn
+0.1%Un
+
+Smarten Your Energy
+103DH
+103EH
+103FH
+1040H
+1041H
+1042H
+1043H
+1044H
+1045H
+1046H
+1047H
+1048H
+1049H
+104AH
+104BH
+104CH
+104DH
+104EH
+104FH
+1050H
+1051H
+1052H
+
+R/W
+
+Q V mode Q4
+
+R/W
+
+Q V mode pin
+
+R/W
+
+Q V mode pout
+
+R/W
+
+Q V mode k
+
+R/W
+
+Q V mode response time
+
+R/W
+
+S PF mode P1
+
+R/W
+
+S PF mode F1
+
+R/W
+
+S PF mode P2
+
+R/W
+
+S PF mode F2
+
+R/W
+
+S PF mode P3
+
+R/W
+
+S PF mode F3
+
+R/W
+
+S PF mode Vin
+
+R/W
+
+S PF mode Vout
+
+R/W
+
+PF mode
+
+R/W
+
+P F of derating rate
+
+R/W
+
+P F uf derating rate
+
+R/W
+
+P F of derating in delay
+
+R/W
+
+P F uf derating in delay
+
+R/W
+
+P F of derating out delay
+
+R/W
+
+P F uf derating out delay
+
+R/W
+
+P F of derating out f1
+
+R/W
+
+P F of derating in f2
+37
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0.1%Qn
+0.1%Pn
+0.1%Pn
+0.1
+0.1S
+1%
+1%
+1%
+1%
+1%
+1%
+0.1%
+0.1%
+
+0.1%
+0.1%
+0.01s
+0.01s
+0.01s
+0.01s
+0.01HZ
+0.01HZ
+
+Smarten Your Energy
+1053H
+1054H
+1055H
+1056H
+1057H
+1058H
+1059H
+105AH
+105BH
+
+R/W
+
+P F of derating cut f3
+
+R/W
+
+P F uf derating out f3
+
+R/W
+
+P F uf derating in f2
+
+R/W
+
+P F uf derating cut f1
+
+R/W
+
+Ofp down load zero crossing freq
+
+R/W
+
+Ufp down load zero crossing freq
+
+R/W
+
+High low cross
+
+R/W
+
+Software limit
+
+R/W
+
+Power limit
+
+38
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+0:Disable
+
+2 byte
+
+short
+
+~0:Enable
+
+Occupy
+
+unsigned
+
+0:Disable
+
+2 byte
+
+short
+
+~0:Enable
+
+Occupy
+
+unsigned
+
+0:Disable
+
+2 byte
+
+short
+
+~0:Enable
+
+0.01HZ
+0.01HZ
+0.01HZ
+0.01HZ
+0.01HZ
+0.01HZ
+
+Smarten Your Energy
+Household ATE TEST
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household ATE TEST
+1100H
+
+WO
+
+Reset Mode
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0：None
+1：Energy Reset
+2：Meter Reset
+4：Factory Reset
+7：Restart PCS
+8：Restart EMS
+
+1101H~
+
+EMS SN
+
+R/W
+
+1108H
+1109H
+110AH
+110BH
+110CH
+
+Occupy
+
+String(16)
+
+16 byte
+EMS MAC byte1-2
+
+R/W
+
+EMS MAC byte3-4
+
+R/W
+
+EMS MAC byte5-6
+
+R/W
+
+Pointing to the server
+
+R/W
+
+Occupy
+
+unsigned
+
+EMS MAC :HEX
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0x2C11=0x2C,0x11
+
+Occupy
+
+unsigned
+
+0：Formal Server
+
+2 byte
+
+short
+
+0x70B3=0x70,0xB3
+EMS MAC : HEX
+0xD57A=0xD5,0x7A
+EMS MAC : HEX
+
+1：RD test
+2：Production test
+3：Encryption
+4：OEM ZOE
+5：OEM ZOE test
+
+110DH
+110EH
+110FH
+
+Network type
+
+R/W
+
+System laguage
+
+R/W
+
+Inverter supplier
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+0:English
+
+2 byte
+
+short
+
+1: German
+
+Occupy
+
+unsigned
+
+0:INVERTER_NULL,
+
+2 byte
+
+short
+
+1:KELONG_TYPE,
+2:SET_TYPE,
+3:GINLONG_TYPE,
+4:BYTE_WATT_TYPE,
+5:GOODWE_TYPE,
+6:INOVNACE_TYPE
+
+1110H
+1111H
+
+Single Board Test Enable
+
+WO
+
+Single Board Test Result
+
+RO
+
+39
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+4 byte
+
+int
+
+1:Enable
+
+Smarten Your Energy
+1113H
+
+OEM Flag
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0:AlphaESS
+1:ZOE
+2:HHE
+3:DIGIEN
+4:SUNPOWER
+
+1114H
+1115H
+1116H
+1117H
+1118H
+1119H
+111AH
+111BH
+111CH
+
+ATE Mode Flag
+
+R/W
+
+Restart DSP
+
+WO
+
+Set N N Short
+
+R/W
+
+Reset Inverter
+
+WO
+
+Disenable Passthrough
+
+R/W
+
+Inverter_SUB
+
+RO
+
+EMS BOOT Version High
+
+RO
+
+EMS BOOT Version Middle
+
+RO
+
+EMS BOOT Version Low
+
+RO
+
+40
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0:Disenable
+1:Enable
+0:Disenable
+1:Enable
+0:Disenable
+1:Enable
+0:Disenable
+1:Enable
+1:Disenable
+
+Note31
+
+Smarten Your Energy
+Household CT calibration
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household CT calibration
+11B7H
+11B8H
+11B9H
+11BAH
+
+Sampling curve enable
+
+R/W
+
+Grid Freq
+
+RO
+
+Grid voltage
+
+RO
+
+Grid CT Current
+
+RO
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11BBH
+
+PV CT Current
+
+RO
+
+Occupy
+
+short
+
+2byte
+11BCH
+
+Grid CT Power
+
+RO
+
+Occupy
+
+short
+
+2byte
+11BDH
+
+PV CT Power
+
+RO
+
+Occupy
+
+short
+
+2byte
+11BEH
+11BFH
+
+Volt calibration point1
+
+R/W
+
+Volt calibration coef1
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11C0H
+
+Volt calibration offset1
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11C1H
+11C2H
+
+Volt calibration point2
+
+R/W
+
+Volt calibration coef2
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11C3H
+
+Volt calibration offset2
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11C4H
+11C5H
+
+Grid current calibration point1
+
+R/W
+
+Grid current calibration coef1
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11C6H
+
+Grid current calibration offset1
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11C7H
+11C8H
+
+Grid current calibration point2
+
+R/W
+
+Grid current calibration coef2
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11C9H
+
+Grid current calibration offset2
+
+R/W
+
+Occupy
+2byte
+
+41
+
+short
+
+0.01HZ/Bit
+0.1V/Bit
+0.1A/Bit
+0.1A/Bit
+1W/Bit
+1W/Bit
+0.01V/Bit
+0.0001/Bit
+0.01V/Bit
+0.01V/Bit
+0.0001/Bit
+0.01V/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+
+Smarten Your Energy
+11CAH
+11CBH
+
+Grid current calibration point3
+
+R/W
+
+Grid current calibration coef3
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11CCH
+
+Grid current calibration offset3
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11CDH
+11CEH
+
+Grid current calibration point4
+
+R/W
+
+Grid current calibration coef4
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11CFH
+
+Grid current calibration offset4
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11D0H
+11D1H
+
+Grid current calibration point5
+
+R/W
+
+Grid current calibration coef5
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11D2H
+
+Grid current calibration offset5
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11D3H
+11D4H
+
+Grid power calibration point1
+
+R/W
+
+Grid power calibration coef1
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11D5H
+
+Grid power calibration offset1
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11D6H
+11D7H
+
+Grid power calibration point2
+
+R/W
+
+Grid power calibration coef2
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11D8H
+
+Grid power calibration offset2
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11D9H
+
+11DAH
+
+Grid power calibration point3
+
+R/W
+
+Grid power calibration coef3
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11DBH
+
+Grid power calibration offset3
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11DCH
+11DDH
+
+Grid power calibration point4
+
+R/W
+
+Grid power calibration coef4
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11DEH
+
+Grid power calibration offset4
+
+R/W
+
+Occupy
+2byte
+
+42
+
+short
+
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+
+Smarten Your Energy
+11DFH
+11E0H
+
+Grid power calibration point5
+
+R/W
+
+Grid power calibration coef5
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11E1H
+
+Grid power calibration offset
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11E2H
+11E3H
+
+PV current calibration point1
+
+R/W
+
+PV current calibration coef1
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11E4H
+
+PV current calibration offset1
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11E5H
+11E6H
+
+PV current calibration point2
+
+R/W
+
+PV current calibration coef2
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11E7H
+
+PV current calibration offset2
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11E8H
+11E9H
+
+PV current calibration point3
+
+R/W
+
+PV current calibration coef3
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11EAH
+
+PV current calibration offset3
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11EBH
+11ECH
+
+PV current calibration point4
+
+R/W
+
+PV current calibration coef4
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11EDH
+
+PV current calibration offset4
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11EEH
+11EFH
+
+PV current calibration point5
+
+R/W
+
+PV current calibration coef5
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11F0H
+
+PV current calibration offset5
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11F1H
+11F2H
+
+PV power calibration point1
+
+R/W
+
+PV power calibration coef1
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11F3H
+
+PV power calibration offset1
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11F4H
+
+PV power calibration point2
+
+R/W
+43
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+1W/Bit
+0.0001/Bit
+1W/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+0.1A/Bit
+0.0001/Bit
+0.1A/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+1W/Bit
+
+Smarten Your Energy
+11F5H
+
+PV power calibration coef2
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11F6H
+
+PV power calibration offset2
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11F7H
+11F8H
+
+PV power calibration point3
+
+R/W
+
+PV power calibration coef3
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11F9H
+
+PV power calibration offset3
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11FAH
+11FBH
+
+PV power calibration point4
+
+R/W
+
+PV power calibration coef4
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11FCH
+
+PV power calibration offset4
+
+R/W
+
+Occupy
+
+short
+
+2byte
+11FDH
+11FEH
+
+PV power calibration point5
+
+R/W
+
+PV power calibration coef5
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+short
+
+2byte
+11FFH
+
+PV power calibration offset5
+
+R/W
+
+Occupy
+2byte
+
+44
+
+short
+
+0.0001/Bit
+1W/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+1W/Bit
+0.0001/Bit
+1W/Bit
+
+Smarten Your Energy
+Household EMS Debug
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Household EMS Debug
+1200H~
+
+Debug
+
+RO
+
+1227H
+
+45
+
+Remarks
+
+Smarten Your Energy
+Household System SOC Calibration
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household System SOC Calibration
+1900H
+1901H
+1902H
+1903H
+
+System SOC Calibration Enable
+
+R/W
+
+System SOC Calibration Set
+
+R/W
+
+System SOC Calibration Cycle
+
+R/W
+
+System SOC Calibration Cycle Days
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+0:Disable 1:Enable
+0:Stop 1:Start
+0: non-Cycle 1:Cycle
+1day
+(Range:1~30 days
+Default value:
+7days)
+
+1904H~
+
+System SOC Calibration Time-Year
+
+R/W
+
+1905H
+1906H
+
+System
+
+SOC
+
+Calibration
+
+Time-
+
+R/W
+
+Month
+1907H
+
+System SOC Calibration Time-Day
+
+1908H~
+
+System
+
+1909H
+
+Minute
+
+SOC
+
+Calibration
+
+R/W
+
+Time-
+
+46
+
+R/W
+
+Occupy
+
+unsigned
+
+4byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+4byte
+
+short
+
+2024year
+Range:1~12month
+Range:1~31day
+Range:0~1440minu
+tes
+
+Smarten Your Energy
+Household System Custom Config
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+Household System Custom Config
+2000H
+2001H
+2002H
+
+System Custom Config Reset
+
+WO
+
+Display Custom Enable
+
+R/W
+
+Display Custom Type
+
+R/W
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Send 0x0912
+0:Disable 1:Enable
+0:NONE
+1:LCD_CHARACTER
+2:LED_LAMP_STRIP
+3:LED_BICOLOR
+4:LED_LAMP_PANEL
+5:LCD_PARAGRAPH
+
+2003H
+2004H~
+
+Inverter Custom Enable
+
+R/W
+
+Inverter Custom Modle
+
+R/W
+
+2014H
+2015H
+2016H~
+
+Login Info Custom Enable
+
+R/W
+
+Login Info Custom CompanyName
+
+R/W
+
+2039H
+203AH~
+
+Login Info Custom Password
+
+R/W
+
+205CH
+205DH
+205EH
+
+Occupy
+
+String(32)
+
+0:Disable 1:Enable
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+String(32)
+
+0:Disable 1:Enable
+
+Occupy
+
+String(32)
+
+32byte
+Ethernet Custom Enable
+
+R/W
+
+Ethernet Encryption Enable
+
+R/W
+
+Ethernet Custom Point
+
+R/W
+
+205AH
+205BH
+
+short
+
+32byte
+
+2037H
+2038H
+
+unsigned
+
+2byte
+32byte
+
+2026H
+2027H~
+
+Occupy
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+String(64)
+
+64byte
+Ethernet Custom Port1
+
+R/W
+
+Ethernet Custom Port2
+
+R/W
+
+Ethernet Custom Encryption Port1
+
+R/W
+
+Ethernet Custom Encryption Port2
+
+R/W
+
+47
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+Occupy
+
+unsigned
+
+2byte
+
+short
+
+0:Disable 1:Enable
+0:Disable 1:Enable
+
+Smarten Your Energy
+HouseHold AUX Auto
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+HouseHold AUX (Auto)
+2200H
+2201H
+
+AUX Channel1 Enable
+
+R/W
+
+AUX Control Mode1
+
+R/W
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Occupy
+
+unsigned
+
+1 ：On
+
+2 byte
+
+short
+
+2 ：Off
+3 ：Auto
+
+2202H
+2203H
+2204H
+2205H
+2206H
+
+AUX Start Time1A
+
+R/W
+
+AUX End Time1A
+
+R/W
+
+AUX Start Time1B
+
+R/W
+
+AUX Start Time1B
+
+R/W
+
+AUX Enable1 bits every day of the
+
+R/W
+
+week
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+Enable bits every
+
+2 byte
+
+short
+
+day of the week
+
+1h
+1h
+1h
+1h
+
+(1 Byte, bit0~bit6
+corresponds to
+Monday to Sunday)
+2207H
+2208H
+
+AUX Charge SOC1
+
+R/W
+
+AUX Charge Mode1
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+1:SOC minimum (≥)
+
+2 byte
+
+short
+
+2:SOC maximum (≤)
+
+1%
+
+3;disable
+2209H
+220AH
+220BH
+220CH
+220DH
+220EH
+220FH
+2210H
+
+AUX UPS1 Enable
+
+R/W
+
+AUX SwitchOn1 Value High
+
+R/W
+
+AUX SwitchOn1 Value Low
+
+R/W
+
+AUX SwitchOff1 Value High
+
+R/W
+
+AUX SwitchOff1 Value Low
+
+R/W
+
+AUX Delay time1 before the action
+AUX Delay time1 after provisioning
+AUX Delay time1 after shutdown
+
+R/W
+R/W
+R/W
+
+48
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1W
+1W
+1W
+1W
+1ms
+1ms
+1ms
+
+Smarten Your Energy
+2211H
+2212H
+
+AUX Channel2 Enable
+
+R/W
+
+AUX Control Mode2
+
+R/W
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Occupy
+
+unsigned
+
+1 ：On
+
+2 byte
+
+short
+
+2 ：Off
+3 ：Auto
+
+2213H
+2214H
+2215H
+2216H
+2217H
+
+AUX Start Time2A
+
+R/W
+
+AUX End Time2A
+
+R/W
+
+AUX Start Time2B
+
+R/W
+
+AUX End Time2B
+
+R/W
+
+AUX Enable2 bits every day of the
+
+R/W
+
+week
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+Enable bits every
+
+2 byte
+
+short
+
+day of the week
+
+1h
+1h
+1h
+1h
+
+(1 Byte, bit0~bit6
+corresponds to
+Monday to Sunday)
+2218H
+2219H
+
+AUX Charge SOC2
+
+R/W
+
+AUX Charge Mode2
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+1:SOC minimum (≥)
+
+2 byte
+
+short
+
+2:SOC maximum (≤)
+
+1%
+
+3:disable
+221AH
+221BH
+221CH
+221DH
+221EH
+221FH
+2220H
+2221H
+
+AUX UPS2 Enable
+
+R/W
+
+AUX SwitchOn2 Value High
+
+R/W
+
+AUX SwitchOn2 Value Low
+
+R/W
+
+AUX SwitchOff2 Value High
+
+R/W
+
+AUX SwitchOff2 Value Low
+
+R/W
+
+AUX Delay time2 before the action
+AUX Delay time2 after provisioning
+AUX Delay time2 after shutdown
+
+R/W
+R/W
+R/W
+
+49
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1W
+1W
+1W
+1W
+1ms
+1ms
+1ms
+
+Smarten Your Energy
+HouseHold Generator
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+HouseHold Generator
+2250H
+2251H
+
+GC Generator Enable
+
+R/W
+
+GC Generator Mode
+
+R/W
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Occupy
+
+unsigned
+
+Auto start-stop
+
+2 byte
+
+short
+
+mode. (default: 1)
+1:SOC;
+2:Time;
+4:Manual mode;
+
+2252H
+
+GC SOC Start
+
+R/W
+
+Occupy
+
+unsigned
+
+1%
+
+2 byte
+
+short
+
+(Range:10%~100%,
+Default value: 22%)
+
+2253H
+
+GC SOC End
+
+R/W
+
+Occupy
+
+unsigned
+
+1%
+
+2 byte
+
+short
+
+(Range:10%~100%
+Default value: 22%)
+
+2254H
+2255H
+2256H
+
+GC Time Start
+
+R/W
+
+GC Time End
+
+R/W
+
+GC Output Mode
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+1: Battery charging
+
+2 byte
+
+short
+
+power mode,
+
+1h(default value: 0)
+1h(default value: 0)
+
+2: Generator rated
+power mode,
+(default value: 1)
+2257H
+
+GC Charge Power High
+
+R/W
+
+Occupy
+
+unsigned
+
+1W,
+
+2 byte
+
+short
+
+(range:0~10000kW,
+default value: 0)
+
+2258H
+
+GC Charge Power Low
+
+R/W
+
+Occupy
+
+unsigned
+
+1W,
+
+2 byte
+
+short
+
+(range:0~10000kW,
+default value: 0)
+
+2259H
+
+GC Rated Power High
+
+R/W
+
+Occupy
+
+unsigned
+
+1W,
+
+2 byte
+
+short
+
+(range:0~10000kW,
+default value: 0)
+
+225AH
+
+GC Rated Power Low
+
+R/W
+
+Occupy
+
+unsigned
+
+1W,
+
+2 byte
+
+short
+
+(range:0~10000kW,
+default value: 0)
+
+225BH
+
+GCRatePercent
+
+R/W
+
+Occupy
+
+unsigned
+
+1%,
+
+2 byte
+
+short
+
+(Range: 0%~100%,
+Default value: 80%)
+
+225CH
+
+GC ATS Enable
+
+R/W
+
+50
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Smarten Your Energy
+225DH
+
+GC Controller Enable
+
+R/W
+
+51
+
+Occupy
+
+unsigned
+
+0 ：Disable
+
+2 byte
+
+short
+
+1 ：Enable
+
+Smarten Your Energy
+HouseHold PVChanger
+Address
+
+variable
+
+Register
+
+Belong
+
+Data
+
+Data
+
+to R/W
+
+format
+
+Model
+
+Remarks
+
+HouseHold PVChanger Config
+2300H
+
+PVChanger Mode
+
+R/W
+
+Occupy
+
+unsigned
+
+0 ：Single
+
+2 byte
+
+short
+
+1 ：Follow
+2 ：Host
+
+HouseHold PVChanger networking
+2310H
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+HouseHold PVChanger Control instruction
+2340H
+
+Battery State
+
+R/W
+
+Occupy
+
+unsigned
+
+Bit0~1: Comm
+
+2 byte
+
+short
+
+0：unconnected
+1：connected
+Bit2~5: Mode
+0：standby
+1：work
+Bit6: Dischg Relay
+0：off
+1：on
+Bit7: Charge Relay
+0：off
+1：on
+Bit8~9: Upgrade
+0：Not upgraded
+1：Upgrading
+
+2341H
+2342H
+2343H
+
+Battery SOC
+
+R/W
+
+Battery Volt
+
+R/W
+
+Battery Current
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+short
+
+2 byte
+2344H
+
+Battery Power
+
+R/W
+
+2345H
+2346H
+
+Battery Max Charge Power
+
+R/W
+
+234BH
+
+Occupy
+
+short
+
+4 byte
+Battery Max Discharge Power
+
+R/W
+
+2349H
+234AH
+
+int
+
+4 byte
+
+2347H
+2348H
+
+Occupy
+
+Battery Charge Cut-off Volt
+
+R/W
+
+Battery Max Charge Current
+
+R/W
+
+52
+
+Occupy
+
+unsigned
+
+4 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+0.1%
+0.1V
+0.1A
+1W
+1W
+1W
+0.1V
+0.1A
+
+Smarten Your Energy
+234CH
+234DH
+234EH
+
+Battery Discharge Cut-off Volt
+
+R/W
+
+Battery Max Discharge Current
+
+R/W
+
+Battery Type
+
+R/W
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+Occupy
+
+unsigned
+
+Byte0 Series
+
+2 byte
+
+short
+
+0：None
+
+0.1V
+0.1A
+
+1：Parallel
+2：Series
+Byte1
+Model number
+234FH
+
+Battery Rated Volt
+
+R/W
+
+53
+
+Occupy
+
+unsigned
+
+2 byte
+
+short
+
+1V
+
+Smarten Your Energy
+
+Annex
+Note1：Battery status
+Description
+
+Value
+0
+1
+256
+257
+512
+513
+
+Charge
+
+Discharge
+
+0
+0
+1
+1
+2
+2
+
+0
+1
+0
+1
+0
+1
+
+Note2：Battery relay status
+Value
+0
+1
+2
+3
+
+Description
+
+Charge discharge relays are disconnected
+Only discharge relay is closed
+Only charge relay is closed
+Charge and discharge relays are closed
+
+Note3：Battery type
+Battery_ID
+
+Battery product model
+
+2
+
+M4860
+
+3
+
+M48100
+
+13
+
+48112-P
+
+16
+
+Smile5-BAT
+
+24
+
+M4856-P
+
+27
+
+Smile-BAT-10.3P
+
+30
+
+Smile-BAT-10.1P
+
+33
+
+Smile-BAT-5.8P
+
+34
+
+Smile-BAT5-JP
+
+35
+
+Smile-BAT-13.7P
+
+Note4：battery fault
+Description
+
+Fault
+code
+
+Platform
+
+EMS2.5
+
+EMS3.5/EMS3.6
+
+Bit 0
+
+Temperature sensor error
+54
+
+Smarten Your Energy
+Bit 1
+
+Mos error
+
+Bit 2
+
+Cell Temp Differ
+
+Circuit breaker open
+
+Bit 3
+
+Balancer Fault
+
+Dial switching mode inconsistence
+
+Bit 4
+
+Charge Over Current
+
+Slave battery communication lost
+
+Bit 5
+
+Balancer Mos Fault
+
+Sn missing
+
+Bit 6
+
+Dischage Over Current
+
+Master battery communication lost
+
+Bit 7
+
+Pole Over Temp
+
+Firmware versions inconsistence
+
+Bit 8
+
+Cell Over Volt
+
+Multi master error
+
+Bit 9
+
+Cell Volt Differ
+
+Mos high temperature
+
+Bit 10
+
+Discharge Low Temp
+
+Insulation fault
+
+Bit 11
+
+Total pressure abnormal
+
+Bit 12
+
+Cell Low Volt
+
+Mos feedback failure
+
+Bit 13
+
+ISO Comm Fault
+
+Prefi lled failure
+
+Bit 14
+
+LMU SN Repeat
+
+17823 communication failure
+
+Bit 15
+
+17841 communication failure
+
+Bit 16
+
+IR Fault
+
+Mos temperature sensor error
+
+Bit 17
+
+LMU Comm Fault
+
+Bit 18
+
+Cell Over Temp
+
+Bit 19
+
+BMU Comm Fault
+
+Bit 20
+Bit 21
+
+Charge Low Temp
+
+Bit 22
+Bit 23
+
+Volt Detect Fault
+
+Bit 24
+
+Wire Harness Fault
+
+Bit 25
+Bit 26
+
+Relay Fault
+
+Bit 27
+
+LMU ID Repeat
+
+Bit 28
+
+LMU ID Discontinuous
+
+Bit 29
+
+Current Sensor Fault
+
+Bit 30
+Bit 31
+
+Temp Sensor Fault
+
+Note5: Inverter work mode
+Value
+
+Description
+
+0
+
+Wait Mode
+
+1
+
+Online Mode
+
+2
+
+UPS Mode
+
+3
+
+Bypass Mode
+
+4
+
+Fault Mode
+
+5
+
+DC Mode
+
+6
+
+SelfTest Mode
+
+7
+
+Check Mode
+55
+
+Smarten Your Energy
+8
+
+Update Master Mode
+
+9
+
+Update Slave Mode
+
+10
+
+Update ARM Mode
+
+Note6： System fault
+Description
+
+Alarm
+code
+
+Platform
+
+EM2.5/EMS3.5/EMS3.6
+
+Bit 0
+
+Network_Card_Fault
+
+Bit 1
+
+Rtc_Fault
+
+Bit 2
+
+EEprom_Fault
+
+Bit 3
+
+INV_Comms_Error
+
+Bit 4
+
+Grid_Meter_Lost
+
+Bit 5
+
+PV_Meter_Lost
+
+Bit 6
+
+BMS_Lost
+
+Bit 7
+
+UPS_Battery_Volt_Low
+
+Bit 8
+
+Backup_Overload
+
+Bit 9
+
+INV_Slave_Lost
+
+Bit 10
+
+INV_Master_Lost
+
+Bit 11
+
+Parallel_Comm_Error
+
+Bit 12
+
+Parallel_Mode_Differ
+
+Bit 13
+
+Flash_Fault
+
+Bit 14
+
+SDRAM error
+
+Bit 15
+
+Extension CAN error
+
+Bit 16
+
+inv type not specified
+
+AE
+
+Meter Not Set
+SD not inserted or SD write error
+
+Bit 17
+Bit 18
+
+DG_PV_Conflict
+
+Bit 19
+
+PV_INV_Fault:n
+
+Bit 20
+
+AirConFault
+
+Bit 21
+Bit 22
+Bit 23
+
+GC_Fault
+
+Bit 24
+Bit 25
+
+OverCurr
+
+Bit 26
+
+PcsModeFault
+
+Bit 27
+
+BatEnergyLow
+
+Bit 28
+Bit 29
+Bit 30
+Bit 31
+
+56
+
+Smarten Your Energy
+Note7： Dispatch Mode
+Mode value
+
+Description
+
+1
+
+Battery only charges from PV；
+
+2
+
+State of Charge control；
+
+3
+
+Load Following；
+
+4
+
+Maximise Output；
+
+5
+
+Normal Mode；
+
+6
+
+Optimise Consumption；
+
+7
+
+Maximise Consumption
+
+8
+
+ECO Mode
+
+9
+
+FCAS Mode
+
+10
+
+PV Power Setting
+
+Note8： Grid_Regulation
+Grid_Regulation
+
+Safety code
+
+AL
+
+0
+
+VDE0126-50Hz
+
+1
+
+VDE4105/11.18
+
+2
+
+AS4777.2
+
+3
+
+G83_2
+
+4
+
+C10/C11
+
+5
+
+TOR Erzeuger
+
+6
+
+EN50549-NL
+
+7
+
+EN50549-DK
+
+8
+
+CEB
+
+9
+
+CEI-021
+
+10
+
+NRS097-2-1
+
+11
+
+EN50549-GR
+
+12
+
+UTE_C15_712
+
+13
+
+IEC61727
+
+14
+
+G59_3
+
+15
+
+RD1699
+
+16
+
+G99
+
+17
+18
+
+VDE0126-60Hz
+
+19
+
+AS4777.2-SA
+
+20
+
+G98
+
+21
+
+EN50549-CZ
+
+22
+
+PEA
+
+23
+
+MEA
+
+24
+
+BISI
+57
+
+AE
+
+Smarten Your Energy
+25
+
+JET-GR Series
+
+26
+27
+28
+
+50Hz Default
+
+29
+
+60Hz Default
+
+30
+
+WAREHOUSE
+
+31
+
+AS4777.2-NZ
+
+32
+
+Korea
+
+33
+
+G98/G99-IE
+
+34
+
+NC Rfg
+
+35
+
+UL 1741
+
+36
+
+UL1741-Rule 21
+
+37
+
+UL1741-Hawaiian
+
+38
+
+EN50549
+
+Note9： Safety Mode Enable
+Bit NO
+
+Name
+
+Description
+
+Bit0
+
+Volt-WATT Mode
+
+Volt-watt response mode
+
+Bit1
+
+Volt-VAR Mode
+
+Volt-var response mode
+
+Bit2
+
+Volt-Freq Mode
+
+Volt-Freq response mode
+
+Bit3
+
+Power Factor Curve Mode
+
+Fixed power factor mode
+
+Bit4
+
+Volt-WATT when Charging Mode
+
+Characteristic power factor curve for cos ϕ (P)
+
+Bit5
+
+Reactive power mode
+
+Reactive power control mode
+
+Bit6
+Bit7
+Bit8
+Bit9
+Bit10
+Bit11
+Bit12
+Bit13
+Bit14
+Bit15
+
+Note26：Household Inverter fault code(Only for EMS3.5/EMS3.6)
+Code Bit
+
+Inverter Fault1
+
+Inverter Fault2
+
+Bit 0
+
+Grid_OVP
+
+bat2_discharge_ocp
+
+Bit 1
+
+Grid_UVP
+
+bat1_hw_ocp
+
+Bit 2
+
+Grid_OFP
+
+bat2_hw_ocp
+
+Bit 3
+
+Grid_UFP
+
+inv_otp
+58
+
+Smarten Your Energy
+Bit 4
+
+phase_locked_fault
+
+inv_ovp
+
+Bit 5
+
+bus_ovp1
+
+inv_uvp
+
+Bit 6
+
+bus_ovp2
+
+output_dc_over_current
+
+Bit 7
+
+insulation_fault
+
+inv_ocp
+
+Bit 8
+
+gfci_fault
+
+inv_hw_ocp
+
+Bit 9
+
+gfci_test_fault
+
+output_dc_over_voltage
+
+Bit 10
+
+grid_relay_fault
+
+output_short
+
+Bit 11
+
+over_temperature
+
+output_overload
+
+Bit 12
+
+pv_reverse
+
+apu_uvp
+
+Bit 13
+
+bat_reverse
+
+bat_relay_fault
+
+Bit 14
+
+m_s_com_fault
+
+dc_input_disturbance
+
+Bit 15
+
+display_com_fault
+
+grid_disturbance
+
+Bit 16
+
+chip1_upgrade_fault
+
+gird_unbalance
+
+Bit 17
+
+mppt1_ovp
+
+freq_jitter
+
+Bit 18
+
+mppt1_sw_ocp
+
+grid_overcurrent
+
+Bit 19
+
+mppt1_hw_ocp
+
+grid_current_track_fault
+
+Bit 20
+
+mppt1_otp
+
+backup_ovp
+
+Bit 21
+
+mppt2_ovp
+
+dc_bus_unbalancevolt
+
+Bit 22
+
+mppt2_sw_ocp
+
+dc_bus_undervolt
+
+Bit 23
+
+mppt2_hw_ocp
+
+dc_bus_unbalancevolt2
+
+Bit 24
+
+mppt2_otp
+
+igbt_over_current
+
+Bit 25
+
+bat_ovp
+
+grid_disturbance2
+
+Bit 26
+
+bat_uvp
+
+afci_check_protect
+
+Bit 27
+
+battery_lose
+
+grid_current_sampling_abnormal
+
+Bit 28
+
+bat_otp
+
+dsp_selfcheck
+
+Bit 29
+
+bat1_charge_ocp
+
+grid_short_time_over_current
+
+Bit 30
+
+bat1_discharge_ocp
+
+bat_overvolt_hardware_fault
+
+Bit 31
+
+bat2_charge_ocp
+
+zero_ground_fault
+
+Note27：Household Inverter fault extend code(Only for EMS3.5/EMS3.6)
+Code Bit
+
+Inverter Extend Fault1
+
+Inverter Extend Fault2
+
+Bit 0
+
+ac_hct_check_failure
+
+pv2_ct
+
+Bit 1
+
+dci_consistency_failure
+
+bat1_ct
+
+Bit 2
+
+gfci_consistency_failure
+
+bat2_ct
+
+Bit 3
+
+relay_device_failure
+
+bypass_rly
+
+Bit 4
+
+ac_hct_failure
+
+load_rly
+
+Bit 5
+
+gournd_i_failure
+
+npe_rly
+
+Bit 6
+
+utility_phase_failure
+
+dci
+
+Bit 7
+
+utility_loss
+
+watchdog
+
+Bit 8
+
+internal_fan_failure
+
+inv_open_loop
+
+Bit 9
+
+fac_consistency_failure
+
+sw_consistency
+
+Bit 10
+
+vac_consitency_failure
+
+n_n_reverse_lost
+59
+
+Smarten Your Energy
+Bit 11
+
+phase_angle_failure
+
+ini_fault
+
+Bit 12
+
+dsp_communication_failure
+
+dsp_b_fault
+
+Bit 13
+
+eeprom_rw_failure
+
+inverter_circuit_abnormal
+
+Bit 14
+
+vac_failure
+
+boost_circuit_abnormal
+
+Bit 15
+
+fac_failure
+
+data_storage_error
+
+Bit 16
+
+external_fan_failure
+
+para_can
+
+Bit 17
+
+afci_device_failure
+
+para_synsignal_wrong
+
+Bit 18
+
+bus_soft_timeout
+
+para_sw_diff
+
+Bit 19
+
+dc_bus_short
+
+para_module_wrong
+
+Bit 20
+
+inv_soft_timeout
+
+para_negative_power
+
+Bit 21
+
+grid_load_reverse
+
+para_multi_master
+
+Bit 22
+
+lpe_reverse
+
+para_turnon_wrong
+
+Bit 23
+
+ems_sci
+
+hw_ver_diff
+
+Bit 24
+
+ems_can
+
+bus_unbalance
+
+Bit 25
+
+sps_12v_ref
+
+inv_line_short
+
+Bit 26
+
+1p5v_ref
+
+Bit 27
+
+0p5v_ref
+
+Bit 28
+
+ntc_loss
+
+Bit 29
+
+inv_hct
+
+Bit 30
+
+load_ct
+
+Bit 31
+
+pv1_ct
+
+Note28：Battery warning
+Description
+
+Warning
+code
+
+Platform
+
+EMS2.5
+
+EMS3.5/EMS3.6
+
+Bit 0
+
+Temperature imbalance
+
+Bit 1
+
+Over temperature
+
+Bit 2
+
+Discharge low temperature
+
+Bit 3
+
+Charge low temperature
+
+Bit 4
+
+Discharge over current
+
+Bit 5
+
+Charge over current
+
+Bit 6
+
+Cell over voltage
+
+Bit 7
+
+Cell low voltage
+
+Bit 8
+
+sw_inconsistence
+
+Bit 9
+
+mos_temperature_sensor_error
+
+Bit 10
+
+soc_inconsistence
+
+Bit 11
+
+bms_sci_lost
+
+Bit 12
+
+bms_fan_err
+
+Bit 13
+Bit 14
+Bit 15
+Bit 16
+60
+
+Smarten Your Energy
+Bit 17
+Bit 18
+Bit 19
+Bit 20
+Bit 21
+Bit 22
+Bit 23
+Bit 24
+Bit 25
+Bit 26
+Bit 27
+Bit 28
+Bit 29
+Bit 30
+Bit 31
+
+61
+
+Smarten Your Energy
+Note29：Power Dispatch parameter list
+Tab1: Power Dispatch parameter list：Para1, Para2, Para3, Para4, Para5
+Mode
+Para1
+Para2
+Para3
+Para4 Para5
+Battery only
+Feed
+charges from
+power
+1
+0
+PV
+(W)
+Battery
+State of Charge
+control
+2
+CutoffSOC(1%)*2.5
+control
+power
+(W)
+Battery
+Load Following
+power
+3
+limit (W)
+Maximise
+0
+4
+Output
+0
+Battery
+Normal Mode
+power
+5
+limit(W)
+Optimise
+6
+Consumption
+0
+Maximise
+Dispatch
+7
+Consumption Start
+0
+1：Start
+Battery
+ECO Mode
+charging
+8
+0：Exit
+limit(W)
+No Battery
+0
+19
+Charge
+Charging Discharge
+BurnIn Mode
+cutoff
+cutoff
+20
+SOC(1%) SOC(1%)
+OSW Battery
+Feed
+only charges
+power
+21
+from PV
+(W)
+Battery
+OSW State of
+control
+22
+CutoffSOC(1%)*2.5
+Charge control
+power
+0
+(W)
+Battery
+OSW Load
+power
+23
+Following
+limit (W)
+0
+OSW No
+0
+25
+Battery Charge
+62
+
+Smarten Your Energy
+
+Tab2: Power Dispatch parameter list：Para4, Para6, Para7, Para8
+Mode
+Para4 Para6
+Para7
+Para8
+Battery only charges from PV
+1
+State of Charge control
+2
+Load Following
+3
+Maximise Output
+4
+Normal Mode
+5
+0:AGING_END,
+Optimise Consumption
+6
+1:PV_TO_GRID,
+Maximise Consumption
+7
+PV SWITCH
+Dispatch Time: 2:PV_TO_BAT,
+1：Open
+ECO Mode
+8
+1S/Bit
+3:BAT_TO_GRID,
+2：Close
+No Battery Charge
+19
+4:GRID_TO_BAT,
+BurnIn Mode
+20
+5:BAT_TO_GRID_2
+OSW Battery only charges from
+21
+PV
+OSW State of Charge control
+22
+OSW Load Following
+23
+OSW No Battery Charge
+25
+
+Note30：Freq Dispatch parameter list
+Mode
+FCAS Step
+FCAS Droop
+FFR Primary
+FFR
+Secondary
+FFR High
+FFR Step
+Test1
+FFR Step
+Test2
+FFR Response
+Test1
+FFR Response
+Test2
+FFR Live Test
+
+Freq Dispatch parameter list：Para1, Para2, Para3, Para4
+Para1
+Para2
+Para3 Para4
+Para5 Para6 Para7 Para8 Para9
+9
+DB
+SB
+/
+/
+/
+/
+10
+11
+12
+Dispatch
+Dispatch
+Start
+Time:
+1：Start
+1S/Bit
+0：Exit
+
+13
+14
+15
+16
+17
+18
+
+63
+
+Battery
+charging
+limit(W)
+
+LDB
+
+HDB
+
+LSB
+
+HSB
+
+Battery
+discharge
+limit(W)
+
+Smarten Your Energy
+OSW FCAS
+Step
+FAST_FCAS
+Step
+FAST_FCAS
+Droop
+
+24
+
+/
+
+LDB
+
+HDB
+
+LSB
+
+HSB
+
+/
+
+26
+
+DB
+
+SB
+
+/
+
+/
+
+/
+
+/
+
+27
+
+Battery
+charging
+limit(W)
+
+HSB
+
+Battery
+discharge
+limit(W)
+
+LDB
+
+HDB
+
+Note31：INVERTER_SUB(Only for EMS3.5/EMS3.6)
+Code NUM
+
+Inverter sub
+
+0
+
+SUB_NULL
+
+1
+
+SUB_S3
+
+2
+
+SUB_B3
+
+3
+
+SUB_T3
+
+4
+
+SUB_S5
+
+5
+
+SUB_JPS5
+
+6
+
+SUB_B5
+
+7
+
+SUB_T5
+
+8
+
+SUB_S6
+
+9
+
+SUB_B6
+
+10
+
+SUB_T6
+
+11
+
+SUB_SP7_6
+
+12
+
+SUB_SP9_6
+
+13
+
+SUB_T10
+
+14
+
+SUB_SPB7_6
+
+15
+
+SUB_SPB9_6
+
+16
+
+SUB_S3_6
+
+17
+
+SUB_S4_6
+
+18
+
+SUB_B3_6
+
+19
+
+SUB_T15
+
+20
+
+SUB_T20
+
+21
+
+SUB_S8
+
+Code NUM
+
+64
+
+Inverter sub
+
+LSB
+
+Smarten Your Energy
+
+Note32：Household Inverter Warn code(Only for EMS3.5/EMS3.6)
+Code Bit
+
+Inverter warning1
+
+Inverter warning2
+
+Bit 0
+
+bat_over_voltage_alarm
+
+inv_volt_low_alarm
+
+Bit 1
+
+bat_under_voltage_alarm
+
+inv_over_curr_sw_alarm
+
+Bit 2
+
+output_overload_alarm
+
+inv_over_curr_hw_alarm
+
+Bit 3
+
+abnormal_temperature_sensor
+
+bst_over_curr_sw_alarm
+
+Bit 4
+
+dc_power_alarm
+
+bst_over_curr_hw_alarm
+
+Bit 5
+
+battery_stops_running_alarm
+
+buck_bst_over_curr_sw_alarm
+
+Bit 6
+
+over_temperature_alarm
+
+buck_bst_over_curr_hw_alarm
+
+Bit 7
+
+pv_volt_high_alarm
+
+bus_under
+
+Bit 8
+
+bat_open_alarm
+
+no_pv_input_alarm
+
+Bit 9
+
+bat_reversr_alarm
+
+input_power_limit_alarm
+
+Bit 10
+
+bus_over_alarm
+
+output_power_limit_alarm
+
+Bit 11
+
+grid_loss_alarm
+
+reduce_pby_over_freq_alarm
+
+Bit 12
+
+grid_volt_alarm
+
+reduce_pby_over_volt_alarm
+
+Bit 13
+
+grid_freq_alarm
+
+reduce_pby_over_temp_alarm
+
+Bit 14
+
+10min_grid_volt_alarm
+
+hvrt_alarm
+
+Bit 15
+
+grid_volt_inst_over
+
+lvrt_alarm
+
+Bit 16
+
+pe_loss_alarm
+
+ntc_fail_alarm
+
+Bit 17
+
+ln_reverse
+
+grid_waveform_abnormal_alarm
+
+Bit 18
+
+low_temper_alarm
+
+eps_capacitance_decrease
+
+Bit 19
+
+gfci_alarm
+
+para_alarm
+
+Bit 20
+
+iso_alarm
+
+para_error_location
+
+Bit 21
+
+dci_alarm
+
+para_avg_overload
+
+Bit 22
+
+dcv_alarm
+
+para_module_addr_same
+
+Bit 23
+
+island_alarm
+
+para_online_enter_fail
+
+Bit 24
+
+fan_abnormal_alarm
+
+para_unbalance_power
+
+Bit 25
+
+n_loss_alarm
+
+para_turnon_inconsistent
+
+Bit 26
+
+ems_sci_alarm
+
+grid_backup_n_lost
+
+Bit 27
+
+ems_can_alarm
+
+bat_num_abnormal
+
+Bit 28
+
+flashid_alarm
+
+grid_phase_order_fault
+
+Bit 29
+
+read_flash_alarm
+
+dcv_sample_abnormal
+
+Bit 30
+
+write_flash_alarm
+
+blackbox_flash_fault
+
+Bit 31
+
+machine_type_alarm
+
+rtc_fault
+65
+
+Smarten Your Energy
+
+Note33：Household Inverter Warn code(Only for EMS3.5/EMS3.6)
+Code Bit
+
+Inverter warning 3
+
+Bit 0
+
+ems_bms_lost
+
+Bit 1
+
+busunbalance
+
+Bit 2
+
+pvreverse
+
+Bit 3
+
+gridvoltCrestFactorhigh
+
+Inverter warning 4
+
+Bit 4
+Bit 5
+Bit 6
+Bit 7
+Bit 8
+Bit 9
+Bit 10
+Bit 11
+Bit 12
+Bit 13
+Bit 14
+Bit 15
+Bit 16
+Bit 17
+Bit 18
+Bit 19
+Bit 20
+Bit 21
+Bit 22
+Bit 23
+Bit 24
+Bit 25
+Bit 26
+Bit 27
+Bit 28
+Bit 29
+Bit 30
+Bit 31
+
+66
+
+
