@@ -398,7 +398,9 @@ This integration writes to your inverter's Modbus registers and can cause hardwa
 
 ## 📜 License
 
-The contributions authored by Rámon van Raaij in this repository are released under the **BSD 3-Clause License**. See the [`LICENSE.md`](./LICENSE.md) file for the full text and a note on upstream copyright.
+The contributions authored by Rámon van Raaij in this repository are released under the **BSD 3-Clause License**. See the [`LICENSE.md`](./LICENSE.md) file for the full text and notes on upstream copyright.
+
+The official AlphaESS PDFs in [`docs/`](docs/) are copyrighted by **Alpha ESS Co., Ltd.**, are **not** covered by the BSD grant, and are redistributed unmodified in good faith as reference material for hardware owners - see the manufacturer-documentation note in [`LICENSE.md`](./LICENSE.md).
 
 ### A note on upstream licensing
 

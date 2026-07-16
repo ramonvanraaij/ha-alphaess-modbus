@@ -12,6 +12,8 @@ Those portions remain under their respective authors' copyright. Their re-public
 
 If you are an upstream author and you object to your work being incorporated or redistributed here, please open an issue or contact the maintainer directly. The maintainer will, at his sole discretion, remove the disputed portions, take the repository private, take it down entirely, or work with you to relicense the affected sections under terms you accept.
 
+**Note on manufacturer documentation:** The PDF documents in the [`docs/`](docs/) directory (datasheets, installation/operation manuals, and Modbus protocol references) are official technical documentation authored and copyrighted by **Alpha ESS Co., Ltd.** and its affiliates. They are **not** covered by the BSD 3-Clause grant in this repository. They are redistributed here verbatim and unmodified, in good faith, solely as reference material for owners of the documented hardware (interoperability and safe configuration). All rights to those documents remain with Alpha ESS Co., Ltd. If you are a rights holder and object to their inclusion, open an issue or contact the maintainer directly and they will be removed promptly.
+
 ---
 
 ## BSD 3-Clause License (Rámon's Contributions)
