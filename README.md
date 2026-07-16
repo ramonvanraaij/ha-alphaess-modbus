@@ -1,15 +1,36 @@
-# AlphaESS Modbus TCP - Home Assistant Integration
+# 🔋 ha-alphaess-modbus: AlphaESS Modbus TCP Integration for Home Assistant
 
-A comprehensive Home Assistant integration for AlphaESS inverter systems using Modbus TCP. Monitor and control your solar power system, battery storage, and grid interaction through an interactive dashboard with full automation support.
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.5%2B-41BDF5?logo=homeassistant&logoColor=white&style=flat-square)](https://www.home-assistant.io)
+[![Modbus TCP](https://img.shields.io/badge/Modbus-TCP%20(local%2C%20no%20cloud)-orange?style=flat-square)](docs/)
+[![License](https://img.shields.io/badge/License-BSD--3--Clause-blue?style=flat-square)](LICENSE.md)
+
+A comprehensive **Home Assistant** integration for **AlphaESS** inverter systems using **Modbus TCP**. Monitor and control your solar power system, battery storage, and grid interaction through an interactive dashboard with full automation support.
 
 > [!WARNING]
 > This integration **writes** to your inverter's Modbus registers. Incorrect writes can damage hardware, void manufacturer warranty, or breach local grid-tie regulations. Read [DISCLAIMER.md](./DISCLAIMER.md) before installing.
 
-## Dashboard
+---
+
+## 🚀 Overview
+
+Everything runs locally over Modbus TCP - no cloud dependency. The integration covers monitoring, dispatch control, and dashboarding for the AlphaESS SMILE family.
+
+### ✨ Key Features
+*   **📊 Full monitoring:** PV strings, battery, grid (per-phase), energy statistics, firmware/system info, grid safety settings, and every warning/fault register.
+*   **🎛️ Dispatch control:** force charge/discharge/export/import and excess-export helpers built on the inverter's dispatch register block, with power sliders, cutoff SoC, and durations.
+*   **🛡️ Safety architecture:** mutual exclusion between force modes, dead-man's-switch dispatch durations, and a full register reset on startup, connection loss, or timer expiry.
+*   **🖼️ Interactive dashboard:** complete Lovelace view plus ApexCharts power-flow diagrams (standard and extended).
+*   **📚 Primary documentation included:** official AlphaESS datasheets, manuals, and Modbus protocol references in [`docs/`](docs/).
+
+---
+
+## 🖼️ Dashboard
 
 ![AlphaESS dashboard overview - 5 column layout](screenshots/dashboard.png)
 
-## System Configuration
+---
+
+## 🖥️ System Configuration
 
 This integration was developed for and tested with:
 
@@ -24,7 +45,9 @@ This integration was developed for and tested with:
 | Communication   | Modbus TCP (port 502)                                 |
 | Home Assistant  | 2026.5+                                               |
 
-## Compatibility
+---
+
+## 🧩 Compatibility
 
 The integration was developed against an AlphaESS SMILE-G3-T10 (see "System Configuration" above). The Modbus register layout is broadly shared across the SMILE family, so other models are likely to work with little or no modification.
 
@@ -49,7 +72,9 @@ If you run a model not on this list, the integration may still work; please open
 - The SMILE-G3-T10 does not expose EV Charger data via local Modbus; the `0x2341` block is a DC-DC PV Charger, not an EV charger.
 - **PV inputs:** the SMILE-G3-T4 / T5 / T6 / T8 / T10 family has **3 MPPTs (PV1, PV2, PV3)** and a separate dedicated battery port (BAT+/BAT-) - confirmed in the official datasheet ("MPPT Number / Max. Input Strings Number per MPPT: 3 / 1") and the IOM manual ("Positive and Negative PV Connectors, PV1/PV2/PV3"). The integration also reads registers `0x0428-0x042B` as `PV4` for compatibility with other AlphaESS models that expose a 4th channel; on the T-series these read zero. On some other AlphaESS hybrid models the 4th input may exist physically and may be configurable as either an extra PV string or a DC-coupled battery input via an inverter setting - consult your model's manual before relying on PV4.
 
-## Repository Structure
+---
+
+## 📂 Repository Structure
 
 | File                          | Purpose                                                                  |
 | ----------------------------- | ------------------------------------------------------------------------ |
@@ -59,19 +84,21 @@ If you run a model not on this list, the integration may still work; please open
 | `power_diagram_extended.yaml` | Extended power diagram with additional metrics                           |
 | `docs/`                       | AlphaESS datasheets and Modbus protocol documentation                    |
 | `screenshots/`                | Dashboard screenshots referenced from this README                        |
-| `CHANGELOG.md`                | Release notes and change history                                         |
-| `LICENSE.md`                  | MIT license text and upstream-attribution note                           |
-| `DISCLAIMER.md`               | Use-at-your-own-risk disclaimer (read before installing)                 |
+| [`CHANGELOG.md`](./CHANGELOG.md) | Release notes and change history                                       |
+| [`LICENSE.md`](./LICENSE.md)  | BSD 3-Clause license text and upstream-attribution note                   |
+| [`DISCLAIMER.md`](./DISCLAIMER.md) | Use-at-your-own-risk disclaimer (read before installing)             |
 
-## Installation
+---
 
-### Prerequisites
+## ⚡ Installation
+
+### 📋 Prerequisites
 
 - Home Assistant with Modbus integration enabled
 - Network access to your AlphaESS inverter via Modbus TCP
 - [ApexCharts Card](https://github.com/RomRider/apexcharts-card) installed via HACS (for power diagrams)
 
-### Setup
+### 🛠️ Setup
 
 1. **Integration:** Copy `integration_alpha_ess.yaml` into your Home Assistant configuration as a package, or include it in `configuration.yaml`:
 
@@ -97,11 +124,11 @@ If you run a model not on this list, the integration may still work; please open
 
 ---
 
-## Modbus Dispatch Modes
+## 🎛️ Modbus Dispatch Modes
 
 The AlphaESS inverter is controlled via the Dispatch register block starting at `0x0880`. The dispatch system uses 11 consecutive registers to define a complete command.
 
-### Register Map (0x0880 - 0x088A)
+### 🗺️ Register Map (0x0880 - 0x088A)
 
 | Register | Offset | Parameter             | Description                                   |
 | -------- | ------ | --------------------- | --------------------------------------------- |
@@ -117,7 +144,7 @@ The AlphaESS inverter is controlled via the Dispatch register block starting at 
 | 0x0889   | Para 7 | Flow Direction        | 255 = bidirectional                           |
 | 0x088A   | Para 8 | PV Switch             | 0 = use dispatch value, 1 = PV on, 2 = PV off |
 
-### Operating Modes
+### ⚙️ Operating Modes
 
 #### Standard Modes (Priority: House -> Battery -> Grid)
 
@@ -144,7 +171,7 @@ These modes are an inverter-native way to flip the hardware priority so grid fee
 | 24   | OSW Maximise Output      | Excess variant of Mode 4 |
 | 25   | OSW Normal Mode          | Excess variant of Mode 5 |
 
-### Power Parameter (Register 0x0881)
+### 🔢 Power Parameter (Register 0x0881)
 
 The Active Power parameter uses a **32000 offset** to represent both charging and discharging:
 
@@ -158,7 +185,7 @@ The Active Power parameter uses a **32000 offset** to represent both charging an
 
 > **Important:** House load always has the highest hardware priority. The power parameter only controls what the battery does with the surplus.
 
-### Dead Man's Switch
+### ⏱️ Dead Man's Switch
 
 Each dispatch command sets a duration (`Para 6`) after which the inverter automatically reverts to its default operation if no fresh dispatch arrives:
 
@@ -170,17 +197,17 @@ If Home Assistant goes offline mid-dispatch, the inverter falls back to its defa
 
 ---
 
-## Dashboard Reference
+## 📊 Dashboard Reference
 
 The dashboard (`alphaess_view.yaml`) is organized into the following sections:
 
-### Configuration
+### ⚙️ Configuration
 
 | Control           | Entity                                           | Description                                              |
 | ----------------- | ------------------------------------------------ | -------------------------------------------------------- |
 | Inverter AC Limit | `input_select.alphaess_helper_inverter_ac_limit` | Sets the AC power limit used in clipping and excess-export calculations. Options: 3, 4, 4.6, 5, 6, 8, 10, 12, 15, 20 kW. |
 
-### Charging & Discharging Controls
+### 🎚️ Charging & Discharging Controls
 
 | Control           | Entity                                            | Description                                                                                                                          |
 | ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -204,7 +231,7 @@ Each force mode has associated controls:
 | Cutoff SoC   | Battery SoC at which to stop                 |
 | Timer        | Shows remaining time                         |
 
-### Charging/Discharging Settings
+### 🕒 Charging/Discharging Settings
 
 | Control                  | Entity                                                       | Description                                  |
 | ------------------------ | ------------------------------------------------------------ | -------------------------------------------- |
@@ -214,81 +241,81 @@ Each force mode has associated controls:
 | Charging Cutoff SoC      | `input_number.alphaess_helper_charging_cutoff_soc`           | Stop charging at this SoC                    |
 | Discharging Cutoff SoC   | `input_number.alphaess_helper_discharging_cutoff_soc`        | Stop discharging at this SoC (4-100%)        |
 
-### PV Output
+### ☀️ PV Output
 
 Displays all PV string data (PV1-PV4 voltage, current, power), PV meter readings, total PV production, PV connect state, bus voltage, and clipping detection.
 
-### Dispatch Status
+### 📡 Dispatch Status
 
 Shows the current state of all dispatch registers: mode, active power, reactive power, SoC target, duration, flow direction, PV switch state.
 
-### Grid
+### 🔌 Grid
 
 Displays grid power (total and per-phase), voltage per phase, current per phase, grid frequency, and max feed-to-grid percentage.
 
-### Battery
+### 🔋 Battery
 
 Shows SoC, power, voltage, current, temperature, SoH, battery status, relay status, module count, and advanced diagnostics (implementation/remaining charge/discharge SoC, max charge/discharge power).
 
-### PV Charger (DC-DC)
+### 🔆 PV Charger (DC-DC)
 
 Displays state data (SoC, voltage, current, power) for a DC-coupled PV Charger (PVChanger). If no PV Charger is connected, these Modbus registers simply mirror the main battery state as a default fallback.
 
-### Energy Statistics
+### 📈 Energy Statistics
 
 **Today's values:** PV production, grid consumption, grid feed-in, battery charge/discharge, house load.
 
 **Total values:** Lifetime energy counters for all of the above.
 
-### System Information
+### 🖥️ System Information
 
 Inverter work mode, system date/time, firmware versions (EMS, BMS, ISO, LMU, BMU, Inverter, ARM), network configuration (IP, subnet, gateway, Modbus baud rate), serial number.
 
-### Grid Safety
+### 🛡️ Grid Safety
 
 Over/under voltage protection settings (L1/L2/L3, with trip times), over/under frequency protection settings (L1/L2/L3, with trip times), grid regulation mode.
 
-### Warnings & Faults
+### 🚨 Warnings & Faults
 
 All inverter warning and fault registers displayed as binary sensors, including system fault status.
 
 ---
 
-## Practical Scenarios
+## 💡 Practical Scenarios
 
 > The scenarios below show how the dispatch register block can be driven manually for various effects. They are reference material illustrating what each operating mode does. **They are not a description of what the integration's force-mode helpers do** - those all use Mode 2 with computed Active Power (see [How the force modes are implemented](#how-the-force-modes-are-implemented)).
 
-### Scenario A: Maximum Self-Consumption (Default)
+### 🔆 Scenario A: Maximum Self-Consumption (Default)
 
 Stop any active dispatch (`0x0880 = 0`) or start Mode 3 with power at 22000 (max charge).
 
 **Result:** Solar powers the house, excess charges the battery, remainder feeds to grid. Battery discharges in the evening to cover house load.
 
-### Scenario B: Charge from Grid (Cheap Electricity)
+### 🔌 Scenario B: Charge from Grid (Cheap Electricity)
 
 Start Mode 7 (`Para 4 = 7`), power at 22000 (max charge).
 
 **Result:** Battery charges at full speed from the grid. Solar still powers the house but does not contribute to battery charging. Useful during negative electricity prices.
 
-### Scenario C: Excess Export (Grid Priority)
+### 📤 Scenario C: Excess Export (Grid Priority)
 
 Start Mode 23 (`Para 4 = 23`). Optionally set max feed-to-grid via register 0x0800.
 
 **Result:** Solar powers the house, then feeds to grid first, battery only gets what is left over. Useful to maximise revenue during high feed-in tariffs.
 
-### Scenario D: Throttled Charging
+### 🐢 Scenario D: Throttled Charging
 
 Start Mode 3 (`Para 4 = 3`), power at 31000 (limit to -1 kW).
 
 **Result:** Battery charges at maximum 1 kW. All excess solar above that goes directly to the grid. Useful to slowly fill the battery while selling most production.
 
-### Scenario E: Freeze Battery (Sell Everything)
+### 🧊 Scenario E: Freeze Battery (Sell Everything)
 
 Start Mode 3 (`Para 4 = 3`), power at 32000 (0 kW).
 
 **Result:** Battery is frozen - no charge, no discharge. All solar excess goes to the grid. Useful during peak feed-in tariff hours when you want to keep the battery for the evening.
 
-### Scenario F: Peak Shaving / Anti-Clipping
+### ✂️ Scenario F: Peak Shaving / Anti-Clipping
 
 Set max feed-to-grid to 50% via register 0x0800, then start Mode 23 (OSW Load Following).
 
@@ -296,16 +323,16 @@ Set max feed-to-grid to 50% via register 0x0800, then start Mode 23 (OSW Load Fo
 
 ---
 
-## Integration Architecture
+## 🏗️ Integration Architecture
 
-### Automation Safety
+### 🛡️ Automation Safety
 
 - **Mutual exclusion:** When any force mode is activated, all other force modes are automatically disabled first.
 - **Dead man's switch:** Dispatch commands use a 5-minute duration. Automations periodically refresh the command.
 - **Full reset:** On HA startup, connection loss, or timer expiry, the dispatch register block (`0x0880-0x088A`) is reset to neutral values - Dispatch Start `= 0`, Active Power and Reactive Power at their offset midpoints (`32000` and `10000`), Mode `= 0`, Duration `= 90 s` (so any leftover state expires quickly), Flow Direction `= 255`, PV Switch `= 0`. The inverter then falls back to its default operating behaviour.
 - **Pause/Resume:** Excess Export has smart pause/resume logic that detects grid import and temporarily suspends the export mode to serve house loads.
 
-### Template Sensors
+### 🧮 Template Sensors
 
 The integration creates several computed sensors:
 
@@ -316,7 +343,7 @@ The integration creates several computed sensors:
 - **Charging/Discharging periods:** Human-readable time window display
 - **ApexCharts sensors:** Scaled (kW) versions of power sensors for the power diagram
 
-### HHE MEC Only Features (Commented Out)
+### 🚧 HHE MEC Only Features (Commented Out)
 
 Registers 0x072C-0x072F provide direct mode control on HHE MEC inverters:
 
@@ -327,13 +354,13 @@ Registers 0x072C-0x072F provide direct mode control on HHE MEC inverters:
 
 These are not available on the SMILE-G3-T10 and similar models. The corresponding sensors, template selects, and template numbers are commented out in the integration YAML. Uncomment them if your inverter supports these registers.
 
-### AUX and Generator Controls (Commented Out)
+### 🔌 AUX and Generator Controls (Commented Out)
 
 Registers `0x2200-0x2221` and `0x2250-0x225D` provide controls for the inverter's dry contact (AUX) relays and auto-start backup generators. These are generally only used if you have physical appliances wired directly to the inverter (for SOC/Time based switching) or a connected diesel/gas generator for Auto Transfer Switch (ATS) control. They are commented out by default; uncomment them if your setup requires them.
 
 ---
 
-## Documentation
+## 📚 Documentation
 
 The `docs/` directory contains official AlphaESS technical documentation. Filenames have been standardized for consistency.
 
@@ -351,23 +378,41 @@ The `docs/` directory contains official AlphaESS technical documentation. Filena
 | [`alphaess_datasheet_ev_charger_smile_g3_evct11.pdf`](./docs/alphaess_datasheet_ev_charger_smile_g3_evct11.pdf) | EVCT11 Wallbox technical datasheet |
 | [`alphaess_datasheet_backup_box_plus.pdf`](./docs/alphaess_datasheet_backup_box_plus.pdf) | Back-up Box PLUS technical datasheet |
 
-## Roadmap
+---
 
-- [ ] **HACS Integration** — Convert this project from a manual YAML package into a proper HACS custom integration. This would allow installation directly from the HACS store, automatic updates, and a UI-based configuration flow instead of manual `secrets.yaml` editing.
+## 🗺️ Roadmap
+
+- [ ] **HACS Integration** - Convert this project from a manual YAML package into a proper HACS custom integration. This would allow installation directly from the HACS store, automatic updates, and a UI-based configuration flow instead of manual `secrets.yaml` editing.
 - [ ] **Home Assistant Energy Dashboard setup guide** - Document how to wire the AlphaESS sensors (Grid Consumption Meter, Grid Feed-in Meter, PV Production, Battery Charge/Discharge) into Home Assistant's built-in Energy Dashboard for accurate daily/monthly cost-and-yield reporting.
 - [ ] **More screenshots** - Add screenshots of all dashboard views (Power Diagram Today/Yesterday/3-Day, String Detail, Instant Power Diagram, Instant Hi-Res) and the Energy Dashboard configuration so the README is fully self-documenting.
 
-## Disclaimer
+---
+
+## ⚠️ Disclaimer
 
 This integration writes to your inverter's Modbus registers and can cause hardware damage, warranty voidance, or regulatory non-compliance if misused. The author accepts no liability for any consequences of using this project.
 
 **Before installing, read the full disclaimer: [DISCLAIMER.md](./DISCLAIMER.md).**
 
-## License
+---
 
-The contributions authored by Rámon van Raaij in this repository are released under the **MIT License**. See the [LICENSE.md](./LICENSE.md) file for the full text and a note on upstream copyright.
+## 📜 License
 
-### Upstream attribution
+The contributions authored by Rámon van Raaij in this repository are released under the **BSD 3-Clause License**. See the [`LICENSE.md`](./LICENSE.md) file for the full text and a note on upstream copyright.
+
+### A note on upstream licensing
+
+The snitzelweck92 and Umrath repositories are public on GitHub but do **not** contain a `LICENSE` file. The Hillview Lodge page is published as a public web resource without a formal license. Portions of this project that originated upstream therefore remain under their respective authors' copyright; permission to incorporate them was not formally granted, and this project relies on the de facto public availability of those works. The BSD 3-Clause grant in this repository applies only to original contributions by Rámon van Raaij. See [`LICENSE.md`](./LICENSE.md) for the full statement.
+
+If you are an upstream author and you object to your work being incorporated or redistributed here, please open an issue or contact the maintainer directly. The repository will be amended, taken private, or taken down at your request.
+
+---
+
+## 🤝 Credits & Maintenance
+
+Developed and maintained by **[Rámon van Raaij](https://ramon.vanraaij.eu)** (2026).
+
+### 🙏 Upstream attribution
 
 This project is a derivative work building on a chain of prior community contributions. Credit is gratefully given to:
 
@@ -377,15 +422,24 @@ This project is a derivative work building on a chain of prior community contrib
 - **Daniel Young (dxoverdy)** - `Alpha2MQTT` (GPL-3.0), credited by Hillview Lodge as inspiration for the Power Diagram concept ([repository](https://github.com/dxoverdy/Alpha2MQTT)). Only the visual concept is shared; no source code from `Alpha2MQTT` is copied or ported.
 - **RomRider** - `apexcharts-card` for Home Assistant, used to render the Power Diagram views ([repository](https://github.com/RomRider/apexcharts-card)).
 
-### Additional research credits
+### 🔎 Additional research credits
 
 The following community discussions informed the dispatch and battery-control logic:
 
 - [storion4you.de - Speicherladung über Netz aktivieren](https://www.storion4you.de/thread/831-modbus-befehl-senden-speicherladung-uber-netz-aktivieren/)
 - [Whirlpool forums - AlphaESS dispatch thread](https://forums.whirlpool.net.au/thread/9xv6wzmm)
 
-### A note on upstream licensing
+*   **🦋 Bluesky:** [@ramonvanraaij.nl](https://bsky.app/profile/ramonvanraaij.nl)
+*   **🐙 GitHub:** [@ramonvanraaij](https://github.com/ramonvanraaij)
+*   **🌐 Website:** [ramon.vanraaij.eu](https://ramon.vanraaij.eu)
 
-The snitzelweck92 and Umrath repositories are public on GitHub but do **not** contain a `LICENSE` file. The Hillview Lodge page is published as a public web resource without a formal license. Portions of this project that originated upstream therefore remain under their respective authors' copyright; permission to incorporate them was not formally granted, and this project relies on the de facto public availability of those works. The MIT grant in this repository applies only to original contributions by Rámon van Raaij. See [LICENSE.md](./LICENSE.md) for the full statement.
+---
 
-If you are an upstream author and you object to your work being incorporated or redistributed here, please open an issue or contact the maintainer directly. The repository will be amended, taken private, or taken down at your request.
+## ☕ Buy me a Coffee
+
+If you found this project helpful, informative, or if it saved you some time, consider supporting my work! Your support motivates me to keep building and sharing.
+
+*   **💳 [Bunq.me](https://bunq.me/ramonvanraaij)** (iDeal, Bancontact, Cards)
+*   **🅿️ [PayPal](http://paypal.me/ramonvanraaij)**
+
+Thank you for your support! ❤️
