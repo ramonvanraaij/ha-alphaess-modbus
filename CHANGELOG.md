@@ -177,4 +177,15 @@
                             AlphaESS_Battery_Charge_Cutoff_Voltage (0x0113): battery charge cutoff voltage
                             AlphaESS_Battery_Discharge_Cutoff_Voltage (0x0114): battery discharge cutoff voltage
                           - Updated alphaess_view.yaml to display all new sensors in Grid, PV Output, and Battery sections.
+ 10.9     2026-07-16      Added battery cell-health registers and daily self-sufficiency/self-consumption
+                          calculations, cross-checked against the senalse/ha-alphaess-modbus fork; the two
+                          KPI formulas were verified live against the running SMILE-G3-T10 instance via the
+                          Home Assistant REST API.
+                          - Added AlphaESS_Battery_Min_Cell_Voltage (0x0107), AlphaESS_Battery_Max_Cell_Voltage
+                            (0x010A) and AlphaESS_Battery_Capacity (0x0119); addresses, scales and units
+                            verified against the vendor register map.
+                          - Added AlphaESS_Battery_Cell_Voltage_Delta template sensor for imbalance monitoring.
+                          - Added AlphaESS_Self_Sufficiency_Today and AlphaESS_Self_Consumption_Today template
+                            sensors, built from the existing daily utility meters and AlphaESS_Today_s_House_Load.
+                          - Updated alphaess_view.yaml to display the new sensors in the Battery and Today sections.
 ```

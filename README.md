@@ -255,7 +255,7 @@ Displays grid power (total and per-phase), voltage per phase, current per phase,
 
 ### 🔋 Battery
 
-Shows SoC, power, voltage, current, temperature, SoH, battery status, relay status, module count, and advanced diagnostics (implementation/remaining charge/discharge SoC, max charge/discharge power).
+Shows SoC, power, voltage, current, temperature, SoH, capacity, battery status, relay status, module count, and advanced diagnostics (implementation/remaining charge/discharge SoC, max charge/discharge power). Min/max cell voltage and a computed cell voltage delta are included for imbalance monitoring.
 
 ### 🔆 PV Charger (DC-DC)
 
@@ -263,7 +263,7 @@ Displays state data (SoC, voltage, current, power) for a DC-coupled PV Charger (
 
 ### 📈 Energy Statistics
 
-**Today's values:** PV production, grid consumption, grid feed-in, battery charge/discharge, house load.
+**Today's values:** PV production, grid consumption, grid feed-in, battery charge/discharge, house load, self-sufficiency %, self-consumption %.
 
 **Total values:** Lifetime energy counters for all of the above.
 
@@ -340,6 +340,9 @@ The integration creates several computed sensors:
 - **Current House Load:** PV production + battery power + grid power, clamped to >= 0. In off-grid mode (`inverter_work_mode == 2`) it falls back to grid power only.
 - **Excess Power:** Available surplus after house load.
 - **Clipping detection:** True when PV1 and PV2 power readings are identical and their sum exceeds the inverter AC limit (symmetric two-string clipping signature; assumes PV3 and PV4 are unused, as in the tested setup). If you wire additional strings, the formula will need to be adjusted.
+- **Battery Cell Voltage Delta:** Max minus min cell voltage, for pack imbalance monitoring.
+- **Self-Sufficiency Today:** `(Today's House Load - Today's Grid Consumption) / Today's House Load`, as a percentage of today's total load that was met without grid import. On days the battery is charged from the grid (e.g. via a scheduled charging period) and later discharged, that energy still counts as local supply, so this can read optimistically on grid-arbitrage days.
+- **Self-Consumption Today:** `(Today's PV Production - Today's Grid Feed-in) / Today's PV Production`, as a percentage of today's PV production that was used on-site rather than exported. Uses the main grid feed-in meter rather than the separate PV-meter feed-in register, since the latter reads zero on installations without a dedicated AC-side PV meter CT.
 - **Charging/Discharging periods:** Human-readable time window display
 - **ApexCharts sensors:** Scaled (kW) versions of power sensors for the power diagram
 

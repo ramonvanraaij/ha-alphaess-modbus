@@ -1514,7 +1514,18 @@ modbus:
         state_class: measurement
         scan_interval: 60
 
-      - name: AlphaESS Battery Voltage 
+      - name: AlphaESS Battery Capacity
+        unique_id: AlphaESS_Battery_Capacity
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0119
+        data_type: uint16
+        unit_of_measurement: kWh
+        state_class: measurement
+        scan_interval: 60
+        scale: 0.1
+        precision: 1
+
+      - name: AlphaESS Battery Voltage
         unique_id: AlphaESS_Battery_Voltage
         slave: !secret alphaess_modbus_slaveId
         address: 0x0100
@@ -1561,6 +1572,30 @@ modbus:
         scan_interval: 10
         scale: 0.1
         precision: 1
+
+      - name: AlphaESS Battery Min Cell Voltage
+        unique_id: AlphaESS_Battery_Min_Cell_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0107
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 10
+        scale: 0.001
+        precision: 3
+
+      - name: AlphaESS Battery Max Cell Voltage
+        unique_id: AlphaESS_Battery_Max_Cell_Voltage
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x010A
+        data_type: uint16
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scan_interval: 10
+        scale: 0.001
+        precision: 3
 
       - name: AlphaESS Battery Max Charge Current
         unique_id: AlphaESS_Battery_Max_Charge_Current
@@ -4692,6 +4727,28 @@ template:
       state_class: total
       icon: mdi:lightning-bolt
       state: "{{ (states('sensor.alphaess_today_s_energy_consumption_from_grid_meter')|float(0) - states('sensor.alphaess_today_s_energy_feed_to_grid_meter')|float(0)) - (states('sensor.alphaess_today_s_energy_charge_battery')|float(0) - states('sensor.alphaess_today_s_energy_discharge_battery')|float(0)) + states('sensor.alphaess_today_s_energy_from_pv')|float(0) + states('sensor.alphaess_today_s_energy_from_pv_meter')|float(0) }}"
+# Self-Sufficiency Today
+    - name: AlphaESS Self-Sufficiency Today
+      unique_id: AlphaESS_Self_Sufficiency_Today
+      unit_of_measurement: "%"
+      state_class: measurement
+      icon: mdi:home-battery
+      state: >
+        {% set load = states('sensor.alphaess_today_s_house_load')|float(0) %}
+        {% set imp = states('sensor.alphaess_today_s_energy_consumption_from_grid_meter')|float(0) %}
+        {{ ([0, [((load - imp) / load * 100), 100]|min]|max|round(1)) if load > 0.01 else 0 }}
+      availability: "{{ states('sensor.alphaess_today_s_house_load') not in ['unknown','unavailable'] and states('sensor.alphaess_today_s_energy_consumption_from_grid_meter') not in ['unknown','unavailable'] }}"
+# Self-Consumption Today
+    - name: AlphaESS Self-Consumption Today
+      unique_id: AlphaESS_Self_Consumption_Today
+      unit_of_measurement: "%"
+      state_class: measurement
+      icon: mdi:solar-power-variant
+      state: >
+        {% set pv = states('sensor.alphaess_today_s_energy_from_pv')|float(0) + states('sensor.alphaess_today_s_energy_from_pv_meter')|float(0) %}
+        {% set exp = states('sensor.alphaess_today_s_energy_feed_to_grid_meter')|float(0) %}
+        {{ ([0, [((pv - exp) / pv * 100), 100]|min]|max|round(1)) if pv > 0.01 else 0 }}
+      availability: "{{ states('sensor.alphaess_today_s_energy_from_pv') not in ['unknown','unavailable'] and states('sensor.alphaess_today_s_energy_from_pv_meter') not in ['unknown','unavailable'] and states('sensor.alphaess_today_s_energy_feed_to_grid_meter') not in ['unknown','unavailable'] }}"
 # Current PV Production
     - name: AlphaESS Current PV Production
       unique_id: AlphaESS_Current_PV_Production
@@ -4776,6 +4833,15 @@ template:
       unique_id: AlphaESS_Battery_Full
       state: "{{ is_state('sensor.alphaess_battery_status', '1') }}"
       availability: "{{ states('sensor.alphaess_battery_status') }}"
+# Battery Cell Voltage Delta
+    - name: AlphaESS Battery Cell Voltage Delta
+      unique_id: AlphaESS_Battery_Cell_Voltage_Delta
+      unit_of_measurement: V
+      device_class: voltage
+      state_class: measurement
+      icon: mdi:battery-alert-variant-outline
+      state: "{{ (states('sensor.alphaess_battery_max_cell_voltage')|float(0) - states('sensor.alphaess_battery_min_cell_voltage')|float(0))|round(3) }}"
+      availability: "{{ states('sensor.alphaess_battery_max_cell_voltage') not in ['unknown','unavailable'] and states('sensor.alphaess_battery_min_cell_voltage') not in ['unknown','unavailable'] }}"
 # Clipping
     - name: AlphaESS Clipping
       unique_id: AlphaESS_Clipping

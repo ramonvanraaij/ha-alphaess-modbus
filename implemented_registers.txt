@@ -26,6 +26,8 @@
 0x0102  AlphaESS SoC Battery
 0x0103  AlphaESS Battery Status
 0x0104  AlphaESS Battery Relay Status
+0x0107  AlphaESS Battery Min Cell Voltage
+0x010A  AlphaESS Battery Max Cell Voltage
 0x010D  AlphaESS Battery Min Cell Temp
 0x0110  AlphaESS Battery Max Cell Temp
 0x0111  AlphaESS Battery Max Charge Current
@@ -36,6 +38,7 @@
 0x0116  AlphaESS LMU Version
 0x0117  AlphaESS ISO Version
 0x0118  AlphaESS Battery Module Number
+0x0119  AlphaESS Battery Capacity
 0x011A  AlphaESS Battery Type
 0x011B  AlphaESS SoH Battery
 0x011C  AlphaESS Battery Warning
@@ -74,7 +77,7 @@
 0x040A  AlphaESS Power Inverter L3
 0x040C  AlphaESS Power Inverter
 0x0414  AlphaESS Backup Power Inverter L1
-0x0416  AlphaESS Backup Power Inverter L2
+0x0416  AlphaESS  Backup Power Inverter L2
 0x0418  AlphaESS Backup Power Inverter L3
 0x041A  AlphaESS Backup Power Inverter
 0x041C  AlphaESS Inverter Grid Frequency

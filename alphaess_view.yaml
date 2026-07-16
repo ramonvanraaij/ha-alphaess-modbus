@@ -305,6 +305,8 @@ views:
                 name: Battery Current
               - entity: sensor.alphaess_soh_battery
                 name: SoH Battery
+              - entity: sensor.alphaess_battery_capacity
+                name: Battery Capacity
               - entity: sensor.alphaess_battery_status
                 name: Battery Status
                 icon: mdi:list-status
@@ -315,6 +317,13 @@ views:
                 name: Battery Min Cell Temp
               - entity: sensor.alphaess_battery_max_cell_temp
                 name: Battery Max Cell Temp
+              - entity: sensor.alphaess_battery_min_cell_voltage
+                name: Battery Min Cell Voltage
+              - entity: sensor.alphaess_battery_max_cell_voltage
+                name: Battery Max Cell Voltage
+              - entity: sensor.alphaess_battery_cell_voltage_delta
+                name: Battery Cell Voltage Delta
+                icon: mdi:battery-alert-variant-outline
               - entity: sensor.alphaess_battery_max_charge_current
                 name: Battery Max Charge Current
               - entity: sensor.alphaess_battery_max_discharge_current
@@ -362,6 +371,12 @@ views:
                 name: Today's House Load
               - entity: sensor.alphaess_today_s_energy_from_pv_meter
                 name: Today's Energy from PV (Meter)
+              - entity: sensor.alphaess_self_sufficiency_today
+                name: Self-Sufficiency Today
+                icon: mdi:home-battery
+              - entity: sensor.alphaess_self_consumption_today
+                name: Self-Consumption Today
+                icon: mdi:solar-power-variant
             title: Today
           - type: entities
             entities:
