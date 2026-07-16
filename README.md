@@ -391,14 +391,6 @@ The `docs/` directory contains official AlphaESS technical documentation. Filena
 
 ---
 
-## ⚠️ Disclaimer
-
-This integration writes to your inverter's Modbus registers and can cause hardware damage, warranty voidance, or regulatory non-compliance if misused. The author accepts no liability for any consequences of using this project.
-
-**Before installing, read the full disclaimer: [DISCLAIMER.md](./DISCLAIMER.md).**
-
----
-
 ## 📜 License
 
 The contributions authored by Rámon van Raaij in this repository are released under the **BSD 3-Clause License**. See the [`LICENSE.md`](./LICENSE.md) file for the full text and notes on upstream copyright.
@@ -417,6 +409,10 @@ If you are an upstream author and you object to your work being incorporated or 
 
 Developed and maintained by **[Rámon van Raaij](https://ramon.vanraaij.eu)** (2026).
 
+*   **🦋 Bluesky:** [@ramonvanraaij.nl](https://bsky.app/profile/ramonvanraaij.nl)
+*   **🐙 GitHub:** [@ramonvanraaij](https://github.com/ramonvanraaij)
+*   **🌐 Website:** [ramon.vanraaij.eu](https://ramon.vanraaij.eu)
+
 ### 🙏 Upstream attribution
 
 This project is a derivative work building on a chain of prior community contributions. Credit is gratefully given to:
@@ -433,10 +429,6 @@ The following community discussions informed the dispatch and battery-control lo
 
 - [storion4you.de - Speicherladung über Netz aktivieren](https://www.storion4you.de/thread/831-modbus-befehl-senden-speicherladung-uber-netz-aktivieren/)
 - [Whirlpool forums - AlphaESS dispatch thread](https://forums.whirlpool.net.au/thread/9xv6wzmm)
-
-*   **🦋 Bluesky:** [@ramonvanraaij.nl](https://bsky.app/profile/ramonvanraaij.nl)
-*   **🐙 GitHub:** [@ramonvanraaij](https://github.com/ramonvanraaij)
-*   **🌐 Website:** [ramon.vanraaij.eu](https://ramon.vanraaij.eu)
 
 ---
 
