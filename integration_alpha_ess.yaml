@@ -703,7 +703,7 @@ modbus:
         scale: 1 # 0.1 for SMILE-B3/SMILE-B3-PLUS
 
       # Backup Power Inverter L2
-      - name: AlphaESS  Backup Power Inverter L2
+      - name: AlphaESS Backup Power Inverter L2
         unique_id: AlphaESS_Backup_Power_Inverter_L2
         slave: !secret alphaess_modbus_slaveId
         address: 0x0416

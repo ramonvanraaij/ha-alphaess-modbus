@@ -188,4 +188,6 @@
                           - Added AlphaESS_Self_Sufficiency_Today and AlphaESS_Self_Consumption_Today template
                             sensors, built from the existing daily utility meters and AlphaESS_Today_s_House_Load.
                           - Updated alphaess_view.yaml to display the new sensors in the Battery and Today sections.
+                          - Fixed a double space in the AlphaESS Backup Power Inverter L2 sensor name (0x0416);
+                            unique_id, address, and entity_id are unaffected.
 ```
