@@ -9,6 +9,13 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 
 ## [Unreleased]
 
+### Fixed
+
+- Changing the Force Import Power slider while Force Import runs no longer makes the battery discharge: the update
+  now writes the same setpoint as Force Import itself (charge = import power + PV - house load). Changing the Force
+  Export Power slider likewise writes the Force Export setpoint (discharge = house load + export power - PV)
+  instead of the bare export power.
+
 ## [10.10.0] - 2026-11-24
 
 Dispatch corrections for [#1](https://github.com/ramonvanraaij/ha-alphaess-modbus/issues/1) and
