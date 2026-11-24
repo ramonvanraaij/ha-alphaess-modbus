@@ -4520,8 +4520,8 @@ automation:
 # --- End Dispatch automations
 
 # --- Start Cutoff SoC Hold Monitoring automation
-# Ends a Force mode whose Hold helper is off once the battery has idled (between -50 and 50 W for 10 s), taken as
-# the cutoff SoC reached; Force Export also needs the SoC below its cutoff + 2.
+# Ends a Force mode whose Hold helper is off once the battery has idled (between -50 and 50 W for 10 s); the idle is
+# taken as the cutoff SoC reached and only Force Export also checks the SoC (below its cutoff + 2).
   - id: "AlphaESS_Cutoff_SoC_Hold_Monitoring"
     alias: AlphaESS Cutoff SoC Hold Monitoring
     triggers:
