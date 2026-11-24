@@ -4769,7 +4769,7 @@ automation:
     max_exceeded: silent
 
 # Reset Dispatch Full
-# With VPP Mode on, only the Reset Full button writes the registers
+# With VPP Mode on, this automation writes the registers only for the Reset Full button
   - id: "AlphaESS_Dispatch_Reset_Full"
     alias: AlphaESS Dispatch Reset Full
     triggers:
@@ -4886,7 +4886,7 @@ automation:
           entity_id: timer.alphaess_helper_dispatch_timer
     mode: single
 
-# VPP Mode turned on: release every helper and timer, then clear a dispatch Home Assistant owned
+# VPP Mode turned on: release every helper and timer, then write the neutral block if a dispatch helper was on
   - id: "AlphaESS_VPP_Mode_On"
     alias: AlphaESS VPP Mode On
     triggers:
