@@ -950,8 +950,24 @@ modbus:
         precision: 2
 
       # Total Energy Feed to Grid (PV)
+      # The vendor list names 0x0090 "Total energy feed to Grid(PV)" and 0x0092 "Total energy consumption from
+      # Grid(PV)" (PV meter of an AC-coupled PV inverter). On real hardware 0x0092 counts the PV inverter's
+      # production and 0x0090 its own standby draw, so this sensor reads 0x0092.
       - name: AlphaESS Total Energy Feed to Grid (PV)
         unique_id: AlphaESS_Total_Energy_Feed_to_Grid_PV
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0092
+        data_type: uint32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scan_interval: 60
+        scale: 0.01
+        precision: 2
+
+      # Total Energy PV Inverter Consumption (0x0090, see the note above)
+      - name: AlphaESS Total Energy PV Inverter Consumption
+        unique_id: AlphaESS_Total_Energy_PV_Inverter_Consumption
         slave: !secret alphaess_modbus_slaveId
         address: 0x0090
         data_type: uint32

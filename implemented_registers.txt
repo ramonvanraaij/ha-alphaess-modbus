@@ -16,7 +16,8 @@
 0x001F  AlphaESS Power Phase C Grid
 0x0021  AlphaESS Power Grid
 0x0081  AlphaESS CT Rate PV Meter
-0x0090  AlphaESS Total Energy Feed to Grid (PV)
+0x0090  AlphaESS Total Energy PV Inverter Consumption
+0x0092  AlphaESS Total Energy Feed to Grid (PV)
 0x0097  AlphaESS Current Phase A PV Meter
 0x0098  AlphaESS Current Phase B PV Meter
 0x0099  AlphaESS Current Phase C PV Meter
@@ -77,7 +78,7 @@
 0x040A  AlphaESS Power Inverter L3
 0x040C  AlphaESS Power Inverter
 0x0414  AlphaESS Backup Power Inverter L1
-0x0416  AlphaESS  Backup Power Inverter L2
+0x0416  AlphaESS Backup Power Inverter L2
 0x0418  AlphaESS Backup Power Inverter L3
 0x041A  AlphaESS Backup Power Inverter
 0x041C  AlphaESS Inverter Grid Frequency

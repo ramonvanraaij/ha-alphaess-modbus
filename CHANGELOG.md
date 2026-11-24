@@ -9,6 +9,10 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 
 ## [Unreleased]
 
+### Added
+
+- `AlphaESS Total Energy PV Inverter Consumption` (register 0x0090): the AC-coupled PV inverter's own standby draw.
+
 ### Changed
 
 - README: a new dashboard screenshot, a screenshot and time-window table for every power diagram view, an Energy
@@ -24,6 +28,10 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   load minus PV production with the import power, and the pause also re-checks when PV production changes. The
   helper sensor is renamed to "AlphaESS House Load - PV Production > Force Import Power"
   (`sensor.alphaess_house_load_pv_production_force_import_power`).
+- Total Energy Feed to Grid (PV) reads register 0x0092 instead of 0x0090: on AC-coupled PV inverters 0x0090 counts
+  the inverter's standby draw and stayed near zero. Systems without an AC PV meter read 0 on both. With an
+  AC-coupled PV inverter the sensor jumps once to the real total after the update; if it feeds the Energy
+  dashboard, adjust that step under Developer Tools > Statistics.
 
 ## [10.10.0] - 2026-11-24
 
