@@ -21,6 +21,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   energy and the system total PV energy.
 - `AlphaESS Battery SOC Calibration` (0x012F) and `AlphaESS Battery Single Cut Error Code` (0x0130).
 - `AlphaESS Inverter Work Mode Name`: the inverter work mode as text (Wait, Online, UPS, Bypass, Fault, ...).
+- `AlphaESS Excess Export Inverter AC Limit Offset` helper (0 to 2000 W, default 0): Excess Export treats the
+  inverter AC limit as this many W lower.
 
 ### Changed
 

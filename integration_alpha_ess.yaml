@@ -2469,6 +2469,16 @@ input_number:
     mode: slider
     step: 0.1
 
+# Helper for Excess Export Inverter AC Limit Offset (Excess Export treats the inverter AC limit as this many W lower)
+  alphaess_helper_excess_export_inverter_ac_limit_offset:
+    name: AlphaESS Excess Export Inverter AC Limit Offset
+    min: 0
+    max: 2000
+    icon: mdi:flash
+    unit_of_measurement: "W"
+    mode: slider
+    step: 100
+
 input_select:
 # Helper for Inverter AC Limit
   alphaess_helper_inverter_ac_limit:
@@ -4620,8 +4630,8 @@ automation:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - >
-              {% if states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int + states('sensor.alphaess_active_power_pv_meter')|int %}
-                {{ 32000 - (states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) - (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int - states('sensor.alphaess_active_power_pv_meter')|int) }}
+              {% if states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int - states('input_number.alphaess_helper_excess_export_inverter_ac_limit_offset')|int + states('sensor.alphaess_active_power_pv_meter')|int %}
+                {{ 32000 - (states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) - (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int + states('input_number.alphaess_helper_excess_export_inverter_ac_limit_offset')|int - states('sensor.alphaess_active_power_pv_meter')|int) }}
               {% else %}
                 32000
               {% endif %}
