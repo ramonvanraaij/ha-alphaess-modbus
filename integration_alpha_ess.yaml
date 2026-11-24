@@ -1936,7 +1936,8 @@ modbus:
         state_class: measurement
         scan_interval: 5
 
-      # Dispatch SoC (0.392%/bit)
+      # Dispatch SoC (0.4%/bit per the vendor spec, as on the G3 family; the write templates send 255
+      # for 100%, which reads back as 102%. A SMILE-B3 was measured at 0.392%/bit (255 = 100%).
       - name: AlphaESS Dispatch SoC
         unique_id: AlphaESS_Dispatch_SoC
         slave: !secret alphaess_modbus_slaveId
@@ -1945,7 +1946,7 @@ modbus:
         unit_of_measurement: "%"
         state_class: measurement
         scan_interval: 5
-        scale: 0.392
+        scale: 0.4
 
       # Dispatch Time
       - name: AlphaESS Dispatch Time
@@ -2096,6 +2097,12 @@ input_boolean:
     name: AlphaESS PV Switch
     icon: mdi:solar-power
     initial: on
+
+# Helper for VPP Mode: on while an external controller (energy supplier VPP, cloud battery trading)
+# owns the dispatch registers 0x0880-0x088A
+  alphaess_helper_vpp_mode:
+    name: AlphaESS VPP Mode
+    icon: mdi:transmission-tower
 
 # Helper for Excess Export
   alphaess_helper_excess_export:
@@ -3085,6 +3092,22 @@ automation:
         to: "on"
     actions:
       - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "on"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_charging
+          - action: persistent_notification.create
+            data:
+              notification_id: alphaess_vpp_mode_block
+              title: AlphaESS VPP Mode
+              message: >-
+                Force Charging was not started because VPP Mode is on: an external controller owns the
+                dispatch registers. Turn VPP Mode off first.
+          - stop: VPP Mode is on
+      - if:
           - condition: or
             conditions:
               - condition: state
@@ -3173,7 +3196,7 @@ automation:
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
-            - "{{ (states('input_number.alphaess_helper_force_charging_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_force_charging_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
             - 0   # Dispatch Time (2 bytes/registers)
             - "{{ (states('input_number.alphaess_helper_force_charging_duration')|int) * 60 }}"
             - 255 # Flow Direction
@@ -3200,10 +3223,10 @@ automation:
       - action: modbus.write_register
         data:
           hub: modbuspvsystem
-          address: 0x0886 # Dispatch SoC (0.392%/bit)
+          address: 0x0886 # Dispatch SoC (0.4%/bit, 100% written as 255)
           slave: !secret alphaess_modbus_slaveId
           value:
-            - "{{ (states('input_number.alphaess_helper_force_charging_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_force_charging_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
     mode: single
 
 # Update Force Charging Duration
@@ -3269,6 +3292,22 @@ automation:
           - input_boolean.alphaess_helper_force_discharging
         to: "on"
     actions:
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "on"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_discharging
+          - action: persistent_notification.create
+            data:
+              notification_id: alphaess_vpp_mode_block
+              title: AlphaESS VPP Mode
+              message: >-
+                Force Discharging was not started because VPP Mode is on: an external controller owns the
+                dispatch registers. Turn VPP Mode off first.
+          - stop: VPP Mode is on
       - if:
           - condition: or
             conditions:
@@ -3358,7 +3397,7 @@ automation:
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
-            - "{{ (states('input_number.alphaess_helper_force_discharging_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_force_discharging_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
             - 0   # Dispatch Time (2 bytes/registers)
             - "{{ (states('input_number.alphaess_helper_force_discharging_duration')|int) * 60 }}"
             - 255 # Flow Direction
@@ -3385,10 +3424,10 @@ automation:
       - action: modbus.write_register
         data:
           hub: modbuspvsystem
-          address: 0x0886 # Dispatch SoC (0.392%/bit)
+          address: 0x0886 # Dispatch SoC (0.4%/bit, 100% written as 255)
           slave: !secret alphaess_modbus_slaveId
           value:
-            - "{{ (states('input_number.alphaess_helper_force_discharging_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_force_discharging_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
     mode: single
 
 # Update Force Discharging Duration
@@ -3460,6 +3499,22 @@ automation:
         value_template: >-
           {{ now() > state_attr('automation.alphaess_force_export','last_triggered') | default(as_datetime(0), true) + timedelta(seconds=5) }}
     actions:
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "on"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_export
+          - action: persistent_notification.create
+            data:
+              notification_id: alphaess_vpp_mode_block
+              title: AlphaESS VPP Mode
+              message: >-
+                Force Export was not started because VPP Mode is on: an external controller owns the
+                dispatch registers. Turn VPP Mode off first.
+          - stop: VPP Mode is on
       - if:
           - condition: or
             conditions:
@@ -3551,7 +3606,7 @@ automation:
             - 2   # Dispatch Mode (2 = State of Charge Control)
             - >
               {% if (states('sensor.alphaess_current_house_load')|int + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production')|int > 0 %}
-                {{ (states('input_number.alphaess_helper_force_export_cutoff_soc')|int / 0.392) |int }}
+                {% set soc = states('input_number.alphaess_helper_force_export_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}
               {% else %}
                 255
               {% endif %}
@@ -3588,10 +3643,10 @@ automation:
       - action: modbus.write_register
         data:
           hub: modbuspvsystem
-          address: 0x0886 # Dispatch SoC (0.392%/bit)
+          address: 0x0886 # Dispatch SoC (0.4%/bit, 100% written as 255)
           slave: !secret alphaess_modbus_slaveId
           value:
-            - "{{ (states('input_number.alphaess_helper_force_export_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_force_export_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
     mode: single
 
 # Update Force Export Duration
@@ -3666,6 +3721,22 @@ automation:
         value_template: >-
           {{ now() > state_attr('automation.alphaess_force_import','last_triggered') | default(as_datetime(0), true) + timedelta(seconds=5) }}
     actions:
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "on"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_import
+          - action: persistent_notification.create
+            data:
+              notification_id: alphaess_vpp_mode_block
+              title: AlphaESS VPP Mode
+              message: >-
+                Force Import was not started because VPP Mode is on: an external controller owns the
+                dispatch registers. Turn VPP Mode off first.
+          - stop: VPP Mode is on
       - if:
           - condition: or
             conditions:
@@ -3755,7 +3826,7 @@ automation:
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
-            - "{{ (states('input_number.alphaess_helper_force_import_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_force_import_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
             - 0   # Dispatch Time (2 bytes/registers)
             - "{{ (states('input_number.alphaess_helper_force_import_duration')|int) * 60 }}"
             - 255 # Flow Direction
@@ -3832,7 +3903,7 @@ automation:
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
-            - 0   # Dispatch SOC  (0.392%/bit)
+            - 0   # Dispatch SOC  (0.4%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
             - 90
             - 255 # Flow Direction
@@ -3890,10 +3961,10 @@ automation:
       - action: modbus.write_register
         data:
           hub: modbuspvsystem
-          address: 0x0886 # Dispatch SoC (0.392%/bit)
+          address: 0x0886 # Dispatch SoC (0.4%/bit, 100% written as 255)
           slave: !secret alphaess_modbus_slaveId
           value:
-            - "{{ (states('input_number.alphaess_helper_force_import_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_force_import_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
     mode: single
 
 # Update Force Import Duration
@@ -3959,6 +4030,22 @@ automation:
           - input_boolean.alphaess_helper_dispatch
         to: "on"
     actions:
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "on"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_dispatch
+          - action: persistent_notification.create
+            data:
+              notification_id: alphaess_vpp_mode_block
+              title: AlphaESS VPP Mode
+              message: >-
+                Dispatch was not started because VPP Mode is on: an external controller owns the
+                dispatch registers. Turn VPP Mode off first.
+          - stop: VPP Mode is on
       - if:
           - condition: or
             conditions:
@@ -4057,7 +4144,7 @@ automation:
             - >
               {% set dispatch_mode = states('input_select.alphaess_helper_dispatch_mode').split('(')[1].split(')')[0] %}
               {% if dispatch_mode == "2" %}
-                {{ (states('input_number.alphaess_helper_dispatch_cutoff_soc')|int / 0.392) |int }}
+                {% set soc = states('input_number.alphaess_helper_dispatch_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}
               {% else %}
                 0
               {% endif %}
@@ -4101,7 +4188,7 @@ automation:
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
-            - 0   # Dispatch SOC  (0.392%/bit)
+            - 0   # Dispatch SOC  (0.4%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
             - 90
             - 255 # Flow Direction
@@ -4132,7 +4219,7 @@ automation:
             - >
               {% set dispatch_mode = states('input_select.alphaess_helper_dispatch_mode').split('(')[1].split(')')[0] %}
               {% if dispatch_mode == "2" %}
-                {{ (states('input_number.alphaess_helper_dispatch_cutoff_soc')|int / 0.392) |int }}
+                {% set soc = states('input_number.alphaess_helper_dispatch_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}
               {% else %}
                 0
               {% endif %}
@@ -4170,15 +4257,15 @@ automation:
       - action: modbus.write_register
         data:
           hub: modbuspvsystem
-          address: 0x0886 # Dispatch SoC (0.392%/bit)
+          address: 0x0886 # Dispatch SoC (0.4%/bit, 100% written as 255)
           slave: !secret alphaess_modbus_slaveId
           value:
-            - "{{ (states('input_number.alphaess_helper_dispatch_cutoff_soc')|int / 0.392) |int }}"
+            - "{% set soc = states('input_number.alphaess_helper_dispatch_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
     mode: single
 
 # Update Dispatch Duration
   - id: "AlphaESS_Update_Dispatch_Duration"
-    alias: AlphaESS Update Force Charging Duration
+    alias: AlphaESS Update Dispatch Duration
     triggers:
       - trigger: state
         entity_id:
@@ -4297,6 +4384,22 @@ automation:
         state: "off"
     actions:
       - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "on"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_excess_export
+          - action: persistent_notification.create
+            data:
+              notification_id: alphaess_vpp_mode_block
+              title: AlphaESS VPP Mode
+              message: >-
+                Excess Export was not started because VPP Mode is on: an external controller owns the
+                dispatch registers. Turn VPP Mode off first.
+          - stop: VPP Mode is on
+      - if:
           - condition: or
             conditions:
               - condition: state
@@ -4390,7 +4493,7 @@ automation:
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
-            - 255 # Dispatch SOC  (0.392%/bit)
+            - 255 # Dispatch SOC (0.4%/bit; 255 is above 100%, so the target is never reached)
             - 0   # Dispatch Time (2 bytes/registers)
             - 300 # 5 min
             - 255 # Flow Direction
@@ -4446,7 +4549,7 @@ automation:
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 0   # Dispatch Mode (2 = State of Charge Control)
-            - 0   # Dispatch SOC  (0.392%/bit)
+            - 0   # Dispatch SOC  (0.4%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
             - 90
             - 255 # Flow Direction
@@ -4552,23 +4655,28 @@ automation:
           entity_id: timer.alphaess_helper_dispatch_timer
         enabled: false
     actions:
-      - action: modbus.write_register
-        data:
-          hub: modbuspvsystem
-          address: 0x0880 # Dispatch Starting Register
-          slave: !secret alphaess_modbus_slaveId
-          value:
-            - 0   # Dispatch Start
-            - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
-            - 32000
-            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
-            - 10000
-            - 0   # Dispatch Mode (2 = State of Charge Control)
-            - 0   # Dispatch SOC  (0.392%/bit)
-            - 0   # Dispatch Time (2 bytes/registers)
-            - 90
-            - 255 # Flow Direction
-            - 0   # PV Switch
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "off"
+        then:
+          - action: modbus.write_register
+            data:
+              hub: modbuspvsystem
+              address: 0x0880 # Dispatch Starting Register
+              slave: !secret alphaess_modbus_slaveId
+              value:
+                - 0   # Dispatch Start
+                - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
+                - 32000
+                - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+                - 10000
+                - 0   # Dispatch Mode (2 = State of Charge Control)
+                - 0   # Dispatch SOC  (0.4%/bit)
+                - 0   # Dispatch Time (2 bytes/registers)
+                - 90
+                - 255 # Flow Direction
+                - 0   # PV Switch
       - if:
           - condition: state
             entity_id: input_boolean.alphaess_helper_force_import
@@ -4609,52 +4717,73 @@ automation:
     triggers:
       - trigger: homeassistant
         event: start
+        id: start
       - trigger: state
         entity_id: sensor.alphaess_power_grid
         to:
           - "unknown"
           - "unavailable"
+        id: connection_lost
       - trigger: state
         entity_id:
           - input_button.alphaess_helper_dispatch_reset_full
+        id: button
       - trigger: event
         event_type: timer.finished
         event_data:
           entity_id: timer.alphaess_helper_force_charging_timer
+        id: timer
       - trigger: event
         event_type: timer.finished
         event_data:
           entity_id: timer.alphaess_helper_force_discharging_timer
+        id: timer
       - trigger: event
         event_type: timer.finished
         event_data:
           entity_id: timer.alphaess_helper_force_import_timer
+        id: timer
       - trigger: event
         event_type: timer.finished
         event_data:
           entity_id: timer.alphaess_helper_force_export_timer
+        id: timer
       - trigger: event
         event_type: timer.finished
         event_data:
           entity_id: timer.alphaess_helper_dispatch_timer
+        id: timer
     actions:
-      - action: modbus.write_register
-        data:
-          hub: modbuspvsystem
-          address: 0x0880 # Dispatch Starting Register
-          slave: !secret alphaess_modbus_slaveId
-          value:
-            - 0   # Dispatch Start
-            - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
-            - 32000
-            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
-            - 10000
-            - 0   # Dispatch Mode (2 = State of Charge Control)
-            - 0   # Dispatch SOC  (0.392%/bit)
-            - 0   # Dispatch Time (2 bytes/registers)
-            - 90
-            - 255 # Flow Direction
-            - 0   # PV Switch
+      - if:
+          - condition: not
+            conditions:
+              - condition: and
+                conditions:
+                  - condition: state
+                    entity_id: input_boolean.alphaess_helper_vpp_mode
+                    state: "on"
+                  - condition: trigger
+                    id:
+                      - start
+                      - connection_lost
+        then:
+          - action: modbus.write_register
+            data:
+              hub: modbuspvsystem
+              address: 0x0880 # Dispatch Starting Register
+              slave: !secret alphaess_modbus_slaveId
+              value:
+                - 0   # Dispatch Start
+                - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
+                - 32000
+                - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+                - 10000
+                - 0   # Dispatch Mode (2 = State of Charge Control)
+                - 0   # Dispatch SOC  (0.4%/bit)
+                - 0   # Dispatch Time (2 bytes/registers)
+                - 90
+                - 255 # Flow Direction
+                - 0   # PV Switch
       - action: input_boolean.turn_off
         target:
           entity_id: input_boolean.alphaess_helper_force_charging
@@ -4701,6 +4830,95 @@ automation:
       - action: timer.cancel
         target:
           entity_id: timer.alphaess_helper_dispatch_timer
+    mode: single
+
+# VPP Mode turned on: clear a dispatch Home Assistant still owns, then release every helper
+  - id: "AlphaESS_VPP_Mode_On"
+    alias: AlphaESS VPP Mode On
+    triggers:
+      - trigger: state
+        entity_id:
+          - input_boolean.alphaess_helper_vpp_mode
+        to: "on"
+    actions:
+      - if:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_charging
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_discharging
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_export
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_import
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_dispatch
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_excess_export
+                state: "on"
+        then:
+          - action: modbus.write_register
+            data:
+              hub: modbuspvsystem
+              address: 0x0880 # Dispatch Starting Register
+              slave: !secret alphaess_modbus_slaveId
+              value:
+                - 0   # Dispatch Start
+                - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
+                - 32000
+                - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+                - 10000
+                - 0   # Dispatch Mode (2 = State of Charge Control)
+                - 0   # Dispatch SOC  (0.4%/bit)
+                - 0   # Dispatch Time (2 bytes/registers)
+                - 90
+                - 255 # Flow Direction
+                - 0   # PV Switch
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_charging
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_discharging
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_export
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_import
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_import_pause
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_dispatch
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_excess_export
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_excess_export_pause
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_charging_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_discharging_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_export_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_import_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_dispatch_timer
     mode: single
 
 #-------------------------------------------------------------------------------------------------------------------------------#

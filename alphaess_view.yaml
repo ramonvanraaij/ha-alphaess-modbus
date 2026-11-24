@@ -46,6 +46,9 @@ views:
               - entity: sensor.alphaess_discharging_period_2
                 name: Discharging Period 2
               - type: section
+              - entity: input_boolean.alphaess_helper_vpp_mode
+                name: VPP Mode
+              - type: section
               - entity: input_boolean.alphaess_helper_force_charging
                 name: Force Charging
               - entity: input_number.alphaess_helper_force_charging_duration
@@ -207,6 +210,9 @@ views:
             title: PV Output
           - type: entities
             entities:
+              - entity: input_boolean.alphaess_helper_vpp_mode
+                name: VPP Mode
+              - type: section
               - entity: input_select.alphaess_helper_dispatch_mode
                 name: Dispatch Mode
               - type: weblink
