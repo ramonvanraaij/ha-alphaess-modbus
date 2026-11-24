@@ -34,10 +34,11 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   dashboard, adjust that step under Developer Tools > Statistics.
 - Current House Load no longer reads 0 during a grid outage: in UPS mode it falls back to PV production + battery
   power when the grid reads 0.
-- Inverter values that read `unknown` or `unavailable` no longer break automations or template sensors: the force,
-  excess export and helper sync automations skip the run until the source sensors are numbers again, and template
-  sensors (Current House Load, Current PV Production, Total House Load and others) go unavailable instead of showing
-  a partial value. Battery Full no longer goes unavailable when the battery status reads 0.
+- Inverter values that read `unknown` or `unavailable` no longer break automations or template sensors: the Force
+  Export, Force Import, Excess Export and helper sync automations skip the run until the source sensors are numbers
+  again (Force Import Pause skips only its PV check and still pauses on the inverter work mode), and template sensors
+  (Current House Load, Current PV Production, Total House Load and others) go unavailable instead of showing a
+  partial value. Battery Full no longer goes unavailable when the battery status reads 0.
 
 ## [10.10.0] - 2026-11-24
 
