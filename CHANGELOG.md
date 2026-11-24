@@ -15,6 +15,9 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   now writes the same setpoint as Force Import itself (charge = import power + PV - house load). Changing the Force
   Export Power slider likewise writes the Force Export setpoint (discharge = house load + export power - PV)
   instead of the bare export power.
+- Force Import no longer pauses while PV production still covers the gap: the pause and resume now compare house
+  load minus PV production with the import power. The helper sensor is renamed to "AlphaESS House Load - PV
+  Production > Force Import Power" (`sensor.alphaess_house_load_pv_production_force_import_power`).
 
 ## [10.10.0] - 2026-11-24
 

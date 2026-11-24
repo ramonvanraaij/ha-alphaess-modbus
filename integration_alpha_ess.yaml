@@ -3499,7 +3499,7 @@ automation:
             - 0
             - "{{ 32000 + ((states('input_number.alphaess_helper_force_discharging_power')|float * 1000)|int) }}"
     mode: single
-# --- End Force Disharging automations
+# --- End Force Discharging automations
 
 # --- Start Force Export automations
 # Set Force Export
@@ -3897,7 +3897,7 @@ automation:
               - condition: or
                 conditions:
                   - condition: state
-                    entity_id: sensor.alphaess_house_load_force_import_power
+                    entity_id: sensor.alphaess_house_load_pv_production_force_import_power
                     state:
                       - "True"
                     for:
@@ -3967,7 +3967,7 @@ automation:
           seconds: 0
       - condition: template
         value_template: >-
-          {{ states('sensor.alphaess_current_house_load')|int < (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int}}
+          {{ (states('sensor.alphaess_current_house_load')|int - states('sensor.alphaess_current_pv_production')|int) < (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}
       - condition: template
         value_template: >-
           {{ states('sensor.alphaess_current_pv_production')|int < (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int}}
@@ -5111,11 +5111,11 @@ template:
       unique_id: AlphaESS_Clipping
       state: "{{ (states('sensor.alphaess_pv1_power')|int - states('sensor.alphaess_pv2_power')|int) == 0 and (states('sensor.alphaess_pv1_power')|int + states('sensor.alphaess_pv2_power')|int) > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int }}"
       availability: "{{ not 'unavailable' in [ states('sensor.alphaess_pv1_power'), states('sensor.alphaess_pv2_power'), states('sensor.alphaess_pv3_power'), states('sensor.alphaess_pv4_power') ] }}"
-# House Load > Force Import Power
-    - name: AlphaESS House Load > Force Import Power
-      unique_id: AlphaESS_House_Load_Force_Import_Power
-      state: "{{ states('sensor.alphaess_current_house_load')|int > (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int}}"
-      availability: "{{ states('sensor.alphaess_current_house_load') }}"
+# House Load - PV Production > Force Import Power
+    - name: AlphaESS House Load - PV Production > Force Import Power
+      unique_id: AlphaESS_House_Load_PV_Production_Force_Import_Power
+      state: "{{ states('sensor.alphaess_current_house_load')|int - states('sensor.alphaess_current_pv_production')|int > (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}"
+      availability: "{{ has_value('sensor.alphaess_current_house_load') and has_value('sensor.alphaess_current_pv_production') }}"
 # System Date
     - name: AlphaESS System Date
       unique_id: AlphaESS_System_Date
