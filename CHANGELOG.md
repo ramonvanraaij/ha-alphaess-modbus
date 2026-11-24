@@ -9,6 +9,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 
 ## [Unreleased]
 
+## [10.10.0] - 2026-11-24
+
 Dispatch corrections for [#1](https://github.com/ramonvanraaij/ha-alphaess-modbus/issues/1) and
 [#2](https://github.com/ramonvanraaij/ha-alphaess-modbus/issues/2), and coexistence with an external dispatch
 controller such as an energy supplier's virtual power plant (VPP) or cloud battery trading. When upgrading,
@@ -741,6 +743,7 @@ Extensive refactor and stabilization for SMILE-G3-T10.
 
 - Took initial copy from https://github.com/snitzelweck92/homeassistant_alphaess_modbus_tcp
 
-[Unreleased]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.9...HEAD
+[Unreleased]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.10.0...HEAD
+[10.10.0]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.9...v10.10.0
 [10.9]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.8...v10.9
 [10.8]: https://github.com/ramonvanraaij/ha-alphaess-modbus/releases/tag/v10.8
