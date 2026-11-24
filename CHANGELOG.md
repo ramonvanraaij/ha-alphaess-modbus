@@ -28,9 +28,9 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   Dashboard setup guide, and the recorder history (3 days) the Yesterday and 3 Day views need.
 - `AlphaESS Total Energy from PV Meter` is rounded to 2 decimals, and the ApexCharts helper sensors are named
   `AlphaESS ...` (was `AlphaEss ...`); their entity ids do not change.
-- Force Export, Force Import and Excess Export, the Excess Power and "House Load - PV Production > Force Import
-  Power" sensors and the House Load and PV Production ApexCharts sensors use the filtered house load and PV
-  production, and fall back to the unfiltered sensors while a filtered one has no value.
+- The filtered house load and PV production now feed Force Export, Force Import, Excess Export and these
+  sensors: Excess Power, "House Load - PV Production > Force Import Power" and the House Load and PV Production
+  ApexCharts sensors. Each read falls back to the unfiltered sensor while the filtered one has no value.
 
 ### Fixed
 
