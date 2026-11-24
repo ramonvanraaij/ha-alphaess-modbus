@@ -37,7 +37,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   Shaving switches the other modes off when it runs.
 - `AlphaESS Excess Export Duration` helper (0 to 480 min, step 5, default 0 = no limit) and the `AlphaESS Excess
   Export Timer`: with a duration set, Excess Export turns itself off that long after its first dispatch write, also
-  while paused; changing the duration while it runs restarts the countdown with the new value.
+  while paused; changing the duration while Excess Export is on restarts the countdown from then with the new value,
+  and 0 stops it.
 
 ### Changed
 

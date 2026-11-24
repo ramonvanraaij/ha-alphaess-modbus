@@ -2530,7 +2530,7 @@ input_number:
     mode: slider
     step: 100
 
-# Helper for Excess Export Duration (Excess Export turns itself off this many minutes after its first write; 0 = never)
+# Helper for Excess Export Duration (Excess Export turns itself off this long after its countdown starts; 0 = never)
   alphaess_helper_excess_export_duration:
     name: AlphaESS Excess Export Duration
     # initial: 0
