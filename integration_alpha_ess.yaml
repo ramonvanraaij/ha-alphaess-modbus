@@ -3679,12 +3679,12 @@ automation:
           value:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
-            - "{{ 32000 + (states('sensor.alphaess_current_house_load')|int + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production')|int }}"
+            - "{{ 32000 + (states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) }}"
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
             - >
-              {% if (states('sensor.alphaess_current_house_load')|int + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production')|int > 0 %}
+              {% if (states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) > 0 %}
                 {% set soc = states('input_number.alphaess_helper_force_export_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}
               {% else %}
                 255
@@ -3790,7 +3790,7 @@ automation:
           # Same setpoint as AlphaESS Force Export (discharge = house load + export power - PV)
           value:
             - 0
-            - "{{ 32000 + (states('sensor.alphaess_current_house_load')|int + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production')|int }}"
+            - "{{ 32000 + (states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) }}"
     mode: single
 # --- End Force Export automations
 
@@ -3917,7 +3917,7 @@ automation:
           value:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
-            - "{{ 32000 - ((states('input_number.alphaess_helper_force_import_power')|float * 1000)|int - states('sensor.alphaess_current_house_load')|int) - states('sensor.alphaess_current_pv_production')|int }}"
+            - "{{ 32000 - ((states('input_number.alphaess_helper_force_import_power')|float * 1000)|int - states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0))) - states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) }}"
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
             - 2   # Dispatch Mode (2 = State of Charge Control)
@@ -3976,7 +3976,7 @@ automation:
                       seconds: 5
                   - condition: template
                     value_template: >-
-                      {{ states('sensor.alphaess_current_pv_production') | is_number and states('sensor.alphaess_current_pv_production')|int > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int }}
+                      {{ states('sensor.alphaess_current_pv_production') | is_number and states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int }}
               - condition: template
                 value_template: >-
                   {{ now() > state_attr('automation.alphaess_force_import_resume','last_triggered') | default(as_datetime(0), true) + timedelta(seconds=15) }}
@@ -4040,10 +4040,10 @@ automation:
           seconds: 0
       - condition: template
         value_template: >-
-          {{ (states('sensor.alphaess_current_house_load')|int - states('sensor.alphaess_current_pv_production')|int) < (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}
+          {{ (states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) - states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0))) < (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}
       - condition: template
         value_template: >-
-          {{ states('sensor.alphaess_current_pv_production')|int < (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int}}
+          {{ states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) < (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int}}
     actions:
       - action: input_boolean.turn_off
         target:
@@ -4133,7 +4133,7 @@ automation:
           # Same setpoint as AlphaESS Force Import (charge = import power + PV - house load)
           value:
             - 0
-            - "{{ 32000 - ((states('input_number.alphaess_helper_force_import_power')|float * 1000)|int - states('sensor.alphaess_current_house_load')|int) - states('sensor.alphaess_current_pv_production')|int }}"
+            - "{{ 32000 - ((states('input_number.alphaess_helper_force_import_power')|float * 1000)|int - states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0))) - states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) }}"
     mode: single
 # --- End Force Import automations
 
@@ -4620,8 +4620,8 @@ automation:
             - 1   # Dispatch Start
             - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
             - >
-              {% if states('sensor.alphaess_current_pv_production')|int > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int + states('sensor.alphaess_active_power_pv_meter')|int %}
-                {{ 32000 - (states('sensor.alphaess_current_pv_production')|int - (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int - states('sensor.alphaess_active_power_pv_meter')|int) }}
+              {% if states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int + states('sensor.alphaess_active_power_pv_meter')|int %}
+                {{ 32000 - (states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) - (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int - states('sensor.alphaess_active_power_pv_meter')|int) }}
               {% else %}
                 32000
               {% endif %}
@@ -5181,7 +5181,7 @@ template:
     - name: AlphaESS Excess Power
       unique_id: AlphaESS_Excess_Power
       unit_of_measurement: W
-      state: "{{ (0, states('sensor.alphaess_current_pv_production')|int(0) - states('sensor.alphaess_current_house_load')|float(0)|round(0))|max }}"
+      state: "{{ (0, states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) - states('sensor.alphaess_current_house_load_filtered')|float(states('sensor.alphaess_current_house_load')|float(0))|round(0))|max }}"
 # Battery Full
     - name: AlphaESS Battery Full
       unique_id: AlphaESS_Battery_Full
@@ -5204,7 +5204,7 @@ template:
 # House Load - PV Production > Force Import Power
     - name: AlphaESS House Load - PV Production > Force Import Power
       unique_id: AlphaESS_House_Load_PV_Production_Force_Import_Power
-      state: "{{ states('sensor.alphaess_current_house_load')|int(0) - states('sensor.alphaess_current_pv_production')|int(0) > (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}"
+      state: "{{ states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) - states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) > (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}"
       availability: "{{ has_value('sensor.alphaess_current_house_load') and has_value('sensor.alphaess_current_pv_production') }}"
 # System Date
     - name: AlphaESS System Date
@@ -5238,7 +5238,7 @@ template:
       unit_of_measurement: kW
       device_class: power
       state_class: measurement
-      state: "{{ states('sensor.alphaess_current_house_load') | float(0) / 1000 }}"
+      state: "{{ states('sensor.alphaess_current_house_load_filtered') | float(states('sensor.alphaess_current_house_load') | float(0)) / 1000 }}"
     - name: AlphaESS Power Grid ApexCharts
       unique_id: alphaess_power_grid_apexcharts
       unit_of_measurement: kW
@@ -5266,7 +5266,7 @@ template:
       unit_of_measurement: kW
       device_class: power
       state_class: measurement
-      state: "{{ states('sensor.alphaess_current_pv_production') | float(0) / 1000 }}"
+      state: "{{ states('sensor.alphaess_current_pv_production_filtered') | float(states('sensor.alphaess_current_pv_production') | float(0)) / 1000 }}"
     - name: AlphaESS PV1 Power ApexCharts
       unique_id: alphaess_pv1_power_apexcharts
       unit_of_measurement: kW
