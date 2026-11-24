@@ -2530,6 +2530,17 @@ input_number:
     mode: slider
     step: 100
 
+# Helper for Excess Export Duration (Excess Export turns itself off this many minutes after its first write; 0 = never)
+  alphaess_helper_excess_export_duration:
+    name: AlphaESS Excess Export Duration
+    # initial: 0
+    min: 0
+    max: 480
+    icon: mdi:clock-time-eight-outline
+    unit_of_measurement: "min"
+    mode: slider
+    step: 5
+
 input_select:
 # Helper for Inverter AC Limit
   alphaess_helper_inverter_ac_limit:
@@ -2592,6 +2603,11 @@ timer:
 # Helper for Dispatch Timer
   alphaess_helper_dispatch_timer:
     name: AlphaESS Dispatch Timer
+    icon: mdi:timer-outline
+
+# Helper for Excess Export Timer
+  alphaess_helper_excess_export_timer:
+    name: AlphaESS Excess Export Timer
     icon: mdi:timer-outline
 
 sensor:
@@ -3316,6 +3332,9 @@ automation:
           - action: timer.cancel
             target:
               entity_id: timer.alphaess_helper_dispatch_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
           - delay:
               seconds: 2
       - action: modbus.write_register
@@ -3541,6 +3560,9 @@ automation:
           - action: timer.cancel
             target:
               entity_id: timer.alphaess_helper_dispatch_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
           - delay:
               seconds: 2
       - action: modbus.write_register
@@ -3775,6 +3797,9 @@ automation:
           - action: timer.cancel
             target:
               entity_id: timer.alphaess_helper_dispatch_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
           - delay:
               seconds: 2
       - action: modbus.write_register
@@ -4028,6 +4053,9 @@ automation:
           - action: timer.cancel
             target:
               entity_id: timer.alphaess_helper_dispatch_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
           - delay:
               seconds: 2
       - action: modbus.write_register
@@ -4388,6 +4416,9 @@ automation:
           - action: timer.cancel
             target:
               entity_id: timer.alphaess_helper_dispatch_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
           - delay:
               seconds: 2
       - if:
@@ -4655,6 +4686,9 @@ automation:
           - action: timer.cancel
             target:
               entity_id: timer.alphaess_helper_dispatch_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
           - delay:
               seconds: 2
       - action: modbus.write_register
@@ -5101,6 +5135,9 @@ automation:
           - action: timer.cancel
             target:
               entity_id: timer.alphaess_helper_dispatch_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
           - delay:
               seconds: 2
       - action: modbus.write_register
@@ -5125,6 +5162,19 @@ automation:
             - 300 # 5 min
             - 255 # Flow Direction
             - 0   # PV Switch
+      - if:
+          - condition: state
+            entity_id: timer.alphaess_helper_excess_export_timer
+            state: "idle"
+          - condition: numeric_state
+            entity_id: input_number.alphaess_helper_excess_export_duration
+            above: 0
+        then:
+          - action: timer.start
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
+            data:
+              duration: "{{ (states('input_number.alphaess_helper_excess_export_duration')|int) * 60 }}"
     mode: single
     max_exceeded: silent
 
@@ -5225,6 +5275,33 @@ automation:
       - action: input_boolean.turn_off
         target:
           entity_id: input_boolean.alphaess_helper_excess_export_pause
+    mode: single
+
+# Update Excess Export Duration (restarts the countdown with the new duration; 0 stops it)
+  - id: "AlphaESS_Update_Excess_Export_Duration"
+    alias: AlphaESS Update Excess Export Duration
+    triggers:
+      - trigger: state
+        entity_id:
+          - input_number.alphaess_helper_excess_export_duration
+    conditions:
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_excess_export
+        state: "on"
+    actions:
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_excess_export_timer
+      - if:
+          - condition: numeric_state
+            entity_id: input_number.alphaess_helper_excess_export_duration
+            above: 0
+        then:
+          - action: timer.start
+            target:
+              entity_id: timer.alphaess_helper_excess_export_timer
+            data:
+              duration: "{{ (states('input_number.alphaess_helper_excess_export_duration')|int) * 60 }}"
     mode: single
 
 #-------------------------------------------------------------------------------------------------------------------------------#
@@ -5350,6 +5427,9 @@ automation:
       - action: timer.cancel
         target:
           entity_id: timer.alphaess_helper_dispatch_timer
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_excess_export_timer
     mode: single
     max_exceeded: silent
 
@@ -5395,6 +5475,11 @@ automation:
         event_type: timer.finished
         event_data:
           entity_id: timer.alphaess_helper_dispatch_timer
+        id: timer
+      - trigger: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.alphaess_helper_excess_export_timer
         id: timer
     actions:
       - if:
@@ -5480,6 +5565,9 @@ automation:
       - action: timer.cancel
         target:
           entity_id: timer.alphaess_helper_dispatch_timer
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_excess_export_timer
     mode: single
 
 # VPP Mode turned on: release every helper and timer, then write the neutral block if a dispatch helper was on
@@ -5545,6 +5633,9 @@ automation:
       - action: timer.cancel
         target:
           entity_id: timer.alphaess_helper_dispatch_timer
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_excess_export_timer
       - if:
           - condition: template
             value_template: "{{ ha_owned_dispatch }}"

@@ -35,6 +35,9 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   import stays at about that power. A new install starts at 4 % and 0 kW, which keeps it paused until the cutoff is
   set. Starting another mode, Dispatch Reset Full and turning VPP Mode on switch Peak Shaving off, and Peak
   Shaving switches the other modes off when it runs.
+- `AlphaESS Excess Export Duration` helper (0 to 480 min, step 5, default 0 = no limit) and the `AlphaESS Excess
+  Export Timer`: with a duration set, Excess Export turns itself off that long after its first dispatch write, also
+  while paused; changing the duration while it runs restarts the countdown with the new value.
 
 ### Changed
 
