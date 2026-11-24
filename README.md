@@ -18,7 +18,7 @@ Everything runs locally over Modbus TCP - no cloud dependency. The integration c
 ### ✨ Key Features
 *   **📊 Full monitoring:** PV strings, battery, grid (per-phase), energy statistics, firmware/system info, grid safety settings, and every warning/fault register.
 *   **🎛️ Dispatch control:** force charge/discharge/export/import and excess-export helpers built on the inverter's dispatch register block, with power sliders, cutoff SoC, and durations.
-*   **🛡️ Safety architecture:** mutual exclusion between force modes, dead-man's-switch dispatch durations, and a full register reset on startup, connection loss, or timer expiry.
+*   **🛡️ Safety architecture:** mutual exclusion between force modes, dead-man's-switch dispatch durations, a full register reset on startup, connection loss, or timer expiry, and a VPP Mode that stops Home Assistant from writing the dispatch registers while an external controller is in charge.
 *   **🖼️ Interactive dashboard:** complete Lovelace view plus ApexCharts power-flow diagrams (standard and extended).
 *   **📚 Primary documentation included:** official AlphaESS datasheets, manuals, and Modbus protocol references in [`docs/`](docs/).
 
@@ -130,34 +130,42 @@ The AlphaESS inverter is controlled via the Dispatch register block starting at 
 
 ### 🗺️ Register Map (0x0880 - 0x088A)
 
-| Register | Offset | Parameter             | Description                                   |
-| -------- | ------ | --------------------- | --------------------------------------------- |
-| 0x0880   | Para 1 | Dispatch Start        | 0 = Stop, 1 = Start                           |
-| 0x0881   | Para 2 | Active Power (High)   | Battery power limit, 32000 offset (see below) |
-| 0x0882   | Para 2 | Active Power (Low)    | Second word of 32-bit value                   |
-| 0x0883   | Para 3 | Reactive Power (High) | Reactive power, 32000 offset                  |
-| 0x0884   | Para 3 | Reactive Power (Low)  | Second word of 32-bit value                   |
-| 0x0885   | Para 4 | Dispatch Mode         | Operating mode (see table below)              |
-| 0x0886   | Para 5 | SOC Target            | Target state of charge (0.392%/bit)           |
-| 0x0887   | Para 6 | Duration (High)       | Duration in seconds (high word)               |
-| 0x0888   | Para 6 | Duration (Low)        | Duration in seconds (low word)                |
-| 0x0889   | Para 7 | Flow Direction        | 255 = bidirectional                           |
-| 0x088A   | Para 8 | PV Switch             | 0 = use dispatch value, 1 = PV on, 2 = PV off |
+| Register | Offset | Parameter             | Description                                                                                         |
+| -------- | ------ | --------------------- | --------------------------------------------------------------------------------------------------- |
+| 0x0880   | Para 1 | Dispatch Start        | 0 = Stop, 1 = Start                                                                                 |
+| 0x0881   | Para 2 | Active Power (High)   | High word of the 32-bit power value: always 0                                                       |
+| 0x0882   | Para 2 | Active Power (Low)    | The power value itself: 32000 offset, below 32000 = charge, above = discharge (see below)           |
+| 0x0883   | Para 3 | Reactive Power (High) | High word of the 32-bit reactive power value: always 0                                              |
+| 0x0884   | Para 3 | Reactive Power (Low)  | Reactive power; the vendor guide says it can be 0, this integration writes 10000                    |
+| 0x0885   | Para 4 | Dispatch Mode         | Operating mode (see table below)                                                                    |
+| 0x0886   | Para 5 | SOC Target            | 0.4%/bit (SoC x 2.5, 250 = 100%); used by Mode 2 only. This integration writes 255 for 100%         |
+| 0x0887   | Para 6 | Duration (High)       | Duration in seconds (high word)                                                                     |
+| 0x0888   | Para 6 | Duration (Low)        | Duration in seconds (low word)                                                                      |
+| 0x0889   | Para 7 | Flow Direction        | The vendor table lists 0-5 for test flows; this integration writes 255, as the original package did |
+| 0x088A   | Para 8 | PV Switch             | 1 = PV on, 2 = PV off; 0 for systems without PV control (the force modes write 0)                   |
+
+> **Start a dispatch with one write of the whole block.** This integration starts every dispatch with a single Modbus function-16 write of all 11 registers from `0x0880`. While a Home Assistant dispatch runs, moving one of its sliders rewrites only that parameter (power always as the `0x0881-0x0882` pair, so the high word stays 0). A value written to `0x0881` on its own lands in the **high** word of the power value and gives the inverter a huge number; the power belongs in `0x0882`. On a SMILE-B3, parameters written while the dispatch is stopped have been reported to be ignored, which a single block write avoids.
+>
+> **SoC scale:** the vendor documents 0.4%/bit, and a SMILE-G3-T10 was measured to stop at the 0.4%/bit target. A SMILE-B3 has been measured at 0.392%/bit (255 = 100%); B3 owners can change the `* 2.5` in the write templates and the sensor `scale` accordingly.
 
 ### ⚙️ Operating Modes
 
 #### Standard Modes (Priority: House -> Battery -> Grid)
 
-| Mode | Name                             | Description                                                                                                                                      |
-| ---- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1    | Battery Only from PV             | Battery charges only from solar. No grid charging, no discharge.                                                                                 |
-| 2    | SOC Control                      | Charge or discharge until the target SOC (Para 5) is reached, then stop.                                                                         |
-| 3    | Load Following                   | **Primary mode for automation.** Solar powers the house first, excess charges the battery. Accepts power limits (Para 2) and PV switch (Para 8). |
-| 4    | Maximise Output                  | Actively discharge battery to maximise AC power output to the grid.                                                                              |
-| 5    | Normal Mode                      | Same routing as Mode 3, but ignores power limit parameters.                                                                                      |
-| 6    | Optimise Consumption             | Solar charges battery first. Grid supplements if needed.                                                                                         |
-| 7    | Maximise Consumption             | Battery charges exclusively from the grid (solar still powers the house).                                                                        |
-| 19   | No Battery Charge / Charge Limit | Like Mode 3, but with a hard charge rate limit (Para 2).                                                                                         |
+| Mode | Name                             | Para 2 (power) | Description                                                                                                                                      |
+| ---- | -------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Battery Only from PV             | Used           | Battery charges only from solar. No grid charging, no discharge.                                                                                 |
+| 2    | SOC Control                      | Used           | Battery is controlled to the Para 2 power until the target SOC (Para 5) is reached, then stops.                                                  |
+| 3    | Load Following                   | Used (limit)   | **Primary mode for automation.** Solar powers the house first, excess charges the battery. Accepts power limits (Para 2) and PV switch (Para 8). |
+| 4    | Maximise Output                  | Ignored (0)    | Actively discharge battery to maximise AC power output to the grid.                                                                              |
+| 5    | Normal Mode                      | Used (limit)   | Self-consumption like Mode 3, also with a battery power limit (Para 2).                                                                          |
+| 6    | Optimise Consumption             | Ignored (0)    | Solar charges battery first. Grid supplements if needed.                                                                                         |
+| 7    | Maximise Consumption             | Ignored (0)    | Battery charges from the grid at the maximum rate, whatever Para 2 says (solar still powers the house).                                          |
+| 19   | No Battery Charge / Charge Limit | Ignored (0)    | Self-consumption with limited charging. The vendor text mentions a charge limit, but both vendor parameter tables give Para 2 = 0 for this mode. |
+
+Per the vendor parameter tables, Para 2 must be 0 W (raw `32000`) for modes 4, 6, 7 and 19; this integration's Manual Dispatch sends the power slider only for modes 1, 2, 3 and 5.
+
+Switching between dispatch modes can cause a short overshoot: on a SMILE-G3-T10 (EMS V0.11.642) a change from Mode 2 to Mode 3 produced about 9.5 kW of battery discharge for about 4 seconds before it settled on the house load.
 
 #### OSW Modes - Excess Export (Priority: House -> Grid -> Battery)
 
@@ -168,12 +176,13 @@ These modes are an inverter-native way to flip the hardware priority so grid fee
 | 21   | OSW Battery Only from PV | Excess variant of Mode 1 |
 | 22   | OSW SOC Control          | Excess variant of Mode 2 |
 | 23   | OSW Load Following       | Excess variant of Mode 3 |
-| 24   | OSW Maximise Output      | Excess variant of Mode 4 |
-| 25   | OSW Normal Mode          | Excess variant of Mode 5 |
+| 25   | OSW No Battery Charge    | Excess variant of Mode 19 |
 
-### 🔢 Power Parameter (Register 0x0881)
+Mode 24 is not an OSW power mode: the vendor list puts it under frequency dispatch (OSW FCAS Step).
 
-The Active Power parameter uses a **32000 offset** to represent both charging and discharging:
+### 🔢 Power Parameter (Registers 0x0881-0x0882)
+
+The Active Power parameter is a 32-bit value: `0x0881` holds the high word (0) and `0x0882` the value itself. It uses a **32000 offset** to represent both charging and discharging:
 
 | Action                        | Value | Example                                                         |
 | ----------------------------- | ----- | --------------------------------------------------------------- |
@@ -193,7 +202,20 @@ Each dispatch command sets a duration (`Para 6`) after which the inverter automa
 - The four Force modes and Manual Dispatch use the user-configured slider duration (typically a few minutes to several hours).
 - The Reset automation writes a 90-second duration so any leftover dispatch state expires quickly.
 
-If Home Assistant goes offline mid-dispatch, the inverter falls back to its default behaviour once the active duration elapses.
+If Home Assistant goes offline mid-dispatch, the inverter falls back to its default behaviour once the active duration elapses. The Force modes and Manual Dispatch write their duration once and do not refresh it, so for them that can take up to the slider maximum of 480 minutes. A shorter fallback would need a short duration that is renewed while Home Assistant is in control; this integration does not do that, to keep the number of Modbus writes low.
+
+### 🌐 VPP Mode (External Control)
+
+An energy supplier's virtual power plant (VPP), cloud battery trading or a cloud service can control the battery through the same dispatch registers (`0x0880-0x088A`), typically by sending a new command every few minutes. Home Assistant and such a service then overwrite each other.
+
+Turn on **VPP Mode** (`input_boolean.alphaess_helper_vpp_mode`) while an external controller is in charge. Its state survives restarts. While it is on:
+
+- the reset on Home Assistant start, on Modbus connection loss and when a dispatch timer runs out no longer writes the dispatch registers;
+- Force Charging, Force Discharging, Force Export, Force Import, Manual Dispatch and Excess Export refuse to start: they switch back off and post a notification;
+- the slider updates (power, duration, cutoff SoC, dispatch mode, PV switch) and the Excess Export / Force Import pause logic make no Modbus writes;
+- the manual **Dispatch Reset Full** button still writes the reset block (it ends the external command until the service sends its next one).
+
+Turning VPP Mode on while a Home Assistant dispatch is running clears that dispatch once and releases its helpers. A dispatch is coming from outside Home Assistant when the Dispatch card shows `Dispatch Start = 1` while none of the Home Assistant helpers is on.
 
 ---
 
@@ -217,6 +239,7 @@ The dashboard (`alphaess_view.yaml`) is organized into the following sections:
 | Force Import      | `input_boolean.alphaess_helper_force_import`      | Draw a configured amount of power from the grid; battery charges with whatever the house does not consume (it idles only when house load already matches the slider and PV is zero). |
 | Excess Export     | `input_boolean.alphaess_helper_excess_export`     | Maximise grid export. The battery is held at idle so all PV flows to house and grid; when PV would exceed the inverter AC limit (clipping), the battery absorbs the would-be-lost excess instead. |
 | Dispatch          | `input_boolean.alphaess_helper_dispatch`          | Manual dispatch with user-configured power, mode, SoC, duration, and PV switch. The SoC parameter is only honoured when Mode 2 (SOC Control) is selected; for other modes it is forced to 0. |
+| VPP Mode          | `input_boolean.alphaess_helper_vpp_mode`          | Turn on while an external controller (supplier VPP, cloud battery trading) owns the dispatch registers; Home Assistant then makes no dispatch writes of its own. See [VPP Mode](#-vpp-mode-external-control). |
 
 #### How the force modes are implemented
 
@@ -293,7 +316,7 @@ Stop any active dispatch (`0x0880 = 0`) or start Mode 3 with power at 22000 (max
 
 ### 🔌 Scenario B: Charge from Grid (Cheap Electricity)
 
-Start Mode 7 (`Para 4 = 7`), power at 22000 (max charge).
+Start Mode 7 (`Para 4 = 7`) with Para 2 at `32000`: Mode 7 ignores the power value and always charges at the maximum rate.
 
 **Result:** Battery charges at full speed from the grid. Solar still powers the house but does not contribute to battery charging. Useful during negative electricity prices.
 
@@ -328,15 +351,15 @@ Set max feed-to-grid to 50% via register 0x0800, then start Mode 23 (OSW Load Fo
 ### 🛡️ Automation Safety
 
 - **Mutual exclusion:** When any force mode is activated, all other force modes are automatically disabled first.
-- **Dead man's switch:** Dispatch commands use a 5-minute duration. Automations periodically refresh the command.
-- **Full reset:** On HA startup, connection loss, or timer expiry, the dispatch register block (`0x0880-0x088A`) is reset to neutral values - Dispatch Start `= 0`, Active Power and Reactive Power at their offset midpoints (`32000` and `10000`), Mode `= 0`, Duration `= 90 s` (so any leftover state expires quickly), Flow Direction `= 255`, PV Switch `= 0`. The inverter then falls back to its default operating behaviour.
+- **Dead man's switch:** every dispatch carries a duration. Excess Export uses 5 minutes and renews it on every PV change; the Force modes and Manual Dispatch write the slider duration once (see Dead Man's Switch above).
+- **Full reset:** On HA startup, connection loss, or timer expiry, the dispatch register block (`0x0880-0x088A`) is reset to neutral values - Dispatch Start `= 0`, Active Power and Reactive Power at their offset midpoints (`32000` and `10000`), Mode `= 0`, Duration `= 90 s` (so any leftover state expires quickly), Flow Direction `= 255`, PV Switch `= 0`. The inverter then falls back to its default operating behaviour. While VPP Mode is on, only the Dispatch Reset Full button writes this block; the startup, connection-loss and timer resets skip the Modbus write.
 - **Pause/Resume:** Excess Export has smart pause/resume logic that detects grid import and temporarily suspends the export mode to serve house loads.
 
 ### 🧮 Template Sensors
 
 The integration creates several computed sensors:
 
-- **Current PV Production:** Sum of PV1-PV4 + PV meter active power.
+- **Current PV Production:** Sum of PV1-PV4 + PV meter active power. AC-coupled PV (for example microinverters) is only included when the inverter measures it through its PV meter; external sensors can be substituted in the templates, but the inverter's own load following still regulates on its own meter.
 - **Current House Load:** PV production + battery power + grid power, clamped to >= 0. In off-grid mode (`inverter_work_mode == 2`) it falls back to grid power only.
 - **Excess Power:** Available surplus after house load.
 - **Clipping detection:** True when PV1 and PV2 power readings are identical and their sum exceeds the inverter AC limit (symmetric two-string clipping signature; assumes PV3 and PV4 are unused, as in the tested setup). If you wire additional strings, the formula will need to be adjusted.
