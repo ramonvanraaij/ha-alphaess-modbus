@@ -403,7 +403,7 @@ Set max feed-to-grid to 50% via register 0x0800, then start Mode 23 (OSW Load Fo
 The integration creates several computed sensors:
 
 - **Current PV Production:** Sum of PV1-PV4 + PV meter active power. AC-coupled PV (for example microinverters) is only included when the inverter measures it through its PV meter; external sensors can be substituted in the templates, but the inverter's own load following still regulates on its own meter.
-- **Current House Load:** PV production + battery power + grid power, clamped to >= 0. In off-grid mode (`inverter_work_mode == 2`) it falls back to grid power only.
+- **Current House Load:** PV production + battery power + grid power, clamped to >= 0. In UPS mode (`inverter_work_mode == 2`) it uses grid power, or PV production + battery power when the grid reads 0 (a grid outage).
 - **Excess Power:** Available surplus after house load.
 - **Clipping detection:** True when PV1 and PV2 power readings are identical and their sum exceeds the inverter AC limit (symmetric two-string clipping signature; assumes PV3 and PV4 are unused, as in the tested setup). If you wire additional strings, the formula will need to be adjusted.
 - **Battery Cell Voltage Delta:** Max minus min cell voltage, for pack imbalance monitoring.

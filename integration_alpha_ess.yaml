@@ -5048,7 +5048,12 @@ template:
       state_class: measurement
       state: >
         {% if states('sensor.alphaess_inverter_work_mode') | float == 2 %}
-          {{ states('sensor.alphaess_power_grid')|float|round(0) }}
+          {% set grid = states('sensor.alphaess_power_grid')|float(0) %}
+          {% if grid == 0 %}
+            {{ (0, states('sensor.alphaess_current_pv_production')|int(0) + states('sensor.alphaess_power_battery')|int(0)) | max }}
+          {% else %}
+            {{ grid|round(0) }}
+          {% endif %}
         {% else %}
           {{ (0,(states('sensor.alphaess_current_pv_production')|int(0) + states('sensor.alphaess_power_battery')|int(0) + states('sensor.alphaess_power_grid')|int(0))|int) | max }}
         {% endif %}

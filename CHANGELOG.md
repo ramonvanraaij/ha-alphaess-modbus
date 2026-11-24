@@ -32,6 +32,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   the inverter's standby draw and stayed near zero. Systems without an AC PV meter read 0 on both. With an
   AC-coupled PV inverter the sensor jumps once to the real total after the update; if it feeds the Energy
   dashboard, adjust that step under Developer Tools > Statistics.
+- Current House Load no longer reads 0 during a grid outage: in UPS mode it falls back to PV production + battery
+  power when the grid reads 0.
 
 ## [10.10.0] - 2026-11-24
 
