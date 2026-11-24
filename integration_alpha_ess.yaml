@@ -1937,7 +1937,7 @@ modbus:
         scan_interval: 5
 
       # Dispatch SoC (0.4%/bit per the vendor spec, as on the G3 family; the write templates send 255
-      # for 100%, which reads back as 102%. A SMILE-B3 was measured at 0.392%/bit (255 = 100%).
+      # for 100%, which reads back as 102%. A SMILE-B3 was measured at 0.392%/bit (255 = 100%) in evcc issue #35785.
       - name: AlphaESS Dispatch SoC
         unique_id: AlphaESS_Dispatch_SoC
         slave: !secret alphaess_modbus_slaveId
@@ -3219,6 +3219,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_charging
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3240,6 +3243,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_charging
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3270,6 +3276,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_charging
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3420,6 +3429,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_discharging
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3441,6 +3453,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_discharging
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3471,6 +3486,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_discharging
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3639,6 +3657,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_export
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3660,6 +3681,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_export
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3690,6 +3714,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_export
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3887,6 +3914,9 @@ automation:
               - condition: state
                 entity_id: sensor.alphaess_inverter_work_mode
                 state: "1"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: input_boolean.turn_on
         target:
@@ -3957,6 +3987,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_import
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -3978,6 +4011,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_import
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -4008,6 +4044,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_import
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -4175,6 +4214,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_dispatch
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -4253,6 +4295,9 @@ automation:
       - condition: state
         entity_id: input_select.alphaess_helper_dispatch_mode
         state: "State of Charge Control (2)"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -4274,6 +4319,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_dispatch
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -4318,6 +4366,9 @@ automation:
           - condition: state
             entity_id: input_select.alphaess_helper_dispatch_mode
             state: "Normal Mode (5)"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -4340,6 +4391,9 @@ automation:
       - condition: state
         entity_id: input_boolean.alphaess_helper_dispatch
         state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: modbus.write_register
         data:
@@ -4533,6 +4587,9 @@ automation:
               - condition: state
                 entity_id: sensor.alphaess_inverter_work_mode
                 state: "1"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
     actions:
       - action: input_boolean.turn_on
         target:
@@ -4712,6 +4769,7 @@ automation:
     max_exceeded: silent
 
 # Reset Dispatch Full
+# With VPP Mode on, only the Reset Full button writes the registers
   - id: "AlphaESS_Dispatch_Reset_Full"
     alias: AlphaESS Dispatch Reset Full
     triggers:
@@ -4755,17 +4813,13 @@ automation:
         id: timer
     actions:
       - if:
-          - condition: not
+          - condition: or
             conditions:
-              - condition: and
-                conditions:
-                  - condition: state
-                    entity_id: input_boolean.alphaess_helper_vpp_mode
-                    state: "on"
-                  - condition: trigger
-                    id:
-                      - start
-                      - connection_lost
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_vpp_mode
+                state: "off"
+              - condition: trigger
+                id: button
         then:
           - action: modbus.write_register
             data:
@@ -4832,7 +4886,7 @@ automation:
           entity_id: timer.alphaess_helper_dispatch_timer
     mode: single
 
-# VPP Mode turned on: clear a dispatch Home Assistant still owns, then release every helper
+# VPP Mode turned on: release every helper and timer, then clear a dispatch Home Assistant owned
   - id: "AlphaESS_VPP_Mode_On"
     alias: AlphaESS VPP Mode On
     triggers:
@@ -4841,27 +4895,56 @@ automation:
           - input_boolean.alphaess_helper_vpp_mode
         to: "on"
     actions:
+      - variables:
+          ha_owned_dispatch: >-
+            {{ is_state('input_boolean.alphaess_helper_force_charging', 'on')
+               or is_state('input_boolean.alphaess_helper_force_discharging', 'on')
+               or is_state('input_boolean.alphaess_helper_force_export', 'on')
+               or is_state('input_boolean.alphaess_helper_force_import', 'on')
+               or is_state('input_boolean.alphaess_helper_dispatch', 'on')
+               or is_state('input_boolean.alphaess_helper_excess_export', 'on') }}
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_force_charging
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_force_discharging
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_force_export
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_force_import
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_force_import_pause
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_dispatch
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_excess_export
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_excess_export_pause
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_force_charging_timer
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_force_discharging_timer
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_force_export_timer
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_force_import_timer
+      - action: timer.cancel
+        target:
+          entity_id: timer.alphaess_helper_dispatch_timer
       - if:
-          - condition: or
-            conditions:
-              - condition: state
-                entity_id: input_boolean.alphaess_helper_force_charging
-                state: "on"
-              - condition: state
-                entity_id: input_boolean.alphaess_helper_force_discharging
-                state: "on"
-              - condition: state
-                entity_id: input_boolean.alphaess_helper_force_export
-                state: "on"
-              - condition: state
-                entity_id: input_boolean.alphaess_helper_force_import
-                state: "on"
-              - condition: state
-                entity_id: input_boolean.alphaess_helper_dispatch
-                state: "on"
-              - condition: state
-                entity_id: input_boolean.alphaess_helper_excess_export
-                state: "on"
+          - condition: template
+            value_template: "{{ ha_owned_dispatch }}"
         then:
           - action: modbus.write_register
             data:
@@ -4880,45 +4963,6 @@ automation:
                 - 90
                 - 255 # Flow Direction
                 - 0   # PV Switch
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_force_charging
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_force_discharging
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_force_export
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_force_import
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_force_import_pause
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_dispatch
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_excess_export
-          - action: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.alphaess_helper_excess_export_pause
-          - action: timer.cancel
-            target:
-              entity_id: timer.alphaess_helper_force_charging_timer
-          - action: timer.cancel
-            target:
-              entity_id: timer.alphaess_helper_force_discharging_timer
-          - action: timer.cancel
-            target:
-              entity_id: timer.alphaess_helper_force_export_timer
-          - action: timer.cancel
-            target:
-              entity_id: timer.alphaess_helper_force_import_timer
-          - action: timer.cancel
-            target:
-              entity_id: timer.alphaess_helper_dispatch_timer
     mode: single
 
 #-------------------------------------------------------------------------------------------------------------------------------#
