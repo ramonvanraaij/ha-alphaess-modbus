@@ -1038,8 +1038,8 @@ modbus:
         scale: 0.1
         precision: 2
 
-      # PV energy from the system running data: 0x08D0 is the AC-coupled PV inverter (0 without one), 0x08D2 the
-      # whole system (PV strings plus the AC-coupled PV inverter)
+      # PV energy from the system running data: 0x08D0 the PV inverter energy (reads 0 here), 0x08D2 the system
+      # total PV energy
       - name: AlphaESS PV Inverter Energy
         unique_id: AlphaESS_PV_Inverter_Energy
         slave: !secret alphaess_modbus_slaveId

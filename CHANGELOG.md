@@ -17,8 +17,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   plus the offset, for an inverter whose lifetime counter was reset or replaced.
 - `AlphaESS Current House Load Filtered` and `AlphaESS Current PV Production Filtered`: low-pass filtered copies of
   Current House Load and Current PV Production.
-- `AlphaESS PV Inverter Energy` (0x08D0) and `AlphaESS PV System Total Energy` (0x08D2): lifetime PV energy of the
-  AC-coupled PV inverter and of the whole system.
+- `AlphaESS PV Inverter Energy` (0x08D0) and `AlphaESS PV System Total Energy` (0x08D2): the lifetime PV inverter
+  energy and the system total PV energy.
 - `AlphaESS Battery SOC Calibration` (0x012F) and `AlphaESS Battery Single Cut Error Code` (0x0130).
 - `AlphaESS Inverter Work Mode Name`: the inverter work mode as text (Wait, Online, UPS, Bypass, Fault, ...).
 
