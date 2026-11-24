@@ -2548,11 +2548,8 @@ automation:
         entity_id:
           - sensor.alphaess_charging_cutoff_soc
     conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: sensor.alphaess_charging_cutoff_soc
-          state: 'unavailable'
+      - condition: template
+        value_template: "{{ states('sensor.alphaess_charging_cutoff_soc') | is_number }}"
     actions:
       - action: input_number.set_value
         target:
@@ -2585,11 +2582,8 @@ automation:
         entity_id:
           - sensor.alphaess_discharging_cutoff_soc
     conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: sensor.alphaess_discharging_cutoff_soc
-          state: 'unavailable'
+      - condition: template
+        value_template: "{{ states('sensor.alphaess_discharging_cutoff_soc') | is_number }}"
     actions:
       - action: input_number.set_value
         target:
@@ -2622,11 +2616,8 @@ automation:
         entity_id:
           - sensor.alphaess_max_feed_to_grid
     conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: sensor.alphaess_max_feed_to_grid
-          state: 'unavailable'
+      - condition: template
+        value_template: "{{ states('sensor.alphaess_max_feed_to_grid') | is_number }}"
     actions:
       - action: input_number.set_value
         target:
@@ -2965,32 +2956,16 @@ automation:
         entity_id:
           - sensor.alphaess_charging_period_2_stop_minute
     conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_1_start_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_1_stop_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_2_start_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_2_stop_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_1_start_minute
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_1_stop_minute
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_2_start_minute
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_charging_period_2_stop_minute
-          state: 'unavailable'
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_charging_period_1_start_hour') | is_number
+             and states('sensor.alphaess_charging_period_1_stop_hour') | is_number
+             and states('sensor.alphaess_charging_period_2_start_hour') | is_number
+             and states('sensor.alphaess_charging_period_2_stop_hour') | is_number
+             and states('sensor.alphaess_charging_period_1_start_minute') | is_number
+             and states('sensor.alphaess_charging_period_1_stop_minute') | is_number
+             and states('sensor.alphaess_charging_period_2_start_minute') | is_number
+             and states('sensor.alphaess_charging_period_2_stop_minute') | is_number }}
     actions:
       - delay:
           seconds: 5
@@ -3045,32 +3020,16 @@ automation:
         entity_id:
           - sensor.alphaess_discharging_period_2_stop_minute
     conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_1_start_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_1_stop_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_2_start_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_2_stop_hour
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_1_start_minute
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_1_stop_minute
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_2_start_minute
-          state: 'unavailable'
-        - condition: state
-          entity_id: sensor.alphaess_discharging_period_2_stop_minute
-          state: 'unavailable'
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_discharging_period_1_start_hour') | is_number
+             and states('sensor.alphaess_discharging_period_1_stop_hour') | is_number
+             and states('sensor.alphaess_discharging_period_2_start_hour') | is_number
+             and states('sensor.alphaess_discharging_period_2_stop_hour') | is_number
+             and states('sensor.alphaess_discharging_period_1_start_minute') | is_number
+             and states('sensor.alphaess_discharging_period_1_stop_minute') | is_number
+             and states('sensor.alphaess_discharging_period_2_start_minute') | is_number
+             and states('sensor.alphaess_discharging_period_2_stop_minute') | is_number }}
     actions:
       - delay:
           seconds: 5
@@ -3526,6 +3485,9 @@ automation:
         entity_id:
           - sensor.alphaess_current_house_load
     conditions:
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_house_load') | is_number and states('sensor.alphaess_current_pv_production') | is_number }}
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_export
         state: "on"
@@ -3727,6 +3689,9 @@ automation:
         entity_id:
           - input_number.alphaess_helper_force_export_power
     conditions:
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_house_load') | is_number and states('sensor.alphaess_current_pv_production') | is_number }}
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_export
         state: "on"
@@ -3755,6 +3720,9 @@ automation:
         entity_id:
           - sensor.alphaess_current_house_load
     conditions:
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_house_load') | is_number and states('sensor.alphaess_current_pv_production') | is_number }}
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_import
         state: "on"
@@ -3925,7 +3893,7 @@ automation:
                       seconds: 5
                   - condition: template
                     value_template: >-
-                      {{ states('sensor.alphaess_current_pv_production')|int > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int }}
+                      {{ states('sensor.alphaess_current_pv_production') | is_number and states('sensor.alphaess_current_pv_production')|int > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int }}
               - condition: template
                 value_template: >-
                   {{ now() > state_attr('automation.alphaess_force_import_resume','last_triggered') | default(as_datetime(0), true) + timedelta(seconds=15) }}
@@ -3968,6 +3936,9 @@ automation:
       - trigger: time_pattern
         seconds: /5
     conditions:
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_house_load') | is_number and states('sensor.alphaess_current_pv_production') | is_number }}
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_import
         state: "on"
@@ -4061,6 +4032,9 @@ automation:
         entity_id:
           - input_number.alphaess_helper_force_import_power
     conditions:
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_house_load') | is_number and states('sensor.alphaess_current_pv_production') | is_number }}
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_import
         state: "on"
@@ -4451,6 +4425,9 @@ automation:
         entity_id:
           - sensor.alphaess_current_pv_production
     conditions:
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_pv_production') | is_number and states('sensor.alphaess_active_power_pv_meter') | is_number }}
       - condition: state
         entity_id: input_boolean.alphaess_helper_excess_export
         state: "on"
@@ -4998,7 +4975,7 @@ template:
       device_class: energy
       state_class: total_increasing
       state: "{{ (states('sensor.alphaess_total_energy_from_pv')|float(0) + states('sensor.alphaess_total_energy_consumption_from_grid_meter')|float(0) - states('sensor.alphaess_total_energy_feed_to_grid_meter')|float(0))|round(2) }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_total_energy_from_pv'), states('sensor.alphaess_total_energy_consumption_from_grid_meter'), states('sensor.alphaess_total_energy_feed_to_grid_meter') ] }}"
+      availability: "{{ has_value('sensor.alphaess_total_energy_from_pv') and has_value('sensor.alphaess_total_energy_consumption_from_grid_meter') and has_value('sensor.alphaess_total_energy_feed_to_grid_meter') }}"
       # Alternative calculation:
       # state: "{{ (states('sensor.alphaess_total_energy_consumption_from_grid_meter')|float(0) - states('sensor.alphaess_total_energy_feed_to_grid_meter')|float(0) + states('sensor.alphaess_total_energy_charge_battery')|float(0) - states('sensor.alphaess_total_energy_discharge_battery')|float(0) + states('sensor.alphaess_total_energy_from_pv')|float(0))|round(2) }}"
       # availability: "{{ not 'unavailable' in [ states('sensor.alphaess_total_energy_consumption_from_grid_meter'), states('sensor.alphaess_total_energy_feed_to_grid_meter'), states('sensor.alphaess_total_energy_charge_battery'), states('sensor.alphaess_total_energy_discharge_battery'), states('sensor.alphaess_total_energy_from_pv') ] }}"
@@ -5038,8 +5015,8 @@ template:
       unit_of_measurement: W
       device_class: power
       state_class: measurement
-      state: "{{ (states('sensor.alphaess_pv1_power')|int + states('sensor.alphaess_pv2_power')|int + states('sensor.alphaess_pv3_power')|int + states('sensor.alphaess_pv4_power')|int + states('sensor.alphaess_active_power_pv_meter')|int)|int }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_pv1_power'), states('sensor.alphaess_pv2_power'), states('sensor.alphaess_pv3_power'), states('sensor.alphaess_pv4_power'), states('sensor.alphaess_active_power_pv_meter') ] }}"
+      state: "{{ (states('sensor.alphaess_pv1_power')|int(0) + states('sensor.alphaess_pv2_power')|int(0) + states('sensor.alphaess_pv3_power')|int(0) + states('sensor.alphaess_pv4_power')|int(0) + states('sensor.alphaess_active_power_pv_meter')|int(0))|int }}"
+      availability: "{{ has_value('sensor.alphaess_pv1_power') and has_value('sensor.alphaess_pv2_power') and has_value('sensor.alphaess_pv3_power') and has_value('sensor.alphaess_pv4_power') and has_value('sensor.alphaess_active_power_pv_meter') }}"
 # Current House Load
     - name: AlphaESS Current House Load
       unique_id: AlphaESS_Current_House_Load
@@ -5047,7 +5024,7 @@ template:
       device_class: power
       state_class: measurement
       state: >
-        {% if states('sensor.alphaess_inverter_work_mode') | float == 2 %}
+        {% if states('sensor.alphaess_inverter_work_mode') | float(0) == 2 %}
           {% set grid = states('sensor.alphaess_power_grid')|float(0) %}
           {% if grid == 0 %}
             {{ (0, states('sensor.alphaess_current_pv_production')|int(0) + states('sensor.alphaess_power_battery')|int(0)) | max }}
@@ -5057,44 +5034,44 @@ template:
         {% else %}
           {{ (0,(states('sensor.alphaess_current_pv_production')|int(0) + states('sensor.alphaess_power_battery')|int(0) + states('sensor.alphaess_power_grid')|int(0))|int) | max }}
         {% endif %}
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_current_pv_production'), states('sensor.alphaess_power_battery'), states('sensor.alphaess_power_grid') ] }}"
+      availability: "{{ has_value('sensor.alphaess_current_pv_production') and has_value('sensor.alphaess_power_battery') and has_value('sensor.alphaess_power_grid') }}"
       # Alternative calculation, excluding the inverter's power consumption:
       # state: "{{ (0,(states('sensor.alphaess_power_inverter')|float|round(0) + states('sensor.alphaess_power_grid')| float|round(0))) | max }}"
       # availability: "{{ not 'unavailable' in [ states('sensor.alphaess_power_inverter'), states('sensor.alphaess_power_grid') ] }}"
 # Charging Period 1
     - name: AlphaESS Charging Period 1
       unique_id: AlphaESS_Charging_Period_1
-      state: "{{ states('sensor.alphaess_charging_period_1_start_hour')|int }}:{{ '%02i'%states('sensor.alphaess_charging_period_1_start_minute')|int }} - {{ states('sensor.alphaess_charging_period_1_stop_hour')|int }}:{{ '%02i'%states('sensor.alphaess_charging_period_1_stop_minute')|int }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_charging_period_1_start_hour'), states('sensor.alphaess_charging_period_1_start_minute'), states('sensor.alphaess_charging_period_1_stop_hour'), states('sensor.alphaess_charging_period_1_stop_minute') ] }}"
+      state: "{{ states('sensor.alphaess_charging_period_1_start_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_charging_period_1_start_minute')|int(0) }} - {{ states('sensor.alphaess_charging_period_1_stop_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_charging_period_1_stop_minute')|int(0) }}"
+      availability: "{{ has_value('sensor.alphaess_charging_period_1_start_hour') and has_value('sensor.alphaess_charging_period_1_start_minute') and has_value('sensor.alphaess_charging_period_1_stop_hour') and has_value('sensor.alphaess_charging_period_1_stop_minute') }}"
 # Charging Period 2
     - name: AlphaESS Charging Period 2
       unique_id: AlphaESS_Charging_Period_2
-      state: "{{ states('sensor.alphaess_charging_period_2_start_hour')|int }}:{{ '%02i'%states('sensor.alphaess_charging_period_2_start_minute')|int }} - {{ states('sensor.alphaess_charging_period_2_stop_hour')|int }}:{{ '%02i'%states('sensor.alphaess_charging_period_2_stop_minute')|int }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_charging_period_2_start_hour'), states('sensor.alphaess_charging_period_2_start_minute'), states('sensor.alphaess_charging_period_2_stop_hour'), states('sensor.alphaess_charging_period_2_stop_minute') ] }}"
+      state: "{{ states('sensor.alphaess_charging_period_2_start_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_charging_period_2_start_minute')|int(0) }} - {{ states('sensor.alphaess_charging_period_2_stop_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_charging_period_2_stop_minute')|int(0) }}"
+      availability: "{{ has_value('sensor.alphaess_charging_period_2_start_hour') and has_value('sensor.alphaess_charging_period_2_start_minute') and has_value('sensor.alphaess_charging_period_2_stop_hour') and has_value('sensor.alphaess_charging_period_2_stop_minute') }}"
 # Discharging Period 1
     - name: AlphaESS Discharging Period 1
       unique_id: AlphaESS_Discharging_Period_1
-      state: "{{ states('sensor.alphaess_discharging_period_1_start_hour')|int }}:{{ '%02i'%states('sensor.alphaess_discharging_period_1_start_minute')|int }} - {{ states('sensor.alphaess_discharging_period_1_stop_hour')|int }}:{{ '%02i'%states('sensor.alphaess_discharging_period_1_stop_minute')|int }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_discharging_period_1_start_hour'), states('sensor.alphaess_discharging_period_1_start_minute'), states('sensor.alphaess_discharging_period_1_stop_hour'), states('sensor.alphaess_discharging_period_1_stop_minute') ] }}"
+      state: "{{ states('sensor.alphaess_discharging_period_1_start_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_discharging_period_1_start_minute')|int(0) }} - {{ states('sensor.alphaess_discharging_period_1_stop_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_discharging_period_1_stop_minute')|int(0) }}"
+      availability: "{{ has_value('sensor.alphaess_discharging_period_1_start_hour') and has_value('sensor.alphaess_discharging_period_1_start_minute') and has_value('sensor.alphaess_discharging_period_1_stop_hour') and has_value('sensor.alphaess_discharging_period_1_stop_minute') }}"
 # Discharging Period 2
     - name: AlphaESS Discharging Period 2
       unique_id: AlphaESS_Discharging_Period_2
-      state: "{{ states('sensor.alphaess_discharging_period_2_start_hour')|int }}:{{ '%02i'%states('sensor.alphaess_discharging_period_2_start_minute')|int }} - {{ states('sensor.alphaess_discharging_period_2_stop_hour')|int }}:{{ '%02i'%states('sensor.alphaess_discharging_period_2_stop_minute')|int }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_discharging_period_2_start_hour'), states('sensor.alphaess_discharging_period_2_start_minute'), states('sensor.alphaess_discharging_period_2_stop_hour'), states('sensor.alphaess_discharging_period_2_stop_minute') ] }}"
+      state: "{{ states('sensor.alphaess_discharging_period_2_start_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_discharging_period_2_start_minute')|int(0) }} - {{ states('sensor.alphaess_discharging_period_2_stop_hour')|int(0) }}:{{ '%02i'%states('sensor.alphaess_discharging_period_2_stop_minute')|int(0) }}"
+      availability: "{{ has_value('sensor.alphaess_discharging_period_2_start_hour') and has_value('sensor.alphaess_discharging_period_2_start_minute') and has_value('sensor.alphaess_discharging_period_2_stop_hour') and has_value('sensor.alphaess_discharging_period_2_stop_minute') }}"
 # Local IP Normalised
     - name: AlphaESS Local IP Normalised
       unique_id: AlphaESS_Local_IP_Normalised
-      state: "{{ ('%0x' % states('sensor.alphaess_local_ip')|int)[:2]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_local_ip')|int)[2:4]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_local_ip')|int)[4:6]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_local_ip')|int)[6:8]|int(base=16) }}"
+      state: "{{ ('%0x' % states('sensor.alphaess_local_ip')|int(0))[:2]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_local_ip')|int(0))[2:4]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_local_ip')|int(0))[4:6]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_local_ip')|int(0))[6:8]|int(base=16) }}"
       availability: "{{ states('sensor.alphaess_local_ip') }}"
 # Subnet Mask Normalised
     - name: AlphaESS Subnet Mask Normalised
       unique_id: AlphaESS_Subnet_Mask_Normalised
-      state: "{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int)[:2]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int)[2:4]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int)[4:6]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int)[6:8]|int(base=16) }}"
+      state: "{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int(0))[:2]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int(0))[2:4]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int(0))[4:6]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_subnet_mask')|int(0))[6:8]|int(base=16) }}"
       availability: "{{ states('sensor.alphaess_subnet_mask') }}"
 # Gateway Normalised
     - name: AlphaESS Gateway Normalised
       unique_id: AlphaESS_Gateway_Normalised
-      state: "{{ ('%0x' % states('sensor.alphaess_gateway')|int)[:2]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_gateway')|int)[2:4]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_gateway')|int)[4:6]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_gateway')|int)[6:8]|int(base=16) }}"
+      state: "{{ ('%0x' % states('sensor.alphaess_gateway')|int(0))[:2]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_gateway')|int(0))[2:4]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_gateway')|int(0))[4:6]|int(base=16) }}.{{ ('%0x' % states('sensor.alphaess_gateway')|int(0))[6:8]|int(base=16) }}"
       availability: "{{ states('sensor.alphaess_gateway') }}"
 # BMS Version Normalised
     - name: AlphaESS BMS Version Normalised
@@ -5110,7 +5087,7 @@ template:
     - name: AlphaESS EMS Version Normalised
       unique_id: AlphaESS_EMS_Version_Normalised
       state: "V{{ states('sensor.alphaess_ems_version_high') }}.{{ states('sensor.alphaess_ems_version_middle') }}.{{ states('sensor.alphaess_ems_version_low') }}{{ (states('sensor.alphaess_ems_version_low_suffix')|urlencode).replace('%00','') }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_ems_version_high'), states('sensor.alphaess_ems_version_middle'), states('sensor.alphaess_ems_version_low'), states('sensor.alphaess_ems_version_low_suffix') ] }}"
+      availability: "{{ has_value('sensor.alphaess_ems_version_high') and has_value('sensor.alphaess_ems_version_middle') and has_value('sensor.alphaess_ems_version_low') and has_value('sensor.alphaess_ems_version_low_suffix') }}"
 # Excess Power
     - name: AlphaESS Excess Power
       unique_id: AlphaESS_Excess_Power
@@ -5120,7 +5097,7 @@ template:
     - name: AlphaESS Battery Full
       unique_id: AlphaESS_Battery_Full
       state: "{{ is_state('sensor.alphaess_battery_status', '1') }}"
-      availability: "{{ states('sensor.alphaess_battery_status') }}"
+      availability: "{{ has_value('sensor.alphaess_battery_status') }}"
 # Battery Cell Voltage Delta
     - name: AlphaESS Battery Cell Voltage Delta
       unique_id: AlphaESS_Battery_Cell_Voltage_Delta
@@ -5133,23 +5110,23 @@ template:
 # Clipping
     - name: AlphaESS Clipping
       unique_id: AlphaESS_Clipping
-      state: "{{ (states('sensor.alphaess_pv1_power')|int - states('sensor.alphaess_pv2_power')|int) == 0 and (states('sensor.alphaess_pv1_power')|int + states('sensor.alphaess_pv2_power')|int) > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_pv1_power'), states('sensor.alphaess_pv2_power'), states('sensor.alphaess_pv3_power'), states('sensor.alphaess_pv4_power') ] }}"
+      state: "{{ (states('sensor.alphaess_pv1_power')|int(0) - states('sensor.alphaess_pv2_power')|int(0)) == 0 and (states('sensor.alphaess_pv1_power')|int(0) + states('sensor.alphaess_pv2_power')|int(0)) > (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float * 1000)|int }}"
+      availability: "{{ has_value('sensor.alphaess_pv1_power') and has_value('sensor.alphaess_pv2_power') and has_value('sensor.alphaess_pv3_power') and has_value('sensor.alphaess_pv4_power') }}"
 # House Load - PV Production > Force Import Power
     - name: AlphaESS House Load - PV Production > Force Import Power
       unique_id: AlphaESS_House_Load_PV_Production_Force_Import_Power
-      state: "{{ states('sensor.alphaess_current_house_load')|int - states('sensor.alphaess_current_pv_production')|int > (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}"
+      state: "{{ states('sensor.alphaess_current_house_load')|int(0) - states('sensor.alphaess_current_pv_production')|int(0) > (states('input_number.alphaess_helper_force_import_power')|float * 1000)|int }}"
       availability: "{{ has_value('sensor.alphaess_current_house_load') and has_value('sensor.alphaess_current_pv_production') }}"
 # System Date
     - name: AlphaESS System Date
       unique_id: AlphaESS_System_Date
       state: "{{ '{:02}'.format((('0000%0x'%states('sensor.alphaess_system_time_ddhh') | int(0))[-4:])[:2]|int(base=16)) }}/{{ '{:02}'.format((('0000%0x'%states('sensor.alphaess_system_time_yymm') | int(0))[-4:])[2:]|int(base=16)) }}/20{{ '{:02}'.format((('0000%0x'%states('sensor.alphaess_system_time_yymm') | int(0))[-4:])[:2]|int(base=16)) }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_system_time_ddhh'), states('sensor.alphaess_system_time_yymm') ] }}"
+      availability: "{{ has_value('sensor.alphaess_system_time_ddhh') and has_value('sensor.alphaess_system_time_yymm') }}"
 # System Time
     - name: AlphaESS System Time
       unique_id: AlphaESS_System_Time
       state: "{{ (('0000%0x'%states('sensor.alphaess_system_time_ddhh') | int(0))[-4:])[2:]|int(base=16) }}:{{ '{:02}'.format((('0000%0x'%states('sensor.alphaess_system_time_mmss') | int(0))[-4:])[:2]|int(base=16)) }}:{{ '{:02}'.format((('0000%0x'%states('sensor.alphaess_system_time_mmss') | int(0))[-4:])[2:]|int(base=16)) }}"
-      availability: "{{ not 'unavailable' in [ states('sensor.alphaess_system_time_ddhh'), states('sensor.alphaess_system_time_mmss') ] }}"
+      availability: "{{ has_value('sensor.alphaess_system_time_ddhh') and has_value('sensor.alphaess_system_time_mmss') }}"
 # Power Diagram
     - name: "AlphaEss Current House Load ApexCharts"
       unique_id: alphaess_current_house_load_apexcharts
