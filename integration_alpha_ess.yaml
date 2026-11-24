@@ -3723,9 +3723,10 @@ automation:
           hub: modbuspvsystem
           address: 0x0881 # Dispatch Active Power, 32000 Offset
           slave: !secret alphaess_modbus_slaveId
+          # Same setpoint as AlphaESS Force Export (discharge = house load + export power - PV)
           value:
             - 0
-            - "{{ 32000 + ((states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) }}"
+            - "{{ 32000 + (states('sensor.alphaess_current_house_load')|int + (states('input_number.alphaess_helper_force_export_power')|float * 1000)|int) - states('sensor.alphaess_current_pv_production')|int }}"
     mode: single
 # --- End Force Export automations
 
@@ -4053,11 +4054,12 @@ automation:
           hub: modbuspvsystem
           address: 0x0881 # Dispatch Active Power, 32000 Offset
           slave: !secret alphaess_modbus_slaveId
+          # Same setpoint as AlphaESS Force Import (charge = import power + PV - house load)
           value:
             - 0
-            - "{{ 32000 + ((states('input_number.alphaess_helper_force_import_power')|float * 1000)|int) }}"
+            - "{{ 32000 - ((states('input_number.alphaess_helper_force_import_power')|float * 1000)|int - states('sensor.alphaess_current_house_load')|int) - states('sensor.alphaess_current_pv_production')|int }}"
     mode: single
-# --- End Force Export automations
+# --- End Force Import automations
 
 # --- Start Dispatch automations
 # Set Dispatch
