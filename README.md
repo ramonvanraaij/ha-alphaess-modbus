@@ -28,6 +28,29 @@ Everything runs locally over Modbus TCP - no cloud dependency. The integration c
 
 ![AlphaESS dashboard overview - 5 column layout](screenshots/dashboard.png)
 
+### 📈 Power Diagrams
+
+`power_diagram.yaml` holds the Power Diagram Today view; `power_diagram_extended.yaml` holds it plus the five views below. All are ApexCharts panel views.
+
+| View | Time window | Series |
+| --- | --- | --- |
+| Power Diagram Today | 22:00 the evening before until midnight (26 h) | Battery SoC, house load, PV, grid consumption and feed-in, 5-minute averages |
+| Power Diagram Yesterday | The same 26 h, one day earlier | As above |
+| Power Diagram 3 Day | 22:00 three evenings ago until midnight (74 h) | As above |
+| String Detail Today | As Power Diagram Today | Total PV and each PV string |
+| Instant Power Diagram | The current hour | Battery, load, PV, grid and excess power, 1-second averages |
+| Instant Power Diagram Hi-Res | The last 2 minutes | As above |
+
+The Yesterday and 3 Day views read raw history, so the recorder has to keep at least 3 days (`purge_keep_days`; the Home Assistant default is 10).
+
+![Power Diagram - 24 hours of 5-minute averages](screenshots/power-diagram.png)
+
+![String Detail - total PV and the two strings](screenshots/string-detail.png)
+
+![Instant Power Diagram - the current hour](screenshots/instant-power-diagram.png)
+
+![Instant Power Diagram Hi-Res - the last 2 minutes](screenshots/instant-power-diagram-hi-res.png)
+
 ---
 
 ## 🖥️ System Configuration
@@ -80,10 +103,10 @@ If you run a model not on this list, the integration may still work; please open
 | ----------------------------- | ------------------------------------------------------------------------ |
 | `integration_alpha_ess.yaml`  | Core integration: Modbus sensors, template sensors, helpers, automations |
 | `alphaess_view.yaml`          | Dashboard (Lovelace) configuration                                       |
-| `power_diagram.yaml`          | ApexCharts power flow diagram                                            |
-| `power_diagram_extended.yaml` | Extended power diagram with additional metrics                           |
+| `power_diagram.yaml`          | ApexCharts power flow diagram (the Power Diagram Today view)             |
+| `power_diagram_extended.yaml` | All six power diagram views (see [Power Diagrams](#-power-diagrams))     |
 | `docs/`                       | AlphaESS datasheets and Modbus protocol documentation                    |
-| `screenshots/`                | Dashboard screenshots referenced from this README                        |
+| `screenshots/`                | Dashboard, power diagram and Energy dashboard screenshots for this README |
 | [`CHANGELOG.md`](./CHANGELOG.md) | Release notes and change history                                       |
 | [`LICENSE.md`](./LICENSE.md)  | BSD 3-Clause license text and upstream-attribution note                   |
 | [`DISCLAIMER.md`](./DISCLAIMER.md) | Use-at-your-own-risk disclaimer (read before installing)             |
@@ -97,6 +120,7 @@ If you run a model not on this list, the integration may still work; please open
 - Home Assistant with Modbus integration enabled
 - Network access to your AlphaESS inverter via Modbus TCP
 - [ApexCharts Card](https://github.com/RomRider/apexcharts-card) installed via HACS (for power diagrams)
+- Recorder history of at least 3 days for the Yesterday and 3 Day power diagrams (`recorder: purge_keep_days`, default 10)
 
 ### 🛠️ Setup
 
@@ -121,6 +145,25 @@ If you run a model not on this list, the integration may still work; please open
 4. **Power Diagrams:** Create panel views and paste the contents of `power_diagram.yaml` and `power_diagram_extended.yaml`.
 
 5. **Restart** Home Assistant to load the integration.
+
+6. **Energy dashboard (optional):** see [Energy Dashboard](#-energy-dashboard).
+
+---
+
+## 🔋 Energy Dashboard
+
+Home Assistant's built-in Energy dashboard (**Settings > Dashboards > Energy**) works with the package's daily energy counters and power sensors. The daily counters are `utility_meter` sensors fed by the inverter's lifetime registers; the lifetime counters (`sensor.alphaess_total_energy_*`) work as sources too.
+
+| Energy dashboard source | Energy (kWh) | Power (W) |
+| --- | --- | --- |
+| Electricity grid: grid consumption | `sensor.alphaess_today_s_energy_consumption_from_grid_meter` | `sensor.alphaess_power_grid`, type **Standard** |
+| Electricity grid: return to grid | `sensor.alphaess_today_s_energy_feed_to_grid_meter` | (the same grid connection) |
+| Solar panels | `sensor.alphaess_today_s_energy_from_pv` | `sensor.alphaess_current_pv_production` |
+| Home battery storage: energy out of / into the battery | `sensor.alphaess_today_s_energy_discharge_battery` / `sensor.alphaess_today_s_energy_charge_battery` | `sensor.alphaess_power_battery`, type **Standard** |
+
+Use **Standard** for both power sensors: AlphaESS reports grid power positive when importing and battery power positive when discharging, which is what Home Assistant expects. **Inverted** swaps the directions in the power flow. For cost and compensation, add a fixed price or a price entity to the grid connection.
+
+![Energy dashboard configuration with the AlphaESS sensors](screenshots/energy-dashboard-configuration.png)
 
 ---
 
@@ -409,8 +452,6 @@ The `docs/` directory contains official AlphaESS technical documentation. Filena
 ## 🗺️ Roadmap
 
 - [ ] **HACS Integration** - Convert this project from a manual YAML package into a proper HACS custom integration. This would allow installation directly from the HACS store, automatic updates, and a UI-based configuration flow instead of manual `secrets.yaml` editing.
-- [ ] **Home Assistant Energy Dashboard setup guide** - Document how to wire the AlphaESS sensors (Grid Consumption Meter, Grid Feed-in Meter, PV Production, Battery Charge/Discharge) into Home Assistant's built-in Energy Dashboard for accurate daily/monthly cost-and-yield reporting.
-- [ ] **More screenshots** - Add screenshots of all dashboard views (Power Diagram Today/Yesterday/3-Day, String Detail, Instant Power Diagram, Instant Hi-Res) and the Energy Dashboard configuration so the README is fully self-documenting.
 
 ---
 

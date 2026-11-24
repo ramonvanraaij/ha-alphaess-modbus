@@ -9,6 +9,11 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 
 ## [Unreleased]
 
+### Changed
+
+- README: a new dashboard screenshot, a screenshot and time-window table for every power diagram view, an Energy
+  Dashboard setup guide, and the recorder history (3 days) the Yesterday and 3 Day views need.
+
 ### Fixed
 
 - Changing the Force Import Power slider while Force Import runs no longer makes the battery discharge: the update
