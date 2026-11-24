@@ -5115,7 +5115,7 @@ template:
             {{ grid|round(0) }}
           {% endif %}
         {% else %}
-          {# PV, battery and grid update at different moments, so their sum can briefly drop to 0 or below: keep the last value then #}
+          {# PV, battery and grid update at different moments, so their sum can briefly drop to 0 or below: keep the last value then (0 when there is none) #}
           {% set current_value = states('sensor.alphaess_current_pv_production')|int(0) + states('sensor.alphaess_power_battery')|int(0) + states('sensor.alphaess_power_grid')|int(0) %}
           {% if current_value > 0 %}
             {{ current_value }}
