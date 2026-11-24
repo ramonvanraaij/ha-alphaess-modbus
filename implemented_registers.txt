@@ -124,6 +124,7 @@
 0x0800  AlphaESS Max Feed to Grid
 0x0801  AlphaESS PV Capacity Storage
 0x0803  AlphaESS PV Capacity of Grid Inverter
+0x0805  AlphaESS System Mode
 0x0808  AlphaESS IP Method
 0x0809  AlphaESS Local IP
 0x080B  AlphaESS Subnet Mask

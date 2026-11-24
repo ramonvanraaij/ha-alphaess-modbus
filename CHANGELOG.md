@@ -12,6 +12,11 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 ### Added
 
 - `AlphaESS Total Energy PV Inverter Consumption` (register 0x0090): the AC-coupled PV inverter's own standby draw.
+- `AlphaESS System Mode` (register 0x0805).
+- `AlphaESS Total Energy from PV Offset` helper and `AlphaESS Total Energy from PV Calibrated`: Total Energy from PV
+  plus the offset, for an inverter whose lifetime counter was reset or replaced.
+- `AlphaESS Current House Load Filtered` and `AlphaESS Current PV Production Filtered`: low-pass filtered copies of
+  Current House Load and Current PV Production.
 
 ### Changed
 

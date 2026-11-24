@@ -47,6 +47,14 @@ modbus:
         scale: 0.1 # 0.01 for SMILE-B3/SMILE-B3-PLUS
         precision: 0
 
+      - name: AlphaESS System Mode
+        unique_id: AlphaESS_System_Mode
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0805
+        data_type: uint16
+        state_class: measurement
+        scan_interval: 5
+
       - name: AlphaESS Inverter Work Mode
         unique_id: AlphaESS_Inverter_Work_Mode
         slave: !secret alphaess_modbus_slaveId
@@ -2215,6 +2223,16 @@ input_datetime:
     # initial: 00:00
 
 input_number:
+# Helper for Total Energy from PV Offset
+  alphaess_helper_total_energy_from_pv_offset:
+    name: AlphaESS Total Energy from PV Offset
+    min: 0
+    max: 1000000000
+    icon: mdi:solar-power
+    unit_of_measurement: "kWh"
+    mode: box
+    step: 0.01
+
 # Helper for Charging Cutoff SoC
   alphaess_helper_charging_cutoff_soc:
     name: AlphaESS Charging Cutoff SoC
@@ -2482,6 +2500,28 @@ sensor:
     platform: integration
     unit_prefix: k
     source: sensor.alphaess_active_power_pv_meter
+
+# Helpers to despike AlphaESS Current House Load and AlphaESS Current PV Production.
+# A filter sensor takes its first value when Home Assistant has started, and only if its source already has a value;
+# otherwise it stays unknown until the source changes (PV production sits at 0 W all night after a restart).
+# Readers must fall back to the unfiltered sensor.
+  - platform: filter
+    name: AlphaESS Current House Load Filtered
+    unique_id: AlphaESS_Current_House_Load_Filtered
+    entity_id: sensor.alphaess_current_house_load
+    filters:
+      - filter: lowpass
+        window_size: 1
+        time_constant: 5
+
+  - platform: filter
+    name: AlphaESS Current PV Production Filtered
+    unique_id: AlphaESS_Current_PV_Production_Filtered
+    entity_id: sensor.alphaess_current_pv_production
+    filters:
+      - filter: lowpass
+        window_size: 1
+        time_constant: 5
 
 utility_meter:
 # Helpers for Today's Calculations
@@ -5129,6 +5169,14 @@ template:
       unique_id: AlphaESS_System_Time
       state: "{{ (('0000%0x'%states('sensor.alphaess_system_time_ddhh') | int(0))[-4:])[2:]|int(base=16) }}:{{ '{:02}'.format((('0000%0x'%states('sensor.alphaess_system_time_mmss') | int(0))[-4:])[:2]|int(base=16)) }}:{{ '{:02}'.format((('0000%0x'%states('sensor.alphaess_system_time_mmss') | int(0))[-4:])[2:]|int(base=16)) }}"
       availability: "{{ has_value('sensor.alphaess_system_time_ddhh') and has_value('sensor.alphaess_system_time_mmss') }}"
+# Total Energy from PV Calibrated (Total Energy from PV plus the offset helper)
+    - name: "AlphaESS Total Energy from PV Calibrated"
+      unique_id: AlphaESS_Total_Energy_from_PV_Calibrated
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total
+      state: "{{ (states('sensor.alphaess_total_energy_from_pv')|float(0) + states('input_number.alphaess_helper_total_energy_from_pv_offset')|float(0))|round(2) }}"
+      availability: "{{ has_value('sensor.alphaess_total_energy_from_pv') }}"
 # Power Diagram
     - name: "AlphaEss Current House Load ApexCharts"
       unique_id: alphaess_current_house_load_apexcharts
