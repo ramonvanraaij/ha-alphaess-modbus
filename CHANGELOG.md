@@ -23,6 +23,10 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 - `AlphaESS Inverter Work Mode Name`: the inverter work mode as text (Wait, Online, UPS, Bypass, Fault, ...).
 - `AlphaESS Excess Export Inverter AC Limit Offset` helper (0 to 2000 W, default 0): Excess Export treats the
   inverter AC limit as this many W lower.
+- Force Charging, Force Discharging, Force Import and Force Export Hold helpers and the `AlphaESS Cutoff SoC Hold
+  Monitoring` automation: with its Hold helper off, a Force mode ends once the battery has idled for 10 s at the
+  cutoff SoC (Force Export: below the cutoff + 2). Force Charging Hold and Force Import Hold are on after every
+  Home Assistant start, the other two off.
 
 ### Changed
 

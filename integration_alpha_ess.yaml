@@ -2131,10 +2131,20 @@ input_boolean:
     icon: mdi:button-pointer
     initial: off
 
+  alphaess_helper_force_charging_hold:
+    name: AlphaESS Force Charging Hold
+    icon: mdi:battery-clock
+    initial: on
+
 # Helper for Force Discharging
   alphaess_helper_force_discharging:
     name: AlphaESS Force Discharging
     icon: mdi:button-pointer
+    initial: off
+
+  alphaess_helper_force_discharging_hold:
+    name: AlphaESS Force Discharging Hold
+    icon: mdi:battery-clock
     initial: off
 
 # Helper for Force Export
@@ -2143,11 +2153,21 @@ input_boolean:
     icon: mdi:button-pointer
     initial: off
 
+  alphaess_helper_force_export_hold:
+    name: AlphaESS Force Export Hold
+    icon: mdi:battery-clock
+    initial: off
+
 # Helper for Force Import
   alphaess_helper_force_import:
     name: AlphaESS Force Import
     icon: mdi:button-pointer
     initial: off
+
+  alphaess_helper_force_import_hold:
+    name: AlphaESS Force Import Hold
+    icon: mdi:battery-clock
+    initial: on
 
   alphaess_helper_force_import_pause:
     name: AlphaESS Force Import Pause
@@ -4498,6 +4518,66 @@ automation:
     mode: single
 
 # --- End Dispatch automations
+
+# --- Start Cutoff SoC Hold Monitoring automation
+# Ends a Force mode whose Hold helper is off once the battery has idled (between -50 and 50 W for 10 s), taken as
+# the cutoff SoC reached; Force Export also needs the SoC below its cutoff + 2.
+  - id: "AlphaESS_Cutoff_SoC_Hold_Monitoring"
+    alias: AlphaESS Cutoff SoC Hold Monitoring
+    triggers:
+      - trigger: numeric_state
+        entity_id: sensor.alphaess_power_battery
+        for:
+          seconds: 10
+        above: -50
+        below: 50
+    conditions:
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_charging
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_charging_hold
+                state: "off"
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_import
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_import_hold
+                state: "off"
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_discharging
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_discharging_hold
+                state: "off"
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_export
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_export_hold
+                state: "off"
+              - condition: template
+                value_template: >-
+                  {{ states('sensor.alphaess_soc_battery') | is_number and
+                     states('sensor.alphaess_soc_battery')|int < states('input_number.alphaess_helper_force_export_cutoff_soc')|int + 2 }}
+    actions:
+      - action: automation.trigger
+        target:
+          entity_id: automation.alphaess_dispatch_reset_full
+        data:
+          skip_condition: true
+    mode: single
+# --- End Cutoff SoC Hold Monitoring automation
 
 #-------------------------------------------------------------------------------------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------------------------#
