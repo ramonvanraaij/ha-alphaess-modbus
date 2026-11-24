@@ -1953,7 +1953,8 @@ modbus:
         scan_interval: 5
 
       # Dispatch SoC (0.4%/bit per the vendor spec, as on the G3 family; the write templates send 255
-      # for 100%, which reads back as 102%. A SMILE-B3 was measured at 0.392%/bit (255 = 100%) in evcc issue #35785.
+      # for 100%, which reads back as 102%, so max_value caps the sensor at 100. A SMILE-B3 was measured
+      # at 0.392%/bit (255 = 100%) in evcc issue #35785.
       - name: AlphaESS Dispatch SoC
         unique_id: AlphaESS_Dispatch_SoC
         slave: !secret alphaess_modbus_slaveId
@@ -1963,6 +1964,7 @@ modbus:
         state_class: measurement
         scan_interval: 5
         scale: 0.4
+        max_value: 100
 
       # Dispatch Time
       - name: AlphaESS Dispatch Time

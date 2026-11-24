@@ -39,6 +39,7 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   again (Force Import Pause skips only its PV check and still pauses on the inverter work mode), and template sensors
   (Current House Load, Current PV Production, Total House Load and others) go unavailable instead of showing a
   partial value. Battery Full no longer goes unavailable when the battery status reads 0.
+- Dispatch SoC shows 100% instead of 102% after a full-charge dispatch: the sensor is capped at 100.
 
 ## [10.10.0] - 2026-11-24
 
