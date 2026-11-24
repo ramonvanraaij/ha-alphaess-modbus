@@ -1038,6 +1038,32 @@ modbus:
         scale: 0.1
         precision: 2
 
+      # PV energy from the system running data: 0x08D0 is the AC-coupled PV inverter (0 without one), 0x08D2 the
+      # whole system (PV strings plus the AC-coupled PV inverter)
+      - name: AlphaESS PV Inverter Energy
+        unique_id: AlphaESS_PV_Inverter_Energy
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x08D0
+        data_type: uint32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scan_interval: 60
+        scale: 0.01
+        precision: 2
+
+      - name: AlphaESS PV System Total Energy
+        unique_id: AlphaESS_PV_System_Total_Energy
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x08D2
+        data_type: uint32
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scan_interval: 60
+        scale: 0.01
+        precision: 2
+
 # Warnings & Faults
       # Inverter Warnings
       - name: AlphaESS System Fault
@@ -1163,6 +1189,20 @@ modbus:
         data_type: uint32
         state_class: measurement
         scan_interval: 5
+
+      - name: AlphaESS Battery SOC Calibration
+        unique_id: AlphaESS_Battery_SOC_Calibration
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x012F
+        data_type: uint16
+        scan_interval: 10
+
+      - name: AlphaESS Battery Single Cut Error Code
+        unique_id: AlphaESS_Battery_Single_Cut_Error_Code
+        slave: !secret alphaess_modbus_slaveId
+        address: 0x0130
+        data_type: uint16
+        scan_interval: 60
 
       - name: AlphaESS Battery 1 Fault
         unique_id: AlphaESS_Battery_1_Fault
@@ -5176,7 +5216,15 @@ template:
       device_class: energy
       state_class: total
       state: "{{ (states('sensor.alphaess_total_energy_from_pv')|float(0) + states('input_number.alphaess_helper_total_energy_from_pv_offset')|float(0))|round(2) }}"
-      availability: "{{ has_value('sensor.alphaess_total_energy_from_pv') }}"
+      availability: "{{ has_value('sensor.alphaess_total_energy_from_pv') and has_value('input_number.alphaess_helper_total_energy_from_pv_offset') }}"
+# Inverter Work Mode Name (0-7 from the vendor list, 8-10 as read by the senalse integration)
+    - name: AlphaESS Inverter Work Mode Name
+      unique_id: AlphaESS_Inverter_Work_Mode_Name
+      state: >
+        {% set names = {0: 'Wait', 1: 'Online', 2: 'UPS', 3: 'Bypass', 4: 'Fault', 5: 'DC', 6: 'Self Test', 7: 'Check', 8: 'Update Master', 9: 'Update Slave', 10: 'Update ARM'} %}
+        {% set mode = states('sensor.alphaess_inverter_work_mode')|int(-1) %}
+        {{ names.get(mode, 'Unknown (' ~ mode ~ ')') }}
+      availability: "{{ has_value('sensor.alphaess_inverter_work_mode') }}"
 # Power Diagram
     - name: "AlphaEss Current House Load ApexCharts"
       unique_id: alphaess_current_house_load_apexcharts

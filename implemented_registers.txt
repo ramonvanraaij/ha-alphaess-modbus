@@ -55,6 +55,8 @@
 0x012B  AlphaESS Battery Remaining Discharge SOC
 0x012C  AlphaESS Battery Max Charge Power
 0x012D  AlphaESS Battery Max Discharge Power
+0x012F  AlphaESS Battery SOC Calibration
+0x0130  AlphaESS Battery Single Cut Error Code
 0x0131  AlphaESS Battery 1 Fault
 0x0133  AlphaESS Battery 2 Fault
 0x0135  AlphaESS Battery 3 Fault
@@ -157,6 +159,8 @@
 0x0887  AlphaESS Dispatch Time
 0x0889  AlphaESS Dispatch Flow Direction
 0x088A  AlphaESS Dispatch PV Switch
+0x08D0  AlphaESS PV Inverter Energy
+0x08D2  AlphaESS PV System Total Energy
 0x08D4  AlphaESS System Fault
 0x1000  AlphaESS Grid Regulation
 0x100B  AlphaESS OvP L1
