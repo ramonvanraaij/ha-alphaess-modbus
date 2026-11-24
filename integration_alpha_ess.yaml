@@ -3883,6 +3883,9 @@ automation:
       - trigger: state
         entity_id:
           - sensor.alphaess_inverter_work_mode
+      - trigger: state
+        entity_id:
+          - sensor.alphaess_current_pv_production
     conditions:
       - condition: state
         entity_id: input_boolean.alphaess_helper_force_import
