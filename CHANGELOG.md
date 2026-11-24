@@ -33,7 +33,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   exceeds the house load, Peak Shaving pauses and the inverter runs its own mode; below the cutoff the battery holds
   at 0 W and discharges only by what the house load minus PV production exceeds the Peak Shaving Power, so the grid
   import stays at about that power. A new install starts at 4 % and 0 kW, which keeps it paused until the cutoff is
-  set.
+  set. Starting another mode, Dispatch Reset Full and turning VPP Mode on switch Peak Shaving off, and Peak
+  Shaving switches the other modes off when it runs.
 
 ### Changed
 

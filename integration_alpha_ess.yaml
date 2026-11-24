@@ -3248,6 +3248,9 @@ automation:
               - condition: state
                 entity_id: input_boolean.alphaess_helper_excess_export
                 state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "on"
         then:
           - action: input_boolean.turn_off
             target:
@@ -3285,6 +3288,18 @@ automation:
               - action: input_boolean.turn_off
                 target:
                   entity_id: input_boolean.alphaess_helper_excess_export_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_peak_shaving_pause
                 data: {}
           - action: timer.cancel
             target:
@@ -3458,6 +3473,9 @@ automation:
               - condition: state
                 entity_id: input_boolean.alphaess_helper_excess_export
                 state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "on"
         then:
           - action: input_boolean.turn_off
             target:
@@ -3495,6 +3513,18 @@ automation:
               - action: input_boolean.turn_off
                 target:
                   entity_id: input_boolean.alphaess_helper_excess_export_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_peak_shaving_pause
                 data: {}
           - action: timer.cancel
             target:
@@ -3677,6 +3707,9 @@ automation:
               - condition: state
                 entity_id: input_boolean.alphaess_helper_excess_export
                 state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "on"
         then:
           - action: input_boolean.turn_off
             target:
@@ -3714,6 +3747,18 @@ automation:
               - action: input_boolean.turn_off
                 target:
                   entity_id: input_boolean.alphaess_helper_excess_export_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_peak_shaving_pause
                 data: {}
           - action: timer.cancel
             target:
@@ -3915,6 +3960,9 @@ automation:
               - condition: state
                 entity_id: input_boolean.alphaess_helper_excess_export
                 state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "on"
         then:
           - action: input_boolean.turn_off
             target:
@@ -3952,6 +4000,18 @@ automation:
               - action: input_boolean.turn_off
                 target:
                   entity_id: input_boolean.alphaess_helper_excess_export_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_peak_shaving_pause
                 data: {}
           - action: timer.cancel
             target:
@@ -4527,6 +4587,9 @@ automation:
               - condition: state
                 entity_id: input_boolean.alphaess_helper_excess_export
                 state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "on"
         then:
           - action: input_boolean.turn_off
             target:
@@ -4564,6 +4627,18 @@ automation:
               - action: input_boolean.turn_off
                 target:
                   entity_id: input_boolean.alphaess_helper_excess_export_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_peak_shaving_pause
                 data: {}
           - action: timer.cancel
             target:
@@ -4958,6 +5033,9 @@ automation:
                 entity_id: input_boolean.alphaess_helper_excess_export
                 state: "on"
                 enabled: false
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "on"
         then:
           - action: input_boolean.turn_off
             target:
@@ -4995,6 +5073,18 @@ automation:
               - action: input_boolean.turn_off
                 target:
                   entity_id: input_boolean.alphaess_helper_excess_export_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_peak_shaving_pause
                 data: {}
           - action: timer.cancel
             target:
@@ -5169,6 +5259,10 @@ automation:
         entity_id:
           - input_boolean.alphaess_helper_excess_export
         to: "off"
+      - trigger: state
+        entity_id:
+          - input_boolean.alphaess_helper_peak_shaving
+        to: "off"
       - trigger: event
         event_type: timer.finished
         event_data:
@@ -5233,6 +5327,14 @@ automation:
           - action: input_boolean.turn_off
             target:
               entity_id: input_boolean.alphaess_helper_excess_export_pause
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_peak_shaving
+            state: "off"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving_pause
       - action: timer.cancel
         target:
           entity_id: timer.alphaess_helper_force_charging_timer
@@ -5355,6 +5457,17 @@ automation:
           - action: input_boolean.turn_off
             target:
               entity_id: input_boolean.alphaess_helper_excess_export_pause
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_peak_shaving
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_peak_shaving
+            state: "off"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving_pause
       - action: timer.cancel
         target:
           entity_id: timer.alphaess_helper_force_charging_timer
@@ -5385,7 +5498,8 @@ automation:
                or is_state('input_boolean.alphaess_helper_force_export', 'on')
                or is_state('input_boolean.alphaess_helper_force_import', 'on')
                or is_state('input_boolean.alphaess_helper_dispatch', 'on')
-               or is_state('input_boolean.alphaess_helper_excess_export', 'on') }}
+               or is_state('input_boolean.alphaess_helper_excess_export', 'on')
+               or is_state('input_boolean.alphaess_helper_peak_shaving', 'on') }}
       - action: input_boolean.turn_off
         target:
           entity_id: input_boolean.alphaess_helper_force_charging
@@ -5410,6 +5524,12 @@ automation:
       - action: input_boolean.turn_off
         target:
           entity_id: input_boolean.alphaess_helper_excess_export_pause
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_peak_shaving
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_peak_shaving_pause
       - action: timer.cancel
         target:
           entity_id: timer.alphaess_helper_force_charging_timer
