@@ -2500,10 +2500,9 @@ input_number:
     mode: slider
     step: 0.1
 
-# Helper for Peak Shaving Cutoff SoC (below it the battery charge is kept for peaks; at or above it Peak Shaving pauses)
+# Helper for Peak Shaving Cutoff SoC (below it the battery discharges only for peaks; at or above it Peak Shaving pauses)
   alphaess_helper_peak_shaving_cutoff_soc:
     name: AlphaESS Peak Shaving Cutoff SoC
-    # initial: 100
     min: 4
     max: 100
     icon: mdi:percent-box-outline
@@ -2514,7 +2513,6 @@ input_number:
 # Helper for Peak Shaving Power (the House Load - PV Production above which Peak Shaving discharges the battery)
   alphaess_helper_peak_shaving_power:
     name: AlphaESS Peak Shaving Power
-    # initial: 5
     min: 0
     max: 20
     icon: mdi:flash
@@ -4066,7 +4064,7 @@ automation:
             - 32000
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
-            - 0   # Dispatch Mode (2 = State of Charge Control)
+            - 0   # Dispatch Mode (unused with Dispatch Start 0)
             - 0   # Dispatch SOC  (0.4%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
             - 90
@@ -4433,7 +4431,7 @@ automation:
             - 32000
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
-            - 0   # Dispatch Mode (2 = State of Charge Control)
+            - 0   # Dispatch Mode (unused with Dispatch Start 0)
             - 0   # Dispatch SOC  (0.4%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
             - 90
@@ -4651,7 +4649,7 @@ automation:
             - 32000
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
-            - 0   # Dispatch Mode (2 = State of Charge Control)
+            - 0   # Dispatch Mode (unused with Dispatch Start 0)
             - 0   # Dispatch SOC  (0.4%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
             - 90
@@ -5090,7 +5088,7 @@ automation:
             - 32000
             - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
             - 10000
-            - 0   # Dispatch Mode (2 = State of Charge Control)
+            - 0   # Dispatch Mode (unused with Dispatch Start 0)
             - 0   # Dispatch SOC  (0.4%/bit)
             - 0   # Dispatch Time (2 bytes/registers)
             - 90
@@ -5213,7 +5211,7 @@ automation:
                 - 32000
                 - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
                 - 10000
-                - 0   # Dispatch Mode (2 = State of Charge Control)
+                - 0   # Dispatch Mode (unused with Dispatch Start 0)
                 - 0   # Dispatch SOC  (0.4%/bit)
                 - 0   # Dispatch Time (2 bytes/registers)
                 - 90
@@ -5317,7 +5315,7 @@ automation:
                 - 32000
                 - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
                 - 10000
-                - 0   # Dispatch Mode (2 = State of Charge Control)
+                - 0   # Dispatch Mode (unused with Dispatch Start 0)
                 - 0   # Dispatch SOC  (0.4%/bit)
                 - 0   # Dispatch Time (2 bytes/registers)
                 - 90
@@ -5442,7 +5440,7 @@ automation:
                 - 32000
                 - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
                 - 10000
-                - 0   # Dispatch Mode (2 = State of Charge Control)
+                - 0   # Dispatch Mode (unused with Dispatch Start 0)
                 - 0   # Dispatch SOC  (0.4%/bit)
                 - 0   # Dispatch Time (2 bytes/registers)
                 - 90
