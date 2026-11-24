@@ -33,7 +33,7 @@ modbus:
         state_class: measurement
         scan_interval: 30
         scale: 0.01
-        precision: 2                         
+        precision: 2
 
       - name: AlphaESS Inverter Temperature
         unique_id: AlphaESS_Inverter_Temperature
@@ -2539,6 +2539,7 @@ sensor:
     unique_id: AlphaESS_Total_Energy_from_PV_Meter
     platform: integration
     unit_prefix: k
+    round: 2
     source: sensor.alphaess_active_power_pv_meter
 
 # Helpers to smooth AlphaESS Current House Load and AlphaESS Current PV Production (low-pass filter, each update
@@ -5114,7 +5115,13 @@ template:
             {{ grid|round(0) }}
           {% endif %}
         {% else %}
-          {{ (0,(states('sensor.alphaess_current_pv_production')|int(0) + states('sensor.alphaess_power_battery')|int(0) + states('sensor.alphaess_power_grid')|int(0))|int) | max }}
+          {# PV, battery and grid update at different moments, so their sum can briefly drop to 0 or below: keep the last value then #}
+          {% set current_value = states('sensor.alphaess_current_pv_production')|int(0) + states('sensor.alphaess_power_battery')|int(0) + states('sensor.alphaess_power_grid')|int(0) %}
+          {% if current_value > 0 %}
+            {{ current_value }}
+          {% else %}
+            {{ this.state | int(0) }}
+          {% endif %}
         {% endif %}
       availability: "{{ has_value('sensor.alphaess_current_pv_production') and has_value('sensor.alphaess_power_battery') and has_value('sensor.alphaess_power_grid') }}"
       # Alternative calculation, excluding the inverter's power consumption:
@@ -5226,73 +5233,73 @@ template:
         {{ names.get(mode, 'Unknown (' ~ mode ~ ')') }}
       availability: "{{ has_value('sensor.alphaess_inverter_work_mode') }}"
 # Power Diagram
-    - name: "AlphaEss Current House Load ApexCharts"
+    - name: AlphaESS Current House Load ApexCharts
       unique_id: alphaess_current_house_load_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_current_house_load') | float(0) / 1000 }}"
-    - name: "AlphaEss Power Grid ApexCharts"
+    - name: AlphaESS Power Grid ApexCharts
       unique_id: alphaess_power_grid_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_power_grid') | float(0) / 1000 }}"
-    - name: "AlphaEss Power Grid Consumption ApexCharts"
+    - name: AlphaESS Power Grid Consumption ApexCharts
       unique_id: alphaess_power_grid_consumption_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: >
         {% set v = states('sensor.alphaess_power_grid') | float(0) %}
         {{ (v / 1000) if v > 0 else 0 }}
-    - name: "AlphaEss Power Grid Feed-In ApexCharts"
+    - name: AlphaESS Power Grid Feed-In ApexCharts
       unique_id: alphaess_power_grid_feed_in_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: >
         {% set v = states('sensor.alphaess_power_grid') | float(0) %}
         {{ (-v / 1000) if v < 0 else 0 }}
-    - name: "AlphaEss Current PV Production ApexCharts"
+    - name: AlphaESS Current PV Production ApexCharts
       unique_id: alphaess_current_pv_production_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_current_pv_production') | float(0) / 1000 }}"
-    - name: "AlphaEss PV1 Power ApexCharts"
+    - name: AlphaESS PV1 Power ApexCharts
       unique_id: alphaess_pv1_power_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_pv1_power') | float(0) / 1000 }}"
-    - name: "AlphaEss PV2 Power ApexCharts"
+    - name: AlphaESS PV2 Power ApexCharts
       unique_id: alphaess_pv2_power_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_pv2_power') | float(0) / 1000 }}"
-    - name: "AlphaEss PV3 Power ApexCharts"
+    - name: AlphaESS PV3 Power ApexCharts
       unique_id: alphaess_pv3_power_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_pv3_power') | float(0) / 1000 }}"
-    - name: "AlphaEss PV4 Power ApexCharts"
+    - name: AlphaESS PV4 Power ApexCharts
       unique_id: alphaess_pv4_power_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_pv4_power') | float(0) / 1000 }}"
-    - name: "AlphaEss Power Battery ApexCharts"
+    - name: AlphaESS Power Battery ApexCharts
       unique_id: alphaess_power_battery_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_power_battery') | float(0) / 1000 }}"
-    - name: "AlphaEss Excess Power ApexCharts"
+    - name: AlphaESS Excess Power ApexCharts
       unique_id: alphaess_excess_power_apexcharts
-      unit_of_measurement: "kW"
+      unit_of_measurement: kW
       device_class: power
       state_class: measurement
       state: "{{ states('sensor.alphaess_excess_power') | float(0) / 1000 }}"
@@ -5365,7 +5372,7 @@ template:
   - number:
       - name: AlphaESS Template Force Charging Power
         unique_id: AlphaESS_Template_Force_Charging_Power
-        unit_of_measurement: "kW"
+        unit_of_measurement: kW
         icon: mdi:flash
         state: "{{ states('input_number.alphaess_helper_force_charging_power') }}"
         set_value:
@@ -5381,7 +5388,7 @@ template:
 # Force Discharging Power
       - name: AlphaESS Template Force Discharging Power
         unique_id: AlphaESS_Template_Force_Discharging_Power
-        unit_of_measurement: "kW"
+        unit_of_measurement: kW
         icon: mdi:flash
         state: "{{ states('input_number.alphaess_helper_force_discharging_power') }}"
         set_value:
@@ -5397,7 +5404,7 @@ template:
 # Force Export Power
       - name: AlphaESS Template Force Export Power
         unique_id: AlphaESS_Template_Force_Export_Power
-        unit_of_measurement: "kW"
+        unit_of_measurement: kW
         icon: mdi:flash
         state: "{{ states('input_number.alphaess_helper_force_export_power') }}"
         set_value:
@@ -5413,7 +5420,7 @@ template:
 # Force Import Power
       - name: AlphaESS Template Force Import Power
         unique_id: AlphaESS_Template_Force_Import_Power
-        unit_of_measurement: "kW"
+        unit_of_measurement: kW
         icon: mdi:flash
         state: "{{ states('input_number.alphaess_helper_force_import_power') }}"
         set_value:
@@ -5429,7 +5436,7 @@ template:
 # Dispatch Power
       - name: AlphaESS Template Dispatch Power
         unique_id: AlphaESS_Template_Dispatch_Power
-        unit_of_measurement: "kW"
+        unit_of_measurement: kW
         icon: mdi:flash
         state: "{{ states('input_number.alphaess_helper_dispatch_power') }}"
         set_value:

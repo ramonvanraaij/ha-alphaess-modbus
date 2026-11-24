@@ -26,6 +26,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 
 - README: a new dashboard screenshot, a screenshot and time-window table for every power diagram view, an Energy
   Dashboard setup guide, and the recorder history (3 days) the Yesterday and 3 Day views need.
+- `AlphaESS Total Energy from PV Meter` is rounded to 2 decimals, and the ApexCharts helper sensors are named
+  `AlphaESS ...` (was `AlphaEss ...`); their entity ids do not change.
 
 ### Fixed
 
@@ -48,6 +50,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   again (Force Import Pause skips only its PV check and still pauses on the inverter work mode), and template sensors
   (Current House Load, Current PV Production, Total House Load and others) go unavailable instead of showing a
   partial value. Battery Full no longer goes unavailable when the battery status reads 0.
+- Current House Load no longer drops to 0 for a moment when PV, battery and grid power update at different
+  moments: it keeps its last value while their sum is 0 or below.
 - Dispatch SoC shows 100% instead of 102% after a full-charge dispatch: the sensor is capped at 100.
 
 ## [10.10.0] - 2026-11-24
