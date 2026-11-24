@@ -2501,9 +2501,9 @@ sensor:
     unit_prefix: k
     source: sensor.alphaess_active_power_pv_meter
 
-# Helpers to despike AlphaESS Current House Load and AlphaESS Current PV Production.
-# A filter sensor takes its first value when Home Assistant has started, and only if its source already has a value;
-# otherwise it stays unknown until the source changes (PV production sits at 0 W all night after a restart).
+# Helpers to smooth AlphaESS Current House Load and AlphaESS Current PV Production (low-pass filter, each update
+# weighs 1/5). A filter sensor has no value until it has seen one from its source after Home Assistant has started;
+# users of the upstream package saw these stay unknown overnight after a restart.
 # Readers must fall back to the unfiltered sensor.
   - platform: filter
     name: AlphaESS Current House Load Filtered
