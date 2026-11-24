@@ -27,6 +27,13 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   Monitoring` automation: with its Hold helper off, a Force mode ends once the battery has idled for 10 s, which is
   taken as its cutoff SoC reached (only Force Export also checks the SoC: below its cutoff + 2). Force Charging Hold
   and Force Import Hold are on after every Home Assistant start, the other two off.
+- Peak Shaving: the `AlphaESS Peak Shaving`, `AlphaESS Peak Shaving Pause` and `AlphaESS Peak Shaving Resume`
+  automations, the Peak Shaving, Peak Shaving Pause, Peak Shaving Cutoff SoC and Peak Shaving Power helpers and the
+  `AlphaESS Template Peak Shaving Power` number. At or above the Peak Shaving Cutoff SoC, or while PV production
+  exceeds the house load, Peak Shaving pauses and the inverter runs its own mode; below the cutoff the battery holds
+  at 0 W and discharges only by what the house load minus PV production exceeds the Peak Shaving Power, so the grid
+  import stays at about that power. A new install starts at 4 % and 0 kW, which keeps it paused until the cutoff is
+  set.
 
 ### Changed
 

@@ -2201,6 +2201,17 @@ input_boolean:
     icon: mdi:button-pointer
     initial: off
 
+# Helper for Peak Shaving
+  alphaess_helper_peak_shaving:
+    name: AlphaESS Peak Shaving
+    icon: mdi:button-pointer
+    initial: off
+
+  alphaess_helper_peak_shaving_pause:
+    name: AlphaESS Peak Shaving Pause
+    icon: mdi:button-pointer
+    initial: off
+
 # Helper for Clipping
   alphaess_helper_clipping:
     name: AlphaESS Clipping
@@ -2483,6 +2494,28 @@ input_number:
     name: AlphaESS Dispatch Power
     # initial: 0
     min: -20
+    max: 20
+    icon: mdi:flash
+    unit_of_measurement: "kW"
+    mode: slider
+    step: 0.1
+
+# Helper for Peak Shaving Cutoff SoC (below it the battery charge is kept for peaks; at or above it Peak Shaving pauses)
+  alphaess_helper_peak_shaving_cutoff_soc:
+    name: AlphaESS Peak Shaving Cutoff SoC
+    # initial: 100
+    min: 4
+    max: 100
+    icon: mdi:percent-box-outline
+    unit_of_measurement: "%"
+    mode: slider
+    step: 1
+
+# Helper for Peak Shaving Power (the House Load - PV Production above which Peak Shaving discharges the battery)
+  alphaess_helper_peak_shaving_power:
+    name: AlphaESS Peak Shaving Power
+    # initial: 5
+    min: 0
     max: 20
     icon: mdi:flash
     unit_of_measurement: "kW"
@@ -4167,6 +4200,287 @@ automation:
     mode: single
 # --- End Force Import automations
 
+# --- Start Peak Shaving automations
+# Set Peak Shaving: below the Peak Shaving Cutoff SoC the battery discharges only by what House Load - PV Production
+# exceeds the Peak Shaving Power, and otherwise holds at 0 W, keeping its charge for peaks. At or above the cutoff,
+# or while PV Production exceeds House Load, Peak Shaving pauses and the inverter runs its own mode (Pause, Resume).
+  - id: "AlphaESS_Peak_Shaving"
+    alias: AlphaESS Peak Shaving
+    triggers:
+      - trigger: state
+        entity_id:
+          - sensor.alphaess_current_house_load
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_house_load') | is_number and states('sensor.alphaess_current_pv_production') | is_number and states('sensor.alphaess_discharging_cutoff_soc') | is_number }}
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_peak_shaving
+        state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_peak_shaving_pause
+        state: "off"
+      - condition: template
+        value_template: >-
+          {{ now() > state_attr('automation.alphaess_peak_shaving','last_triggered') | default(as_datetime(0), true) + timedelta(seconds=5) }}
+    actions:
+      - if:
+          - condition: state
+            entity_id: input_boolean.alphaess_helper_vpp_mode
+            state: "on"
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+          - action: persistent_notification.create
+            data:
+              notification_id: alphaess_vpp_mode_block
+              title: AlphaESS VPP Mode
+              message: >-
+                Peak Shaving was not started because VPP Mode is on: an external controller owns the
+                dispatch registers. Turn VPP Mode off first.
+          - stop: VPP Mode is on
+      - if:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_charging
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_discharging
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_export
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_import
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_dispatch
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_excess_export
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "on"
+                enabled: false
+        then:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_charging
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_discharging
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_export
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_force_import
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_force_import
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_force_import_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_dispatch
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_excess_export
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_excess_export
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_excess_export_pause
+                data: {}
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.alphaess_helper_peak_shaving
+            enabled: false
+          - if:
+              - condition: state
+                entity_id: input_boolean.alphaess_helper_peak_shaving
+                state: "off"
+            then:
+              - action: input_boolean.turn_off
+                target:
+                  entity_id: input_boolean.alphaess_helper_peak_shaving_pause
+                data: {}
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_charging_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_discharging_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_export_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_force_import_timer
+          - action: timer.cancel
+            target:
+              entity_id: timer.alphaess_helper_dispatch_timer
+          - delay:
+              seconds: 2
+      - if:
+          - condition: template
+            value_template: >-
+              {{ states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) -
+              states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) > (states('input_number.alphaess_helper_peak_shaving_power')|float * 1000)|int }}
+        then:
+          - action: modbus.write_register
+            data:
+              hub: modbuspvsystem
+              address: 0x0880 # Dispatch Starting Register
+              slave: !secret alphaess_modbus_slaveId
+              value:
+                - 1   # Dispatch Start
+                - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
+                - >-
+                  {{ 32000 + (states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) -
+                  states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) - (states('input_number.alphaess_helper_peak_shaving_power')|float * 1000)|int) }}
+                - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+                - 10000
+                - 2   # Dispatch Mode (2 = State of Charge Control)
+                - "{% set soc = states('sensor.alphaess_discharging_cutoff_soc')|int %}{{ 255 if soc >= 100 else (soc * 2.5)|round|int }}"
+                - 0   # Dispatch Time (2 bytes/registers)
+                - 300 # 5 min
+                - 255 # Flow Direction
+                - 0   # PV Switch
+        else:
+          - action: modbus.write_register
+            data:
+              hub: modbuspvsystem
+              address: 0x0880 # Dispatch Starting Register
+              slave: !secret alphaess_modbus_slaveId
+              value:
+                - 1   # Dispatch Start
+                - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
+                - 32000
+                - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+                - 10000
+                - 2   # Dispatch Mode (2 = State of Charge Control)
+                - 255 # Dispatch SOC (0.4%/bit; 255 is above 100%, so the target is never reached)
+                - 0   # Dispatch Time (2 bytes/registers)
+                - 300 # 5 min
+                - 255 # Flow Direction
+                - 0   # PV Switch
+    mode: single
+    max_exceeded: silent
+
+# Pause Peak Shaving: at or above the Peak Shaving Cutoff SoC, while PV Production exceeds House Load, or when the
+# inverter is not Online, stop the dispatch so the inverter runs its own mode
+  - id: "AlphaESS_Peak_Shaving_Pause"
+    alias: AlphaESS Peak Shaving Pause
+    triggers:
+      - trigger: state
+        entity_id:
+          - sensor.alphaess_current_house_load
+    conditions:
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_peak_shaving
+        state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_peak_shaving_pause
+        state: "off"
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              - condition: or
+                conditions:
+                  - condition: template
+                    value_template: >-
+                      {{ states('sensor.alphaess_current_pv_production_filtered')|int(states('sensor.alphaess_current_pv_production')|int(0)) >
+                      states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) }}
+                  - condition: template
+                    value_template: >-
+                      {{ states('sensor.alphaess_soc_battery') | is_number and
+                         states('sensor.alphaess_soc_battery')|int >= states('input_number.alphaess_helper_peak_shaving_cutoff_soc')|int }}
+              - condition: template
+                value_template: >-
+                  {{ now() > state_attr('automation.alphaess_peak_shaving_resume','last_triggered') | default(as_datetime(0), true) + timedelta(seconds=15) }}
+          - condition: not
+            conditions:
+              - condition: state
+                entity_id: sensor.alphaess_inverter_work_mode
+                state: "1"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_vpp_mode
+        state: "off"
+    actions:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.alphaess_helper_peak_shaving_pause
+      - action: modbus.write_register
+        data:
+          hub: modbuspvsystem
+          address: 0x0880 # Dispatch Starting Register
+          slave: !secret alphaess_modbus_slaveId
+          value:
+            - 0   # Dispatch Start
+            - 0   # Dispatch Active Power, 32000 Offset (2 bytes/registers)
+            - 32000
+            - 0   # Dispatch Reactive Power, 10000 Offset (2 bytes/registers)
+            - 10000
+            - 0   # Dispatch Mode (2 = State of Charge Control)
+            - 0   # Dispatch SOC  (0.4%/bit)
+            - 0   # Dispatch Time (2 bytes/registers)
+            - 90
+            - 255 # Flow Direction
+            - 0   # PV Switch
+    mode: single
+    max_exceeded: silent
+
+# Resume Peak Shaving: below the Peak Shaving Cutoff SoC, with PV Production at or below House Load and the inverter
+# Online for 10 min
+  - id: "AlphaESS_Peak_Shaving_Resume"
+    alias: AlphaESS Peak Shaving Resume
+    triggers:
+      - trigger: time_pattern
+        seconds: /1
+    conditions:
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_peak_shaving
+        state: "on"
+      - condition: state
+        entity_id: input_boolean.alphaess_helper_peak_shaving_pause
+        state: "on"
+      - condition: template
+        value_template: >-
+          {{ now() > state_attr('automation.alphaess_peak_shaving_pause','last_triggered') | default(as_datetime(0), true) + timedelta(seconds=15) }}
+      - condition: state
+        entity_id: sensor.alphaess_inverter_work_mode
+        state: "1"
+        for:
+          hours: 0
+          minutes: 10
+          seconds: 0
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_current_pv_production') | is_number and
+             states('sensor.alphaess_current_pv_production')|int <= states('sensor.alphaess_current_house_load_filtered')|int(states('sensor.alphaess_current_house_load')|int(0)) }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.alphaess_soc_battery') | is_number and
+             states('sensor.alphaess_soc_battery')|int < states('input_number.alphaess_helper_peak_shaving_cutoff_soc')|int }}
+    actions:
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.alphaess_helper_peak_shaving_pause
+    mode: single
+# --- End Peak Shaving automations
+
 # --- Start Dispatch automations
 # Set Dispatch
   - id: "AlphaESS_Dispatch"
@@ -5537,5 +5851,21 @@ template:
               entity_id: input_number.alphaess_helper_dispatch_power
         step: 0.1
         min: "{{ -(states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) }}"
+        max: "{{ (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) }}"
+        availability: "{{ (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) | is_number }}"
+# Peak Shaving Power
+      - name: AlphaESS Template Peak Shaving Power
+        unique_id: AlphaESS_Template_Peak_Shaving_Power
+        unit_of_measurement: kW
+        icon: mdi:flash
+        state: "{{ states('input_number.alphaess_helper_peak_shaving_power') }}"
+        set_value:
+          - action: input_number.set_value
+            data:
+              value: "{{ value }}"
+            target:
+              entity_id: input_number.alphaess_helper_peak_shaving_power
+        step: 0.1
+        min: 0
         max: "{{ (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) }}"
         availability: "{{ (states('input_select.alphaess_helper_inverter_ac_limit').replace(' kW','')|float ) | is_number }}"
