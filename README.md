@@ -187,6 +187,17 @@ Use **Standard** for both power sensors: AlphaESS reports grid power positive wh
 
 ![Energy dashboard Electricity view for one day with the AlphaESS sources](screenshots/energy-dashboard.png)
 
+### 🩹 Spikes and Gaps in the Energy History
+
+**A spike of thousands of kWh in one hour.** The grid meter's lifetime counters (`sensor.alphaess_total_energy_consumption_from_grid_meter` and `sensor.alphaess_total_energy_feed_to_grid_meter`) can read 0 for a single poll; on the tested setup that happened about once every two months. Home Assistant takes a drop to 0 as a meter reset and counts the next reading in full, so the hour shows the whole lifetime value (sometimes twice) as grid consumption or return to grid, in the daily counters as well, and the cost or compensation of that hour grows with it. To correct it:
+
+1. Open **Developer tools > Statistics**, search for the statistic with the spike (for example `sensor.alphaess_today_s_energy_consumption_from_grid_meter`) and select its adjust button.
+2. Pick a time around the spike and select the hour with the spike.
+3. Enter the real use of that hour as the new value: the growth of the matching lifetime counter in that hour, read from its history (for example 2.01 kWh instead of 3152.09 kWh).
+4. Do the same for every statistic that shows the spike: the daily and the lifetime counter, and the cost or compensation statistic the Energy dashboard made for that source (`..._cost`, `..._compensation`), there with the cost of the real use.
+
+**A day with too little energy.** While Home Assistant or the Modbus connection is down, the inverter keeps counting, but the daily counters do not take over the jump when the connection returns, so that energy is missing from the Energy dashboard. Compare the day's total with the growth of the matching lifetime counter over that day, and add the difference to an hour of that day with the same adjust dialog.
+
 ---
 
 ## 🎛️ Modbus Dispatch Modes
