@@ -29,12 +29,12 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   and Force Import Hold are on after every Home Assistant start, the other two off.
 - Peak Shaving: the `AlphaESS Peak Shaving`, `AlphaESS Peak Shaving Pause` and `AlphaESS Peak Shaving Resume`
   automations, the Peak Shaving, Peak Shaving Pause, Peak Shaving Cutoff SoC and Peak Shaving Power helpers and the
-  `AlphaESS Template Peak Shaving Power` number. At or above the Peak Shaving Cutoff SoC, or while PV production
-  exceeds the house load, Peak Shaving pauses and the inverter runs its own mode; below the cutoff the battery holds
-  at 0 W and discharges only by what the house load minus PV production exceeds the Peak Shaving Power, so the grid
-  import stays at about that power. A new install starts at 4 % and 0 kW, which keeps it paused until the cutoff is
-  set. Starting another mode, Dispatch Reset Full and turning VPP Mode on switch Peak Shaving off, and Peak
-  Shaving switches the other modes off when it runs.
+  `AlphaESS Template Peak Shaving Power` number. At or above the Peak Shaving Cutoff SoC, while PV production
+  exceeds the house load or while the inverter is not Online, Peak Shaving pauses and the inverter runs its own
+  mode; below the cutoff the battery holds at 0 W and discharges only by what the house load minus PV production
+  exceeds the Peak Shaving Power, so the grid import stays at about that power. A new install starts at
+  4 % and 0 kW, which keeps it paused until the cutoff is set. Starting another mode, Dispatch Reset Full and
+  turning VPP Mode on switch Peak Shaving off, and Peak Shaving switches the other modes off when it runs.
 - `AlphaESS Excess Export Duration` helper (0 to 480 min, step 5, default 0 = no limit) and the `AlphaESS Excess
   Export Timer`: with a duration set, Excess Export turns itself off that long after its first dispatch write, also
   while paused; changing the duration while Excess Export is on restarts the countdown from then with the new value,
