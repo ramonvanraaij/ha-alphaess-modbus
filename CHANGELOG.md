@@ -55,6 +55,11 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   After the update it drops once by the battery's lifetime charge minus discharge (over 100 kWh on the tested
   system) and, with an AC-coupled PV inverter, rises once by the PV meter's lifetime total; the long-term
   statistics show that step in the hour of the update.
+- Dashboard: a Hold switch under each Force mode; Peak Shaving with its Pause, Power and Cutoff SoC; the Excess
+  Export Duration, Timer and Inverter AC Limit Offset; Inverter Work Mode Name and System Mode under Other; Battery
+  SOC Calibration and Battery Single Cut Error Code; Total Energy PV Inverter Consumption, PV Inverter Energy and PV
+  System Total Energy under Total, where Total Energy from PV now shows the calibrated value. The Force Import and
+  Excess Export pause rows are named Pause.
 
 ### Fixed
 

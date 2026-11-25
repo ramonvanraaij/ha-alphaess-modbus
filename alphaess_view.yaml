@@ -51,6 +51,8 @@ views:
               - type: section
               - entity: input_boolean.alphaess_helper_force_charging
                 name: Force Charging
+              - entity: input_boolean.alphaess_helper_force_charging_hold
+                name: Hold
               - entity: input_number.alphaess_helper_force_charging_duration
                 name: Duration
               - entity: number.alphaess_template_force_charging_power
@@ -62,6 +64,8 @@ views:
               - type: section
               - entity: input_boolean.alphaess_helper_force_discharging
                 name: Force Discharging
+              - entity: input_boolean.alphaess_helper_force_discharging_hold
+                name: Hold
               - entity: input_number.alphaess_helper_force_discharging_duration
                 name: Duration
               - entity: number.alphaess_template_force_discharging_power
@@ -73,6 +77,8 @@ views:
               - type: section
               - entity: input_boolean.alphaess_helper_force_export
                 name: Force Export
+              - entity: input_boolean.alphaess_helper_force_export_hold
+                name: Hold
               - entity: input_number.alphaess_helper_force_export_duration
                 name: Duration
               - entity: number.alphaess_template_force_export_power
@@ -84,8 +90,10 @@ views:
               - type: section
               - entity: input_boolean.alphaess_helper_force_import
                 name: Force Import
+              - entity: input_boolean.alphaess_helper_force_import_hold
+                name: Hold
               - entity: input_boolean.alphaess_helper_force_import_pause
-                name: Force Import Pause
+                name: Pause
                 icon: mdi:pause
                 type: simple-entity
               - entity: input_number.alphaess_helper_force_import_duration
@@ -242,11 +250,28 @@ views:
               - entity: input_boolean.alphaess_helper_excess_export
                 name: Excess Export
               - entity: input_boolean.alphaess_helper_excess_export_pause
-                name: Excess Export Pause
+                name: Pause
                 icon: mdi:pause
                 type: simple-entity
+              - entity: input_number.alphaess_helper_excess_export_duration
+                name: Duration
+              - entity: timer.alphaess_helper_excess_export_timer
+                name: Timer
+              - entity: input_number.alphaess_helper_excess_export_inverter_ac_limit_offset
+                name: Inverter AC Limit Offset
               - entity: sensor.alphaess_excess_power
                 name: Excess Power
+              - type: section
+              - entity: input_boolean.alphaess_helper_peak_shaving
+                name: Peak Shaving
+              - entity: input_boolean.alphaess_helper_peak_shaving_pause
+                name: Pause
+                icon: mdi:pause
+                type: simple-entity
+              - entity: number.alphaess_template_peak_shaving_power
+                name: Power
+              - entity: input_number.alphaess_helper_peak_shaving_cutoff_soc
+                name: Cutoff SoC
               - type: section
               - entity: sensor.alphaess_dispatch_start
                 name: Dispatch Start
@@ -360,6 +385,8 @@ views:
                 name: Max Charge Power
               - entity: sensor.alphaess_battery_max_discharge_power
                 name: Max Discharge Power
+              - entity: sensor.alphaess_battery_soc_calibration
+                name: Battery SOC Calibration
             title: Battery
           - type: entities
             entities:
@@ -386,7 +413,7 @@ views:
             title: Today
           - type: entities
             entities:
-              - entity: sensor.alphaess_total_energy_from_pv
+              - entity: sensor.alphaess_total_energy_from_pv_calibrated
                 name: Total Energy from PV
               - entity: sensor.alphaess_total_energy_consumption_from_grid_meter
                 name: Total Energy Consumption from Grid (Meter)
@@ -404,6 +431,12 @@ views:
                 name: Total Energy Feed to Grid (PV)
               - entity: sensor.alphaess_total_energy_from_pv_meter
                 name: Total Energy from PV (Meter)
+              - entity: sensor.alphaess_total_energy_pv_inverter_consumption
+                name: Total Energy PV Inverter Consumption
+              - entity: sensor.alphaess_pv_inverter_energy
+                name: PV Inverter Energy
+              - entity: sensor.alphaess_pv_system_total_energy
+                name: PV System Total Energy
             title: Total
           - type: entities
             entities:
@@ -448,6 +481,10 @@ views:
               - type: section
               - entity: sensor.alphaess_inverter_work_mode
                 name: Inverter Work Mode
+              - entity: sensor.alphaess_inverter_work_mode_name
+                name: Inverter Work Mode Name
+              - entity: sensor.alphaess_system_mode
+                name: System Mode
               - entity: sensor.alphaess_inverter_battery_voltage
                 name: Inverter Battery Voltage
               - entity: sensor.alphaess_inverter_battery_current
@@ -596,6 +633,8 @@ views:
                 name: Battery Fault 5
               - entity: sensor.alphaess_battery_6_fault
                 name: Battery Fault 6
+              - entity: sensor.alphaess_battery_single_cut_error_code
+                name: Battery Single Cut Error Code
             title: Warnings & Faults
           - type: entities
             entities:
