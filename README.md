@@ -24,6 +24,26 @@ Everything runs locally over Modbus TCP - no cloud dependency. The integration c
 
 ---
 
+## 📑 Contents
+
+*   [Dashboard](#%EF%B8%8F-dashboard)
+*   [System Configuration](#%EF%B8%8F-system-configuration)
+*   [Compatibility](#-compatibility)
+*   [Repository Structure](#-repository-structure)
+*   [Installation](#-installation)
+*   [Energy Dashboard](#-energy-dashboard)
+*   [Modbus Dispatch Modes](#%EF%B8%8F-modbus-dispatch-modes)
+*   [Dashboard Reference](#-dashboard-reference)
+*   [Practical Scenarios](#-practical-scenarios)
+*   [Integration Architecture](#%EF%B8%8F-integration-architecture)
+*   [Documentation](#-documentation)
+*   [Roadmap](#%EF%B8%8F-roadmap)
+*   [License](#-license)
+*   [Credits & Maintenance](#-credits--maintenance)
+*   [Buy me a Coffee](#-buy-me-a-coffee)
+
+---
+
 ## 🖼️ Dashboard
 
 ![AlphaESS dashboard overview - 5 column layout](screenshots/dashboard.png)
@@ -164,6 +184,8 @@ Home Assistant's built-in Energy dashboard (**Settings > Dashboards > Energy**) 
 Use **Standard** for both power sensors: AlphaESS reports grid power positive when importing and battery power positive when discharging, which is what Home Assistant expects. **Inverted** swaps the directions in the power flow. For cost and compensation, add a fixed price or a price entity to the grid connection.
 
 ![Energy dashboard configuration with the AlphaESS sensors](screenshots/energy-dashboard-configuration.png)
+
+![Energy dashboard Electricity view for one day with the AlphaESS sources](screenshots/energy-dashboard.png)
 
 ---
 

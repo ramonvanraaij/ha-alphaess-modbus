@@ -9,6 +9,11 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 
 ## [Unreleased]
 
+### Changed
+
+- README: a contents index below the Overview, the dashboard screenshot updated to 10.11.0 and a screenshot of the
+  Energy dashboard.
+
 ## [10.11.0] - 2026-11-25
 
 ### Added
