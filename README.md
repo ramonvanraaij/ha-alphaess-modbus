@@ -17,7 +17,7 @@ Everything runs locally over Modbus TCP - no cloud dependency. The integration c
 
 ### ✨ Key Features
 *   **📊 Full monitoring:** PV strings, battery, grid (per-phase), energy statistics, firmware/system info, grid safety settings, and every warning/fault register.
-*   **🎛️ Dispatch control:** force charge/discharge/export/import and excess-export helpers built on the inverter's dispatch register block, with power sliders, cutoff SoC, and durations.
+*   **🎛️ Dispatch control:** force charge/discharge/export/import, excess-export and peak-shaving helpers built on the inverter's dispatch register block, with power sliders, cutoff SoC, and durations.
 *   **🛡️ Safety architecture:** mutual exclusion between force modes, dead-man's-switch dispatch durations, a full register reset on startup, connection loss, or timer expiry, and a VPP Mode that stops Home Assistant from writing the dispatch registers while an external controller is in charge.
 *   **🖼️ Interactive dashboard:** complete Lovelace view plus ApexCharts power-flow diagrams (standard and extended).
 *   **📚 Primary documentation included:** official AlphaESS datasheets, manuals, and Modbus protocol references in [`docs/`](docs/).
@@ -241,7 +241,8 @@ The Active Power parameter is a 32-bit value: `0x0881` holds the high word (0) a
 
 Each dispatch command sets a duration (`Para 6`) after which the inverter automatically reverts to its default operation if no fresh dispatch arrives:
 
-- Excess Export uses a fixed 5-minute duration (`Para 6 = 300`) and re-issues on every PV-production change.
+- Excess Export uses a fixed 5-minute duration (`Para 6 = 300`) and re-issues on every PV-production change; with an Excess Export Duration set it turns itself off after that time.
+- Peak Shaving uses the same fixed 5-minute duration and re-issues on house-load changes (at most every 5 s).
 - The four Force modes and Manual Dispatch use the user-configured slider duration (typically a few minutes to several hours).
 - The Reset automation writes a 90-second duration so any leftover dispatch state expires quickly.
 
@@ -254,8 +255,8 @@ An energy supplier's virtual power plant (VPP), cloud battery trading or a cloud
 Turn on **VPP Mode** (`input_boolean.alphaess_helper_vpp_mode`) while an external controller is in charge. Its state survives restarts. While it is on:
 
 - the reset on Home Assistant start, on Modbus connection loss and when a dispatch timer runs out no longer writes the dispatch registers;
-- Force Charging, Force Discharging, Force Export, Force Import, Manual Dispatch and Excess Export refuse to start: they switch back off and post a notification;
-- the slider updates (power, duration, cutoff SoC, dispatch mode, PV switch) and the Excess Export / Force Import pause logic make no Modbus writes;
+- Force Charging, Force Discharging, Force Export, Force Import, Manual Dispatch, Excess Export and Peak Shaving refuse to start: they switch back off and post a notification;
+- the slider updates (power, duration, cutoff SoC, dispatch mode, PV switch) and the Excess Export, Force Import and Peak Shaving pause logic make no Modbus writes;
 - the manual **Dispatch Reset Full** button still writes the reset block (it ends the external command until the service sends its next one).
 
 Turning VPP Mode on while a Home Assistant dispatch is running clears that dispatch once and releases its helpers. A dispatch is coming from outside Home Assistant when the Dispatch card shows `Dispatch Start = 1` while none of the Home Assistant helpers is on.
@@ -280,13 +281,14 @@ The dashboard (`alphaess_view.yaml`) is organized into the following sections:
 | Force Discharging | `input_boolean.alphaess_helper_force_discharging` | Discharge the battery to the grid at the configured power until the cutoff SoC.                                                      |
 | Force Export      | `input_boolean.alphaess_helper_force_export`      | Push a configured amount of power to the grid; surplus comes from solar first, battery covers the shortfall.                         |
 | Force Import      | `input_boolean.alphaess_helper_force_import`      | Draw a configured amount of power from the grid; battery charges with whatever the house does not consume (it idles only when house load already matches the slider and PV is zero). |
-| Excess Export     | `input_boolean.alphaess_helper_excess_export`     | Maximise grid export. The battery is held at idle so all PV flows to house and grid; when PV would exceed the inverter AC limit (clipping), the battery absorbs the would-be-lost excess instead. |
+| Excess Export     | `input_boolean.alphaess_helper_excess_export`     | Maximise grid export. The battery is held at idle so all PV flows to house and grid; when PV would exceed the inverter AC limit (clipping), the battery absorbs the would-be-lost excess instead. With an Excess Export Duration set (0 to 480 min), it turns itself off that long after its first dispatch write. |
+| Peak Shaving      | `input_boolean.alphaess_helper_peak_shaving`      | Keep grid import at about the Peak Shaving Power. Below the Peak Shaving Cutoff SoC the battery holds at 0 W and discharges only by what the house load minus PV production exceeds that power; at or above the cutoff, or while PV production exceeds the house load, it pauses and the inverter runs its own mode. |
 | Dispatch          | `input_boolean.alphaess_helper_dispatch`          | Manual dispatch with user-configured power, mode, SoC, duration, and PV switch. The SoC parameter is only honoured when Mode 2 (SOC Control) is selected; for other modes it is forced to 0. |
 | VPP Mode          | `input_boolean.alphaess_helper_vpp_mode`          | Turn on while an external controller (supplier VPP, cloud battery trading) owns the dispatch registers; Home Assistant then makes no dispatch writes of its own. See [VPP Mode](#-vpp-mode-external-control). |
 
 #### How the force modes are implemented
 
-All force-mode helpers above (Force Charging, Force Discharging, Force Export, Force Import, Excess Export) write **Dispatch Mode 2 (State of Charge Control)** to register `0x0885`. The desired behaviour is achieved by computing the Active Power parameter (`0x0881`/`0x0882`, 32000 offset) and the SOC target (`0x0886`) per mode, not by switching to a different dispatch-mode number. This keeps the inverter in a single, well-tested mode while using the standard 32000-offset signed-power convention to express charge or discharge intent. The dispatch duration is the user-configured slider for the four Force modes and Manual Dispatch, or a fixed 5 minutes for Excess Export. Either way it acts as a dead-man's-switch (see below).
+All force-mode helpers above (Force Charging, Force Discharging, Force Export, Force Import, Excess Export, Peak Shaving) write **Dispatch Mode 2 (State of Charge Control)** to register `0x0885`. The desired behaviour is achieved by computing the Active Power parameter (`0x0881`/`0x0882`, 32000 offset) and the SOC target (`0x0886`) per mode, not by switching to a different dispatch-mode number. This keeps the inverter in a single, well-tested mode while using the standard 32000-offset signed-power convention to express charge or discharge intent. The dispatch duration is the user-configured slider for the four Force modes and Manual Dispatch, or a fixed 5 minutes for Excess Export and Peak Shaving. Either way it acts as a dead-man's-switch (see below).
 
 Each force mode has associated controls:
 
@@ -296,6 +298,7 @@ Each force mode has associated controls:
 | Duration     | How long to run the force mode               |
 | Cutoff SoC   | Battery SoC at which to stop                 |
 | Timer        | Shows remaining time                         |
+| Hold         | Off: the mode ends once the battery has idled (between -50 and 50 W) for 10 s, taken as its cutoff SoC reached (Force Export also needs the SoC below its cutoff + 2). On: it keeps running until its timer ends. Force Charging Hold and Force Import Hold are on after every Home Assistant start, the other two off. |
 
 ### 🕒 Charging/Discharging Settings
 
@@ -321,7 +324,7 @@ Displays grid power (total and per-phase), voltage per phase, current per phase,
 
 ### 🔋 Battery
 
-Shows SoC, power, voltage, current, temperature, SoH, capacity, battery status, relay status, module count, and advanced diagnostics (implementation/remaining charge/discharge SoC, max charge/discharge power). Min/max cell voltage and a computed cell voltage delta are included for imbalance monitoring.
+Shows SoC, power, voltage, current, temperature, SoH, capacity, battery status, relay status, module count, and advanced diagnostics (implementation/remaining charge/discharge SoC, max charge/discharge power, SOC calibration). Min/max cell voltage and a computed cell voltage delta are included for imbalance monitoring.
 
 ### 🔆 PV Charger (DC-DC)
 
@@ -335,7 +338,7 @@ Displays state data (SoC, voltage, current, power) for a DC-coupled PV Charger (
 
 ### 🖥️ System Information
 
-Inverter work mode, system date/time, firmware versions (EMS, BMS, ISO, LMU, BMU, Inverter, ARM), network configuration (IP, subnet, gateway, Modbus baud rate), serial number.
+Inverter work mode (number and name), system mode, system date/time, firmware versions (EMS, BMS, ISO, LMU, BMU, Inverter, ARM), network configuration (IP, subnet, gateway, Modbus baud rate), serial number.
 
 ### 🛡️ Grid Safety
 
@@ -343,7 +346,7 @@ Over/under voltage protection settings (L1/L2/L3, with trip times), over/under f
 
 ### 🚨 Warnings & Faults
 
-All inverter warning and fault registers displayed as binary sensors, including system fault status.
+All inverter warning and fault registers displayed as binary sensors, including system fault status and the battery single cut error code.
 
 ---
 
@@ -381,11 +384,13 @@ Start Mode 3 (`Para 4 = 3`), power at 32000 (0 kW).
 
 **Result:** Battery is frozen - no charge, no discharge. All solar excess goes to the grid. Useful during peak feed-in tariff hours when you want to keep the battery for the evening.
 
-### ✂️ Scenario F: Peak Shaving / Anti-Clipping
+### ✂️ Scenario F: Anti-Clipping (Feed-in Cap)
 
 Set max feed-to-grid to 50% via register 0x0800, then start Mode 23 (OSW Load Following).
 
 **Result:** Grid feed-in is hardware-capped at 5 kW (for a 10 kW inverter). Everything above that limit is diverted to the battery, preventing clipping during peak solar production.
+
+For import peak shaving (keeping grid import at or below a set power), use the Peak Shaving helper instead (see Charging & Discharging Controls above).
 
 ---
 
@@ -394,16 +399,18 @@ Set max feed-to-grid to 50% via register 0x0800, then start Mode 23 (OSW Load Fo
 ### 🛡️ Automation Safety
 
 - **Mutual exclusion:** When any force mode is activated, all other force modes are automatically disabled first.
-- **Dead man's switch:** every dispatch carries a duration. Excess Export uses 5 minutes and renews it on every PV change; the Force modes and Manual Dispatch write the slider duration once (see Dead Man's Switch above).
+- **Dead man's switch:** every dispatch carries a duration. Excess Export and Peak Shaving use 5 minutes and renew it on every PV or house-load change; the Force modes and Manual Dispatch write the slider duration once (see Dead Man's Switch above).
 - **Full reset:** On HA startup, connection loss, or timer expiry, the dispatch register block (`0x0880-0x088A`) is reset to neutral values - Dispatch Start `= 0`, Active Power and Reactive Power at their offset midpoints (`32000` and `10000`), Mode `= 0`, Duration `= 90 s` (so any leftover state expires quickly), Flow Direction `= 255`, PV Switch `= 0`. The inverter then falls back to its default operating behaviour. While VPP Mode is on, only the Dispatch Reset Full button writes this block; the startup, connection-loss and timer resets skip the Modbus write.
-- **Pause/Resume:** Excess Export has smart pause/resume logic that detects grid import and temporarily suspends the export mode to serve house loads.
+- **Pause/Resume:** Excess Export has smart pause/resume logic that detects grid import and temporarily suspends the export mode to serve house loads. Force Import and Peak Shaving pause and resume on their own conditions (see the controls table).
 
 ### 🧮 Template Sensors
 
 The integration creates several computed sensors:
 
 - **Current PV Production:** Sum of PV1-PV4 + PV meter active power. AC-coupled PV (for example microinverters) is only included when the inverter measures it through its PV meter; external sensors can be substituted in the templates, but the inverter's own load following still regulates on its own meter.
-- **Current House Load:** PV production + battery power + grid power, clamped to >= 0. In UPS mode (`inverter_work_mode == 2`) it uses grid power, or PV production + battery power when the grid reads 0 (a grid outage).
+- **Current House Load:** PV production + battery power + grid power. While that sum is 0 or below (the readings update at different moments) it keeps its last value. In UPS mode (`inverter_work_mode == 2`) it uses grid power, or PV production + battery power when the grid reads 0 (a grid outage).
+- **Total House Load:** lifetime grid import - feed-in - (battery charge - discharge) + PV production + PV meter, the same sum as Today's House Load. Its state class is `total`: the counters update at different moments, so the sum can dip for a moment.
+- **Current House Load Filtered / Current PV Production Filtered:** low-pass filtered copies that Force Export, Force Import, Excess Export and Peak Shaving read; each read falls back to the unfiltered sensor while the filtered one has no value (after a restart, until the source changes).
 - **Excess Power:** Available surplus after house load.
 - **Clipping detection:** True when PV1 and PV2 power readings are identical and their sum exceeds the inverter AC limit (symmetric two-string clipping signature; assumes PV3 and PV4 are unused, as in the tested setup). If you wire additional strings, the formula will need to be adjusted.
 - **Battery Cell Voltage Delta:** Max minus min cell voltage, for pack imbalance monitoring.
