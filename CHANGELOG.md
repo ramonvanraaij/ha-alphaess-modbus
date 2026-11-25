@@ -49,6 +49,12 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 - The filtered house load and PV production now feed Force Export, Force Import, Excess Export and these
   sensors: Excess Power, "House Load - PV Production > Force Import Power" and the House Load and PV Production
   ApexCharts sensors. Each read falls back to the unfiltered sensor while the filtered one has no value.
+- Total House Load is now grid import - feed-in - (battery charge - discharge) + PV + PV meter, the same sum as
+  Today's House Load (it was PV + grid import - feed-in, which also counted the energy the battery took in and did
+  not give back, and left out an AC-coupled PV inverter), with state class `total` instead of `total_increasing`.
+  After the update it drops once by the battery's lifetime charge minus discharge (about 105 kWh on the tested
+  system) and, with an AC-coupled PV inverter, rises once by the PV meter's lifetime total; the long-term
+  statistics show that step in the hour of the update.
 
 ### Fixed
 
