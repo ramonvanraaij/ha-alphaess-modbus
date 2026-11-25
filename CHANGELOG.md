@@ -16,6 +16,15 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 - README: how to correct an Energy dashboard spike from a grid meter lifetime counter that read 0, and a day the
   daily counters missed during an outage.
 
+### Fixed
+
+- The grid meter lifetime counters read `unknown` instead of 0 when the meter reports 0 for one poll
+  (`nan_value: 0`, Home Assistant 2025.11 or newer), so the Energy dashboard no longer counts the whole lifetime
+  value again in that hour.
+- The daily energy counters keep the energy of a Modbus outage or a Home Assistant restart
+  (`periodically_resetting: false`, `always_available: true`): it lands in the hour the connection returns
+  instead of being lost, also when the outage spans midnight.
+
 ## [10.11.0] - 2026-11-25
 
 ### Added
