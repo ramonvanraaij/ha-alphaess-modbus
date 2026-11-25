@@ -5670,13 +5670,15 @@ template:
 # Total House Load
 # Grid import - feed-in - (battery charge - discharge) + PV + PV meter, the same sum as Today's House Load. The state
 # class is total, not total_increasing: the lifetime counters update at different moments, so the sum can dip briefly.
+# The PV meter counter is left out of the availability: without a PV meter its source stays 0 and the counter stays
+# unknown after a fresh install (an integration sensor needs two numeric source states); its read defaults to 0.
     - name: AlphaESS Total House Load
       unique_id: AlphaESS_Total_House_Load
       unit_of_measurement: kWh
       device_class: energy
       state_class: total
       state: "{{ ((states('sensor.alphaess_total_energy_consumption_from_grid_meter')|float(0) - states('sensor.alphaess_total_energy_feed_to_grid_meter')|float(0)) - (states('sensor.alphaess_total_energy_charge_battery')|float(0) - states('sensor.alphaess_total_energy_discharge_battery')|float(0)) + states('sensor.alphaess_total_energy_from_pv')|float(0) + states('sensor.alphaess_total_energy_from_pv_meter')|float(0))|round(2) }}"
-      availability: "{{ has_value('sensor.alphaess_total_energy_consumption_from_grid_meter') and has_value('sensor.alphaess_total_energy_feed_to_grid_meter') and has_value('sensor.alphaess_total_energy_charge_battery') and has_value('sensor.alphaess_total_energy_discharge_battery') and has_value('sensor.alphaess_total_energy_from_pv') and has_value('sensor.alphaess_total_energy_from_pv_meter') }}"
+      availability: "{{ has_value('sensor.alphaess_total_energy_consumption_from_grid_meter') and has_value('sensor.alphaess_total_energy_feed_to_grid_meter') and has_value('sensor.alphaess_total_energy_charge_battery') and has_value('sensor.alphaess_total_energy_discharge_battery') and has_value('sensor.alphaess_total_energy_from_pv') }}"
 # Today's House Load
     - name: AlphaESS Today's House Load 
       unique_id: AlphaESS_Today_s_House_Load
