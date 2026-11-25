@@ -242,7 +242,7 @@ The Active Power parameter is a 32-bit value: `0x0881` holds the high word (0) a
 Each dispatch command sets a duration (`Para 6`) after which the inverter automatically reverts to its default operation if no fresh dispatch arrives:
 
 - Excess Export uses a fixed 5-minute duration (`Para 6 = 300`) and re-issues on every PV-production change; with an Excess Export Duration set it turns itself off after that time.
-- Peak Shaving uses the same fixed 5-minute duration and re-issues on house-load changes (at most every 5 s).
+- Peak Shaving uses the same fixed 5-minute duration and re-issues on house-load changes, with at least 5 s between runs.
 - The four Force modes and Manual Dispatch use the user-configured slider duration (typically a few minutes to several hours).
 - The Reset automation writes a 90-second duration so any leftover dispatch state expires quickly.
 
@@ -281,7 +281,7 @@ The dashboard (`alphaess_view.yaml`) is organized into the following sections:
 | Force Discharging | `input_boolean.alphaess_helper_force_discharging` | Discharge the battery to the grid at the configured power until the cutoff SoC.                                                      |
 | Force Export      | `input_boolean.alphaess_helper_force_export`      | Push a configured amount of power to the grid; surplus comes from solar first, battery covers the shortfall.                         |
 | Force Import      | `input_boolean.alphaess_helper_force_import`      | Draw a configured amount of power from the grid; battery charges with whatever the house does not consume (it idles only when house load already matches the slider and PV is zero). |
-| Excess Export     | `input_boolean.alphaess_helper_excess_export`     | Maximise grid export. The battery is held at idle so all PV flows to house and grid; when PV would exceed the inverter AC limit (clipping), the battery absorbs the would-be-lost excess instead. With an Excess Export Duration set (0 to 480 min), it turns itself off that long after its first dispatch write. |
+| Excess Export     | `input_boolean.alphaess_helper_excess_export`     | Maximise grid export. The battery is held at idle so all PV flows to house and grid; when PV would exceed the inverter AC limit (clipping), the battery absorbs the would-be-lost excess instead. With an Excess Export Duration above 0 (up to 480 min; 0 = no limit), it turns itself off that long after its first dispatch write. |
 | Peak Shaving      | `input_boolean.alphaess_helper_peak_shaving`      | Keep grid import at about the Peak Shaving Power. Below the Peak Shaving Cutoff SoC the battery holds at 0 W and discharges only by what the house load minus PV production exceeds that power; at or above the cutoff, or while PV production exceeds the house load, it pauses and the inverter runs its own mode. |
 | Dispatch          | `input_boolean.alphaess_helper_dispatch`          | Manual dispatch with user-configured power, mode, SoC, duration, and PV switch. The SoC parameter is only honoured when Mode 2 (SOC Control) is selected; for other modes it is forced to 0. |
 | VPP Mode          | `input_boolean.alphaess_helper_vpp_mode`          | Turn on while an external controller (supplier VPP, cloud battery trading) owns the dispatch registers; Home Assistant then makes no dispatch writes of its own. See [VPP Mode](#-vpp-mode-external-control). |
@@ -346,7 +346,7 @@ Over/under voltage protection settings (L1/L2/L3, with trip times), over/under f
 
 ### 🚨 Warnings & Faults
 
-All inverter warning and fault registers displayed as binary sensors, including system fault status and the battery single cut error code.
+All inverter warning and fault registers displayed as sensors, including system fault status and the battery single cut error code.
 
 ---
 
@@ -390,7 +390,7 @@ Set max feed-to-grid to 50% via register 0x0800, then start Mode 23 (OSW Load Fo
 
 **Result:** Grid feed-in is hardware-capped at 5 kW (for a 10 kW inverter). Everything above that limit is diverted to the battery, preventing clipping during peak solar production.
 
-For import peak shaving (keeping grid import at or below a set power), use the Peak Shaving helper instead (see Charging & Discharging Controls above).
+For import peak shaving (keeping grid import at about a set power), use the Peak Shaving helper instead (see Charging & Discharging Controls above).
 
 ---
 
@@ -401,7 +401,7 @@ For import peak shaving (keeping grid import at or below a set power), use the P
 - **Mutual exclusion:** When any force mode is activated, all other force modes are automatically disabled first.
 - **Dead man's switch:** every dispatch carries a duration. Excess Export and Peak Shaving use 5 minutes and renew it on every PV or house-load change; the Force modes and Manual Dispatch write the slider duration once (see Dead Man's Switch above).
 - **Full reset:** On HA startup, connection loss, or timer expiry, the dispatch register block (`0x0880-0x088A`) is reset to neutral values - Dispatch Start `= 0`, Active Power and Reactive Power at their offset midpoints (`32000` and `10000`), Mode `= 0`, Duration `= 90 s` (so any leftover state expires quickly), Flow Direction `= 255`, PV Switch `= 0`. The inverter then falls back to its default operating behaviour. While VPP Mode is on, only the Dispatch Reset Full button writes this block; the startup, connection-loss and timer resets skip the Modbus write.
-- **Pause/Resume:** Excess Export has smart pause/resume logic that detects grid import and temporarily suspends the export mode to serve house loads. Force Import and Peak Shaving pause and resume on their own conditions (see the controls table).
+- **Pause/Resume:** Excess Export has smart pause/resume logic that detects grid import and temporarily suspends the export mode to serve house loads. Force Import and Peak Shaving have pause/resume logic of their own (Peak Shaving: see its row in Charging & Discharging Controls).
 
 ### 🧮 Template Sensors
 
