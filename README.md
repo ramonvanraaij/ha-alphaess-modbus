@@ -65,6 +65,8 @@ The Yesterday and 3 Day views read raw history, so the recorder has to keep at l
 
 ![Power Diagram - 24 hours of 5-minute averages](screenshots/power-diagram.png)
 
+![Power Diagram - 48 hours of 5-minute averages](screenshots/power-diagram-48h.png)
+
 ![String Detail - total PV and the two strings](screenshots/string-detail.png)
 
 ![Instant Power Diagram - the current hour](screenshots/instant-power-diagram.png)

@@ -15,6 +15,7 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
   Energy dashboard.
 - README: how to correct an Energy dashboard spike from a grid meter lifetime counter that read 0, and a day the
   daily counters missed during an outage.
+- README: a power diagram screenshot of 48 hours.
 
 ### Fixed
 
