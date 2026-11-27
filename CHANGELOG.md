@@ -9,6 +9,8 @@ into Added, Changed, Removed, Fixed and Security. From 10.10.0 on, versions foll
 
 ## [Unreleased]
 
+## [10.11.1] - 2026-11-27
+
 ### Changed
 
 - README: a contents index below the Overview, the dashboard screenshot updated to 10.11.0 and a screenshot of the
@@ -839,7 +841,8 @@ Extensive refactor and stabilization for SMILE-G3-T10.
 
 - Took initial copy from https://github.com/snitzelweck92/homeassistant_alphaess_modbus_tcp
 
-[Unreleased]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.11.0...HEAD
+[Unreleased]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.11.1...HEAD
+[10.11.1]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.11.0...v10.11.1
 [10.11.0]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.10.0...v10.11.0
 [10.10.0]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.9...v10.10.0
 [10.9]: https://github.com/ramonvanraaij/ha-alphaess-modbus/compare/v10.8...v10.9
